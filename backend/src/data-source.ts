@@ -2,6 +2,14 @@ import "reflect-metadata"
 import { DataSource } from "typeorm"
 import 'dotenv';
 
+// Entidades
+import { Rol } from "./entity/Rol"
+import { Usuario } from "./entity/Usuario"
+import { Pais } from "./entity/Pais"
+import { Provincia } from "./entity/Provincia"
+import { Localidad } from "./entity/Localidad"
+import { Solicitud } from "./entity/Solicitud"
+
 export const AppDataSource = new DataSource({
     type: "postgres",  
     host: process.env.DB_HOST || "postgres",
@@ -11,7 +19,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME || "db",
     synchronize: true,
     logging: true,
-    entities: [],
+    entities: [ Rol, Usuario, Pais, Provincia, Localidad, Solicitud ],
     migrations: [],
     subscribers: [],
 });

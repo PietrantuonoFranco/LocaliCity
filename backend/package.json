@@ -2,7 +2,8 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "expressjs": "^1.0.1"
+    "expressjs": "^1.0.1",
+    "typeorm": "^0.3.25"
   },
   "name": "backend",
   "version": "1.0.0",

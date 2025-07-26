@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
+import { AppDataSource } from "./src/data-source";
 import dotenv from "dotenv";
 import "reflect-metadata"
 
-// configures dotenv to work in your application
 dotenv.config();
 const app = express();
 
@@ -18,3 +18,15 @@ app.listen(PORT, () => {
   // gracefully handle error
   throw new Error(error.message);
 });
+
+//-------------------------------------------------------------------
+
+AppDataSource.initialize().then(async () => {
+    // create express app
+    const app = express();
+
+    app.listen(process.env.EXPRESS_PORT);
+
+    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
+
+}).catch(error => console.log(error));

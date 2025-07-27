@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToOne, OneToMany, JoinColumn } from "typeorm";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcrypt"
 import "dotenv"
 
 import { Rol } from "./Rol";

@@ -36,11 +36,11 @@ export class Usuario extends BaseEntity {
 
 
     // Métodos
-    async hashPassword() {
+    async hashContrasenia() {
         this.contrasenia = await bcrypt.hash(this.contrasenia, process.env.SALT_ROUNDS  || "10");
     }
 
-    async comparePassword(attempt: string): Promise<boolean> {
+    async compareContrasenia(attempt: string): Promise<boolean> {
         return await bcrypt.compare(attempt, this.contrasenia);
     }
 }

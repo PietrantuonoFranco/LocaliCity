@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToOne } from "typeorm";
 
 import { Usuario } from "./Usuario";
 
@@ -9,7 +9,7 @@ export class Rol extends BaseEntity {
     id!: number;
 
     @Column({ type: "varchar", length: 45 })
-    name!: string;
+    nombre!: string;
 
 
     // Relaciones

@@ -9,17 +9,8 @@ export class Provincia extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: "varchar", length: 45, unique: true })
-    email!: string;
-
     @Column({ type: "varchar", length: 45 })
     nombre!: string;
-
-    @Column({ type: "varchar", length: 45 })
-    apellido!: string;
-
-    @Column({ type: "varchar", length: 45 })
-    contrasenia!: string;
 
 
     // Relaciones

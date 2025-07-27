@@ -5,7 +5,7 @@ import { Solicitud } from "../entity/Solicitud";
 
 const solicitudRepository = AppDataSource.getRepository(Solicitud);
 
-export class solicitudController {
+export class SolicitudController {
   static async all(request: Request, response: Response, next: NextFunction) {
     try {
       const solicitudes = await solicitudRepository.find();

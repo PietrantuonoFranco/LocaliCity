@@ -6,6 +6,7 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "expressjs": "^1.0.1",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.25"
@@ -28,6 +29,7 @@
     "@types/cors": "^2.8.19",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.1.0",
     "typescript": "^5.8.3"
   }

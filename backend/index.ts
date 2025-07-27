@@ -3,6 +3,9 @@ import { AppDataSource } from "./src/data-source";
 import "reflect-metadata";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 //Routes
 import UsuarioRoutes from "./src/routes/UsuarioRoutes";
@@ -13,8 +16,6 @@ import ProvinciaRoutes from "./src/routes/ProvinciaRoutes";
 import LocalidadRoutes from "./src/routes/LocalidadRoutes";
 import AuthRoutes from "./src/routes/AuthRoutes";
 
-
-//-------------------------------------------------------------------
 
 AppDataSource.initialize().then(async () => {
     // Creación de la app con ExpressJS
@@ -41,7 +42,7 @@ AppDataSource.initialize().then(async () => {
     app.use("/localidades", LocalidadRoutes);
 
     // Definición del puerto que escucha el servidor
-    app.listen(process.env.EXPRESS_PORT, () => { 
+    app.listen(process.env.EXPRESS_PORT, () => {
         console.log("Server running at PORT: ", process.env.EXPRESS_PORT); 
     }).on("error", (error) => {
     // Muestra de error

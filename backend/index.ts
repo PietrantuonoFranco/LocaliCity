@@ -1,6 +1,5 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { AppDataSource } from "./src/data-source";
-import dotenv from "dotenv";
 import "reflect-metadata";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -12,6 +11,7 @@ import SolicitudRoutes from "./src/routes/SolicitudRoutes";
 import PaisRoutes from "./src/routes/PaisRoutes";
 import ProvinciaRoutes from "./src/routes/ProvinciaRoutes";
 import LocalidadRoutes from "./src/routes/LocalidadRoutes";
+import AuthRoutes from "./src/routes/AuthRoutes";
 
 
 //-------------------------------------------------------------------
@@ -32,6 +32,7 @@ AppDataSource.initialize().then(async () => {
     app.use(express.json());
 
     // Definicion de las rutas
+    app.use("/auth", AuthRoutes);
     app.use("/usuarios", UsuarioRoutes);
     app.use("/roles", RolRoutes);
     app.use("/solicitudes", SolicitudRoutes);

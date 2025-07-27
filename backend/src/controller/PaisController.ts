@@ -1,0 +1,84 @@
+import { AppDataSource } from "../data-source.js";
+import { NextFunction, Request, Response } from "express";
+import { Pais } from "../entity/Pais";
+
+
+const paisRepository = AppDataSource.getRepository(Pais);
+
+export class PaisController {
+  static async all(request: Request, response: Response, next: NextFunction) {
+    try {
+      const paises = await paisRepository.find();
+
+      if (paises.length === 0) {
+        return response.status(404).json({ error: "Paises no encontrados." });
+      }
+
+      return response.status(200).json({ mensaje: "Paises encontrados.", paises: paises });
+    } catch (error) {
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+
+  static async one(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+    
+      if (!id) {
+        return response.status(400).json({ error: "No se ha proporcionado un ID de pais."});
+      }
+
+      const pais = await paisRepository.findOne({
+        where: { id }
+      });
+
+      if (!pais) {
+        return response.status(404).json({ error: "Pais no encontrado." });
+      }
+
+      return response.status(200).json({ mensaje: "Pais encontrado.", pais: pais });
+    } catch {
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+
+  static async save(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { nombre } = request.body;
+
+      if (!nombre) {
+        return response.status(400).json({ error: "Complete todos los campos necesarios." });
+      }
+    
+      const pais = Object.assign(new Pais(), { nombre });
+        
+      await paisRepository.save(pais);
+
+      return response.status(201).json({ mensaje: "Pais creado correctamente.", pais: pais });
+    } catch {
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+
+  static async remove(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+
+      if (!id) {
+        return response.status(400).json({ error: "No se ha proporcionado un ID de pais."});
+      }
+
+      let paisPorRemover = await paisRepository.findOneBy({ id });
+
+      if (!paisPorRemover) {
+        return response.status(404).json({ error: "Pais no encontrado." });
+      }
+
+      await paisRepository.remove(paisPorRemover);
+
+      return response.status(204).json({ mensaje: "Pais eliminado correctamente." });
+    } catch {
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+}

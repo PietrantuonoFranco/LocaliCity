@@ -1,0 +1,204 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const formData = {
+  email: "",
+  nombre: "",
+  apellido: "",
+  contraseña: "",
+};
+---
+
+<Layout>
+  <div class="h-full flex items-center justify-center p-4 md:py-4 md:px-46 lg:px-135">
+    <div class="h-full w-full shadow-lg bg-white/50 p-10 rounded-xl">
+      <div class="text-center space-y-2 mb-4">
+        <h2 class="text-3xl font-semibold text-gray-900">Registrate</h2>
+        <h4 class="text-gray-600">Completá el formulario para crear tu cuenta</h4>
+      </div>
+      <div>
+        <form onsubmit="handleSubmit" class="space-y-4">
+          <div class="space-y-2">
+            <label for="email" class="text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <div class="pb-[3px] focus-within:gradient-border">
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="juanperez@example.com"
+              value={formData.email}
+              oninput="handleInputChange"
+              required
+              class="px-4 input"
+            />
+          </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="nombre" class="text-sm font-medium text-gray-700">
+              Nombre
+            </label>
+            <div class="pb-[3px] focus-within:gradient-border">
+              <input
+                id="nombre"
+                name="nombre"
+                type="text"
+                placeholder="Juan"
+                value={formData.nombre}
+                oninput="handleInputChange"
+                required
+                class="px-4 input"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="apellido" class="text-sm font-medium text-gray-700">
+              Apellido
+            </label>
+            <div class="pb-[3px] focus-within:gradient-border">
+              <input
+                id="apellido"
+                name="apellido"
+                type="text"
+                placeholder="Pérez"
+                value={formData.apellido}
+                oninput="handleInputChange"
+                required
+                class="px-4 input"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="contrasenia" class="text-sm font-medium text-gray-700">
+              Contraseña
+            </label>
+            <div class="relative pb-[3px] focus-within:gradient-border">
+              <input
+                id="contrasenia"
+                name="contrasenia"
+                type="password"
+                placeholder="••••••••••"
+                required
+                class="px-4 input"
+              />
+              <button
+                id="togglePassword"
+                type="button"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                aria-label="Mostrar contraseña"
+              >
+                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+                  <path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+        <div class="w-full h-[1px] bg-gray-500 my-4"></div>
+          
+          <button
+            type="submit"
+            class="w-full button"
+          >
+            Registrar
+          </button>
+        </form>
+      </div>
+        
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-800">
+            ¿Ya tenés una cuenta?{" "}
+            <a
+              href="/login"
+              class="text-blue-700 hover:text-blue-900 font-medium hover:underline transition-colors duration-200"
+            >
+              Iniciá sesión
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline>
+document.addEventListener('DOMContentLoaded', () => {
+  // Manejo del formulario
+  const form = document.getElementById('registerForm');
+  
+  // Inicialización del objeto formData
+  const formData = {
+    email: "",
+    nombre: "",
+    apellido: "",
+    contrasenia: ""
+  };
+
+
+  // Función para manejar el envío del formulario
+  function handleSubmit(e) {
+    e.preventDefault();
+    
+    // Validación básica
+    if (!formData.email || !formData.contrasenia) {
+      alert('Por favor completa todos los campos requeridos');
+      return;
+    }
+    
+    console.log("Datos del formulario a enviar:", formData);
+    
+    // Aquí iría la lógica para enviar los datos al servidor
+    // Ejemplo con fetch:
+    
+    fetch('/api/registro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    
+  }
+
+  // Asignar eventos
+  form?.addEventListener('submit', handleSubmit);
+  
+  // Función para manejar cambios en los inputs
+  window.handleInputChange = function (e) {
+    formData[e.target.name] = e.target.value;
+  }
+
+  // Asignar eventos de cambio a todos los inputs
+  document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', handleInputChange);
+  });
+
+  // Manejo del toggle de contraseña
+  const togglePassword = () => {
+    const passwordInput = document.getElementById('contrasenia');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const isPassword = passwordInput.type === 'password';
+    
+    passwordInput.type = isPassword ? 'text' : 'password';
+    eyeIcon.innerHTML = isPassword ? 
+      `<path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+       <path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18" />` : 
+      `<path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0" />
+       <path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6" />`;
+  };
+
+  document.getElementById('togglePassword')?.addEventListener('click', togglePassword);
+});
+</script>

@@ -4,3 +4,61 @@
     --color-dark-blue: #171738;
     --color-light-gray-blue: #616089;
 }
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(to right, #3245ff, #bc52ee);
+  border-radius: 0.75rem;
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12), 
+    inset 0 -4px 0 rgba(0, 0, 0, 0.24);
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12), 
+    inset 0 -3px 0 rgba(0, 0, 0, 0.24);
+  color: #e5e7eb;
+}
+
+.button:active {
+  box-shadow: none;
+}
+
+.focus-within\:gradient-border:focus-within {
+  position: relative;
+  border-radius: 0.75rem;
+  background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
+}
+
+.focus-within\:gradient-border:focus-within input {
+  border-color: transparent !important;
+}
+
+.input {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #6b7280;
+  background-color: white;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.input:hover {
+  border-color: transparent; /* hover:border-transparent */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.input:focus {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  outline: none;
+}

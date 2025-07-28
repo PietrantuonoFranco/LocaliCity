@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Header from "./components/Header.astro";
+import bgCity from '../assets/city-bg.jpg'
 ---
 
 <!doctype html>
@@ -13,8 +14,11 @@ import Header from "./components/Header.astro";
 		<title>LocaliCity</title>
 	</head>
 	<body>
+    <div id="container" class="min-h-screen font-[Inter,Roboto,'Helvetica Neue','Arial Nova','Nimbus Sans',Arial,sans-serif]">
+      <img src={bgCity.src} alt="" fetchpriority="high" class="fixed top-0 left-0 w-full h-full -z-10 blur-[5px] scale-110 object-cover "/>
     	<Header/>
-		<slot />
+		  <slot />
+    </div>
 	</body>
 </html>
 

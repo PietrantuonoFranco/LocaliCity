@@ -3,8 +3,6 @@ import Layout from '../../layouts/Layout.astro';
 
 const formData = {
   email: "",
-  nombre: "",
-  apellido: "",
   contraseña: "",
 };
 ---
@@ -13,8 +11,8 @@ const formData = {
   <div class="h-full flex items-center justify-center p-4 md:py-4 md:px-46 lg:px-135">
     <div class="h-full w-full shadow-lg bg-white/50 p-10 rounded-xl">
       <div class="text-center space-y-2 mb-4">
-        <h2 class="text-3xl font-semibold text-gray-900">Registrate</h2>
-        <h4 class="text-gray-600">Completá el formulario para crear tu cuenta</h4>
+        <h2 class="text-3xl font-semibold text-gray-900">Iniciar sesión</h2>
+        <h4 class="text-gray-600">Bienvenido de nuevo</h4>
       </div>
       <div>
         <form onsubmit="handleSubmit" class="space-y-4">
@@ -34,42 +32,6 @@ const formData = {
               class="px-4 input"
             />
           </div>
-          </div>
-
-          <div class="space-y-2">
-            <label for="nombre" class="text-sm font-medium text-gray-700">
-              Nombre
-            </label>
-            <div class="pb-[3px] focus-within:gradient-border">
-              <input
-                id="nombre"
-                name="nombre"
-                type="text"
-                placeholder="Juan"
-                value={formData.nombre}
-                oninput="handleInputChange"
-                required
-                class="px-4 input"
-              />
-            </div>
-          </div>
-
-          <div class="space-y-2">
-            <label for="apellido" class="text-sm font-medium text-gray-700">
-              Apellido
-            </label>
-            <div class="pb-[3px] focus-within:gradient-border">
-              <input
-                id="apellido"
-                name="apellido"
-                type="text"
-                placeholder="Pérez"
-                value={formData.apellido}
-                oninput="handleInputChange"
-                required
-                class="px-4 input"
-              />
-            </div>
           </div>
 
           <div class="space-y-2">
@@ -97,6 +59,15 @@ const formData = {
                 </svg>
               </button>
             </div>
+
+            <div class="flex w-full justify-end">
+              <a
+                href="/iniciar-sesion"
+                class="text-sm text-blue-700 hover:text-blue-900 font-medium hover:underline transition-colors duration-200"
+              >
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
           </div>
 
         <div class="w-full h-[1px] bg-gray-500 my-4"></div>
@@ -105,19 +76,19 @@ const formData = {
             type="submit"
             class="w-full button"
           >
-            Registrar
+            Ingresar
           </button>
         </form>
       </div>
         
         <div class="mt-6 text-center">
           <p class="text-sm text-gray-800">
-            ¿Ya tenés una cuenta?{" "}
+            ¿No tenés una cuenta?{" "}
             <a
-              href="/iniciar-sesion"
+              href="/registrarse"
               class="text-blue-700 hover:text-blue-900 font-medium hover:underline transition-colors duration-200"
             >
-              Iniciá sesión
+              Registrate
             </a>
           </p>
         </div>
@@ -134,8 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicialización del objeto formData
   const formData = {
     email: "",
-    nombre: "",
-    apellido: "",
     contrasenia: ""
   };
 

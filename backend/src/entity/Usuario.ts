@@ -37,7 +37,7 @@ export class Usuario extends BaseEntity {
 
     // Métodos
     async hashContrasenia() {
-        this.contrasenia = await bcrypt.hash(this.contrasenia, process.env.SALT_ROUNDS  || "10");
+        this.contrasenia = await bcrypt.hash(this.contrasenia, parseInt(process.env.SALT_ROUNDS  || "10"));
     }
 
     async compareContrasenia(attempt: string): Promise<boolean> {

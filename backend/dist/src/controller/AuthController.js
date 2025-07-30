@@ -45,9 +45,12 @@ class AuthController {
                 if (usuario) {
                     return response.status(400).json({ mensaje: "Ya existe un usuario con ese nombre." });
                 }
-                let rol = yield rolRepository.findOne({ where: { nombre: "regular" } });
+                let rol = yield rolRepository.findOne({ where: { nombre: "Regular" } });
                 if (!rol) {
-                    return response.status(400).json({ mensaje: "Rol inexistente" });
+                    rol = new Rol_1.Rol();
+                    rol.nombre = "Administrador";
+                    yield rolRepository.save(rol);
+                    // return response.status(400).json({ mensaje: "Rol inexistente" });
                 }
                 usuario = new Usuario_1.Usuario();
                 usuario.email = email;
@@ -62,17 +65,11 @@ class AuthController {
                     email: usuario.email,
                     nombre: usuario.nombre,
                     apellido: usuario.apellido,
-                    rol: usuario.rol.nombre
+                    contrasenia: usuario.contrasenia,
+                    rol: usuario.rol
                 }, jwtSecret, {
                     expiresIn: "1h",
                 });
-                /*
-                    return response.status(201).json({usuario: {
-                          email: usuario.email,
-                          nombre: usuario.nombre,
-                          apellido: usuario.apellido,
-                          rol: usuario.rol.nombre
-                        }})*/
                 return response
                     .status(201)
                     .cookie("authToken", token, {
@@ -86,7 +83,7 @@ class AuthController {
                         email: usuario.email,
                         nombre: usuario.nombre,
                         apellido: usuario.apellido,
-                        rol: usuario.rol.nombre
+                        rol: usuario.rol
                     }
                 });
             }
@@ -117,7 +114,9 @@ class AuthController {
                     id: usuario.id,
                     email: usuario.email,
                     nombre: usuario.nombre,
-                    apellido: usuario.apellido
+                    apellido: usuario.apellido,
+                    contrasenia: usuario.contrasenia,
+                    rol: usuario.rol
                 }, jwtSecret, {
                     expiresIn: "1h",
                 });
@@ -134,12 +133,12 @@ class AuthController {
                         email: usuario.email,
                         nombre: usuario.nombre,
                         apellido: usuario.apellido,
-                        rol: usuario.rol.nombre
+                        rol: usuario.rol
                     }
                 });
             }
             catch (error) {
-                console.error("Login error:", error); // Log detallado
+                console.error("Login error:", error);
                 return response.status(500).json({
                     message: "Internal server error",
                     error: error
@@ -156,10 +155,11 @@ class AuthController {
     static profile(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const usuario = request.body.usuario;
+                const usuario = request.user;
                 return response.json({ usuario: usuario });
             }
             catch (error) {
+                console.log(error);
                 return response.status(500).json({ message: "Internal server error" });
             }
         });

@@ -3,10 +3,10 @@ import type Usuario from "../interfaces/UsuarioInterface";
 
 const entity: string = "auth";
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, contrasenia: string) => {
   const response = await api.post(`${entity}/login`, { 
     email, 
-    password 
+    contrasenia
   }, {
     withCredentials: true,
     headers: {

@@ -167,11 +167,11 @@ const formData = {
           return;
         }
         
-        console.log("Datos del formulario a enviar:", formData);
-
         const usuario = await register(formData.email, formData.nombre, formData.apellido, formData.contrasenia);
 
-        console.log(usuario);
+        if (usuario) {
+          window.location.href = "/";
+        }
       } catch (error) {
         console.error('Error:', error);
       }

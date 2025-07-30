@@ -43,9 +43,8 @@ class RolController {
                 }
                 return response.status(200).json({ mensaje: "Rol encontrado.", rol: rol });
             }
-            catch (error) {
-                console.log(error);
-                return response.status(500).json({ error: "Se ha producido un error interno del servidor. " });
+            catch (_a) {
+                return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
             }
         });
     }

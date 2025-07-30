@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany } from "typeorm";
 
 import { Usuario } from "./Usuario";
 
@@ -13,6 +13,6 @@ export class Rol extends BaseEntity {
 
 
     // Relaciones
-    @OneToOne(() => Usuario)
-        usuario!: Usuario;
+    @OneToMany(() => Usuario, usuario => usuario.rol)
+        usuarios!: Usuario[];
 }

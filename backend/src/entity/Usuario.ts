@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToOne, OneToMany, JoinColumn } from "typeorm";
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from "typeorm";
 import bcrypt from "bcrypt"
 import "dotenv"
 
@@ -25,7 +25,7 @@ export class Usuario extends BaseEntity {
 
 
     // Relaciones
-    @OneToOne(() => Rol)
+    @ManyToOne(() => Rol)
         @JoinColumn({ name: 'rol_id' })
         rol!: Rol;
 

@@ -16,32 +16,63 @@ exports.AuthController = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const data_source_1 = require("../data-source");
 const Usuario_1 = require("../entity/Usuario");
+const Rol_1 = require("../entity/Rol");
 const usuarioRepository = data_source_1.AppDataSource.getRepository(Usuario_1.Usuario);
+const rolRepository = data_source_1.AppDataSource.getRepository(Rol_1.Rol);
 const jwtSecret = process.env.JWT_SECRET || "your-secret-key";
 class AuthController {
     static register(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { email, contrasenia, nombre, apellido } = request.body;
+                if (!email || !contrasenia || !nombre || !apellido) {
+                    return response.status(400).json({
+                        mensaje: "Todos los campos son requeridos: email, contraseña, nombre y apellido"
+                    });
+                }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    return response.status(400).json({
+                        mensaje: "El formato del email no es válido"
+                    });
+                }
+                if (contrasenia.length < 8) {
+                    return response.status(400).json({
+                        mensaje: "La contraseña debe tener al menos 8 caracteres"
+                    });
+                }
                 let usuario = yield usuarioRepository.findOne({ where: { email } });
                 if (usuario) {
-                    return response.status(400).json({ message: "usuario already exists" });
+                    return response.status(400).json({ mensaje: "Ya existe un usuario con ese nombre." });
+                }
+                let rol = yield rolRepository.findOne({ where: { nombre: "regular" } });
+                if (!rol) {
+                    return response.status(400).json({ mensaje: "Rol inexistente" });
                 }
                 usuario = new Usuario_1.Usuario();
                 usuario.email = email;
                 usuario.contrasenia = contrasenia;
                 usuario.nombre = nombre;
                 usuario.apellido = apellido;
+                usuario.rol = rol;
                 yield usuario.hashContrasenia();
                 yield usuarioRepository.save(usuario);
                 const token = jsonwebtoken_1.default.sign({
                     id: usuario.id,
                     email: usuario.email,
                     nombre: usuario.nombre,
-                    apellido: usuario.apellido
+                    apellido: usuario.apellido,
+                    rol: usuario.rol.nombre
                 }, jwtSecret, {
                     expiresIn: "1h",
                 });
+                /*
+                    return response.status(201).json({usuario: {
+                          email: usuario.email,
+                          nombre: usuario.nombre,
+                          apellido: usuario.apellido,
+                          rol: usuario.rol.nombre
+                        }})*/
                 return response
                     .status(201)
                     .cookie("authToken", token, {
@@ -54,11 +85,13 @@ class AuthController {
                     usuario: {
                         email: usuario.email,
                         nombre: usuario.nombre,
-                        apellido: usuario.apellido
+                        apellido: usuario.apellido,
+                        rol: usuario.rol.nombre
                     }
                 });
             }
             catch (error) {
+                console.log(error);
                 return response.status(500).json({ message: "Internal server error" });
             }
         });
@@ -100,7 +133,8 @@ class AuthController {
                     usuario: {
                         email: usuario.email,
                         nombre: usuario.nombre,
-                        apellido: usuario.apellido
+                        apellido: usuario.apellido,
+                        rol: usuario.rol.nombre
                     }
                 });
             }
@@ -116,7 +150,7 @@ class AuthController {
     static logout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             res.clearCookie("authToken");
-            return res.status(200).json({ message: "Logged out successfully" });
+            return res.status(200).json({ message: "Sesión cerrada exitosamente." });
         });
     }
     static profile(request, response) {

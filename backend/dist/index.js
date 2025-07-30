@@ -32,7 +32,7 @@ data_source_1.AppDataSource.initialize().then(() => __awaiter(void 0, void 0, vo
     const app = (0, express_1.default)();
     // Definicion de origenes permitidos
     app.use((0, cors_1.default)({
-        origin: process.env.CORS_ORIGIN,
+        origin: "http://localhost:4321",
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization']
@@ -54,22 +54,18 @@ data_source_1.AppDataSource.initialize().then(() => __awaiter(void 0, void 0, vo
         // Muestra de error
         throw new Error(error.message);
     });
+    // insert new users for test
     /*
-        // insert new users for test
-        await AppDataSource.manager.save(
-            AppDataSource.manager.create(User, {
-                firstName: "Timber",
-                lastName: "Saw",
-                age: 27
-            })
-        )
-    
-        await AppDataSource.manager.save(
-            AppDataSource.manager.create(User, {
-                firstName: "Phantom",
-                lastName: "Assassin",
-                age: 24
-            })
-        )
-    */
+    await AppDataSource.manager.save(
+        AppDataSource.manager.create(Rol, {
+            nombre: "regular"
+        })
+    )
+
+    await AppDataSource.manager.save(
+        AppDataSource.manager.create(Rol, {
+            nombre: "admin"
+        })
+    )
+*/
 }));

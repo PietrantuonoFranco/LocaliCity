@@ -32,7 +32,7 @@ let Usuario = class Usuario extends typeorm_1.BaseEntity {
     // Métodos
     hashContrasenia() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.contrasenia = yield bcrypt_1.default.hash(this.contrasenia, process.env.SALT_ROUNDS || "10");
+            this.contrasenia = yield bcrypt_1.default.hash(this.contrasenia, parseInt(process.env.SALT_ROUNDS || "10"));
         });
     }
     compareContrasenia(attempt) {

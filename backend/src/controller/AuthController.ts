@@ -40,10 +40,15 @@ export class AuthController {
         return response.status(400).json({ mensaje: "Ya existe un usuario con ese nombre." });
       }
 
-      let rol = await rolRepository.findOne({ where: { nombre: "regular" } });
+      let rol = await rolRepository.findOne({ where: { nombre: "Regular" } });
 
       if (!rol) {
-        return response.status(400).json({ mensaje: "Rol inexistente" });
+        rol = new Rol();
+
+        rol.nombre = "Administrador";
+
+        await rolRepository.save(rol);
+       // return response.status(400).json({ mensaje: "Rol inexistente" });
       }
 
       usuario = new Usuario();
@@ -61,7 +66,8 @@ export class AuthController {
         email: usuario.email,
         nombre: usuario.nombre,
         apellido: usuario.apellido,
-        rol: usuario.rol.nombre
+        contrasenia: usuario.contrasenia,
+        rol: usuario.rol
       }, jwtSecret, {
         expiresIn: "1h",
       });
@@ -79,7 +85,7 @@ export class AuthController {
             email: usuario.email,
             nombre: usuario.nombre,
             apellido: usuario.apellido,
-            rol: usuario.rol.nombre
+            rol: usuario.rol
           }
         });
     } catch (error) {
@@ -115,7 +121,9 @@ export class AuthController {
         id: usuario.id,
         email: usuario.email,
         nombre: usuario.nombre,
-        apellido: usuario.apellido
+        apellido: usuario.apellido,
+        contrasenia: usuario.contrasenia,
+        rol: usuario.rol
       }, jwtSecret, {
         expiresIn: "1h",
       });
@@ -133,7 +141,7 @@ export class AuthController {
             email: usuario.email,
             nombre: usuario.nombre,
             apellido: usuario.apellido,
-            rol: usuario.rol.nombre
+            rol: usuario.rol
           }
         });
     } catch (error) {
@@ -154,7 +162,7 @@ export class AuthController {
 
   static async profile(request: Request, response: Response) {
     try {
-      const usuario = request.body.usuario as Usuario;
+      const usuario = request.user as Usuario;
 
       return response.json({ usuario: usuario });
     } catch (error) {

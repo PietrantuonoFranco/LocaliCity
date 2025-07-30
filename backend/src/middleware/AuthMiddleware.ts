@@ -13,19 +13,22 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
             return res.status(401).json({ message: 'No autenticado - No hay token' });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { usuarioId: number };
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number };
         
         const usuarioRepository = AppDataSource.getRepository(Usuario);
 
         const usuario = await usuarioRepository.findOne({ 
-            where: { id: decoded.usuarioId },
+            where: { id: decoded.id },
+            relations: ['rol']
         });
+
+        console.log(usuario)
 
         if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        req.body.usuario = usuario;
+        req.user = usuario;
 
         next();
     } catch (error) {

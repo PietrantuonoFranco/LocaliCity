@@ -43,12 +43,7 @@ export class AuthController {
       let rol = await rolRepository.findOne({ where: { nombre: "Regular" } });
 
       if (!rol) {
-        rol = new Rol();
-
-        rol.nombre = "Administrador";
-
-        await rolRepository.save(rol);
-       // return response.status(400).json({ mensaje: "Rol inexistente" });
+        return response.status(400).json({ mensaje: "Rol inexistente" });
       }
 
       usuario = new Usuario();

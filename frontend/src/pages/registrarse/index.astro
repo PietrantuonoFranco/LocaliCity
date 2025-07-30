@@ -17,7 +17,7 @@ const formData = {
         <h4 class="text-gray-600">Completá el formulario para crear tu cuenta</h4>
       </div>
       <div>
-        <form onsubmit="handleSubmit" class="space-y-4">
+        <form id="registerForm" class="space-y-4">
           <div class="space-y-2">
             <label for="email" class="text-sm font-medium text-gray-700">
               Email
@@ -28,6 +28,7 @@ const formData = {
               name="email"
               type="email"
               placeholder="juanperez@example.com"
+              autocomplete="email"
               value={formData.email}
               oninput="handleInputChange"
               required
@@ -82,13 +83,14 @@ const formData = {
                 name="contrasenia"
                 type="password"
                 placeholder="••••••••••"
+                autocomplete="current-password"
                 required
                 class="px-4 input"
               />
               <button
                 id="togglePassword"
                 type="button"
-                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:outline-none"
                 aria-label="Mostrar contraseña"
               >
                 <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -126,79 +128,88 @@ const formData = {
   </div>
 </Layout>
 
-<script is:inline>
-document.addEventListener('DOMContentLoaded', () => {
-  // Manejo del formulario
-  const form = document.getElementById('registerForm');
-  
-  // Inicialización del objeto formData
-  const formData = {
-    email: "",
-    nombre: "",
-    apellido: "",
-    contrasenia: ""
-  };
+<script>
+  import { register } from "../../api/auth";
 
+  declare global {
+      interface Window {
+        handleInputChange: (e: Event) => void;
+      }
+    }
+    interface FormData {
+      email: string;
+      nombre: string;
+      apellido: string;
+      contrasenia: string;
+    }
 
-  // Función para manejar el envío del formulario
-  function handleSubmit(e) {
-    e.preventDefault();
     
-    // Validación básica
-    if (!formData.email || !formData.contrasenia) {
-      alert('Por favor completa todos los campos requeridos');
-      return;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Manejo del formulario
+    const form = document.getElementById('registerForm');
+    
+    // Inicialización del objeto formData
+    let formData = {
+      email: "",
+      nombre: "",
+      apellido: "",
+      contrasenia: ""
+    };
+
+    // Función para manejar el envío del formulario
+    async function handleSubmit(e: Event) {
+      e.preventDefault();
+      
+      try {
+        if (!formData.email || !formData.contrasenia) {
+          alert('Por favor completa todos los campos requeridos');
+          return;
+        }
+        
+        console.log("Datos del formulario a enviar:", formData);
+
+        const usuario = await register(formData.email, formData.nombre, formData.apellido, formData.contrasenia);
+
+        console.log(usuario);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Asignar eventos
+    if (form) {
+      form.addEventListener('submit', handleSubmit);
     }
     
-    console.log("Datos del formulario a enviar:", formData);
-    
-    // Aquí iría la lógica para enviar los datos al servidor
-    // Ejemplo con fetch:
-    
-    fetch('/api/registro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+    // Función para manejar cambios en los inputs
+    window.handleInputChange = function (e: Event) {
+      const target = e.target as HTMLInputElement;
+
+      //if (target.name) {
+        formData[target.name as keyof FormData] = target.value;
+      //}
+    }
+
+    // Asignar eventos de cambio a todos los inputs
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', window.handleInputChange);
     });
-    
-  }
 
-  // Asignar eventos
-  form?.addEventListener('submit', handleSubmit);
-  
-  // Función para manejar cambios en los inputs
-  window.handleInputChange = function (e) {
-    formData[e.target.name] = e.target.value;
-  }
+    // Manejo del toggle de contraseña
+    const togglePassword = () => {
+      const passwordInput = document.getElementById('contrasenia') as HTMLInputElement;
+      const eyeIcon = document.getElementById('eyeIcon') as HTMLAnchorElement;
+      const isPassword = passwordInput.type === 'password';
+      
+      passwordInput.type = isPassword ? 'text' : 'password';
+      eyeIcon.innerHTML = isPassword ? 
+        `<path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+        <path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18" />` : 
+        `<path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0" />
+        <path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6" />`;
+    };
 
-  // Asignar eventos de cambio a todos los inputs
-  document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('input', handleInputChange);
+    document.getElementById('togglePassword')?.addEventListener('click', togglePassword);
   });
-
-  // Manejo del toggle de contraseña
-  const togglePassword = () => {
-    const passwordInput = document.getElementById('contrasenia');
-    const eyeIcon = document.getElementById('eyeIcon');
-    const isPassword = passwordInput.type === 'password';
-    
-    passwordInput.type = isPassword ? 'text' : 'password';
-    eyeIcon.innerHTML = isPassword ? 
-      `<path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
-       <path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18" />` : 
-      `<path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0" />
-       <path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6" />`;
-  };
-
-  document.getElementById('togglePassword')?.addEventListener('click', togglePassword);
-});
 </script>

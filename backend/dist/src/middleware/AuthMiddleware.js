@@ -26,12 +26,14 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         const usuarioRepository = data_source_1.AppDataSource.getRepository(Usuario_1.Usuario);
         const usuario = yield usuarioRepository.findOne({
-            where: { id: decoded.usuarioId },
+            where: { id: decoded.id },
+            relations: ['rol']
         });
+        console.log(usuario);
         if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-        req.body.usuario = usuario;
+        req.user = usuario;
         next();
     }
     catch (error) {

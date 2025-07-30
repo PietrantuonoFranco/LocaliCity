@@ -63,7 +63,7 @@ __decorate([
     __metadata("design:type", String)
 ], Usuario.prototype, "contrasenia", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => Rol_1.Rol),
+    (0, typeorm_1.ManyToOne)(() => Rol_1.Rol),
     (0, typeorm_1.JoinColumn)({ name: 'rol_id' }),
     __metadata("design:type", Rol_1.Rol)
 ], Usuario.prototype, "rol", void 0);

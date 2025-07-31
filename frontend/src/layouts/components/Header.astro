@@ -1,5 +1,6 @@
 ---
 import ProfileData from "./components/ProfileData"
+import logo from "public/localicity-logo.png"
 ---
 
 <header class="z-1000 top-0 sticky bg-white/97 backdrop-blur-sm border-b-1 border-gray-200 shadow-md relative">
@@ -8,7 +9,7 @@ import ProfileData from "./components/ProfileData"
       {/* Logo */}
       <a href="/" class="flex items-center space-x-2">
         <div class="w-8 h-8 flex items-center justify-center">
-          <img src="localicity-logo.png" class="cover"/>
+          <img src={logo.src} class="cover"/>
         </div>
         <span class="text-2xl font-bold text-gray-800">LocaliCity</span>
       </a>

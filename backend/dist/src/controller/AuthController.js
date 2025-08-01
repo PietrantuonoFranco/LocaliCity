@@ -47,10 +47,7 @@ class AuthController {
                 }
                 let rol = yield rolRepository.findOne({ where: { nombre: "Regular" } });
                 if (!rol) {
-                    rol = new Rol_1.Rol();
-                    rol.nombre = "Administrador";
-                    yield rolRepository.save(rol);
-                    // return response.status(400).json({ mensaje: "Rol inexistente" });
+                    return response.status(400).json({ mensaje: "Rol inexistente" });
                 }
                 usuario = new Usuario_1.Usuario();
                 usuario.email = email;

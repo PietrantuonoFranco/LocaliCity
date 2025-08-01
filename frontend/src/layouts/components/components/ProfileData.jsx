@@ -101,7 +101,7 @@ export default function ProfileData () {
             <nav>
               <ul className="w-full flex flex-col justify-center items-center">
                 <li className="w-full"><a href="/cuenta" className="w-full flex items-center justify-center py-2 hover:bg-gray-100">Cuenta</a></li>
-                <li className="w-full"><a href="/solicitudes" className="w-full flex items-center justify-center py-2 hover:bg-gray-100">Solicitudes</a></li>
+                <li className="w-full"><a href="/cuenta" className="w-full flex items-center justify-center py-2 hover:bg-gray-100">Solicitudes</a></li>
               </ul>
             </nav>
 

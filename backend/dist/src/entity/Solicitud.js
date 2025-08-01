@@ -28,13 +28,17 @@ __decorate([
     __metadata("design:type", String)
 ], Solicitud.prototype, "tipo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 45 }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255 }),
     __metadata("design:type", String)
 ], Solicitud.prototype, "mensaje", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 45 }),
     __metadata("design:type", String)
 ], Solicitud.prototype, "referencia", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", length: 45 }),
+    __metadata("design:type", String)
+], Solicitud.prototype, "nombre", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Usuario_1.Usuario, usuario => usuario.solicitudes),
     (0, typeorm_1.JoinColumn)({ name: 'usuario_id' }),

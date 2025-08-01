@@ -15,11 +15,14 @@ export class Solicitud extends BaseEntity {
     @Column({ type: "varchar", length: 45 })
     tipo!: string;
 
-    @Column({ type: "varchar", length: 45 })
+    @Column({ type: "varchar", length: 255 })
     mensaje!: string;
 
     @Column({ type: "varchar", length: 45 })
     referencia!: string;
+
+    @Column({ type: "varchar", length: 45 })
+    nombre!: string;
 
 
     // Relaciones

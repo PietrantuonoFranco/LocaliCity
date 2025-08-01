@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SolicitudController = void 0;
 const data_source_js_1 = require("../data-source.js");
 const Solicitud_1 = require("../entity/Solicitud");
+const Usuario_js_1 = require("../entity/Usuario.js");
+const usuarioRepository = data_source_js_1.AppDataSource.getRepository(Usuario_js_1.Usuario);
 const solicitudRepository = data_source_js_1.AppDataSource.getRepository(Solicitud_1.Solicitud);
 class SolicitudController {
     static all(request, response, next) {
@@ -51,15 +53,19 @@ class SolicitudController {
     static save(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { usuario, tipo, mensaje, referencia, pais, provincia, localidad } = request.body;
-                if (!usuario || !tipo || (!pais && !provincia && !localidad)) {
+                const { tipo, mensaje, referencia, pais, nombre, provincia, usuario } = request.body;
+                if (!nombre || !usuario || !tipo || !referencia || !mensaje || (tipo === "provincia" && !pais) || (tipo === "localidad" && !provincia && !pais)) {
                     return response.status(400).json({ error: "Complete todos los campos necesarios." });
                 }
-                const solicitud = Object.assign(new Solicitud_1.Solicitud(), { usuario, tipo, mensaje, referencia, pais, provincia, localidad });
+                const user = yield usuarioRepository.findOne({ where: { id: usuario.id } });
+                if (!user)
+                    return response.status(404).json({ error: "No se reconoce al usuario enviado." });
+                const solicitud = Object.assign(new Solicitud_1.Solicitud(), { tipo, mensaje, referencia, pais, nombre, provincia, user });
                 yield solicitudRepository.save(solicitud);
                 return response.status(201).json({ mensaje: "Solicitud creada correctamente.", solicitud: solicitud });
             }
-            catch (_a) {
+            catch (error) {
+                console.log(error);
                 return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
             }
         });

@@ -1,8 +1,9 @@
 import { AppDataSource } from "../data-source.js";
 import { NextFunction, Request, Response } from "express";
 import { Solicitud } from "../entity/Solicitud";
+import { Usuario } from "../entity/Usuario.js";
 
-
+const usuarioRepository = AppDataSource.getRepository(Usuario);
 const solicitudRepository = AppDataSource.getRepository(Solicitud);
 
 export class SolicitudController {
@@ -44,18 +45,23 @@ export class SolicitudController {
 
   static async save(request: Request, response: Response, next: NextFunction) {
     try {
-      const { usuario, tipo, mensaje, referencia, pais, provincia, localidad } = request.body;
+      const { tipo, mensaje, referencia, pais, nombre, provincia, usuario } = request.body;
 
-      if (!usuario || !tipo || (!pais && !provincia && !localidad)) {
+      if (!nombre || !usuario || !tipo ||!referencia || !mensaje || (tipo === "provincia" && !pais) || (tipo === "localidad" && !provincia && !pais)) {
         return response.status(400).json({ error: "Complete todos los campos necesarios." });
       }
 
-      const solicitud = Object.assign(new Solicitud(), { usuario, tipo, mensaje, referencia, pais, provincia, localidad });
+      const user = await usuarioRepository.findOne({ where: {id: usuario.id}})
+
+      if (!user) return response.status(404).json({ error: "No se reconoce al usuario enviado." });
+
+      const solicitud = Object.assign(new Solicitud(), { tipo, mensaje, referencia, pais, nombre, provincia, user });
 
       await solicitudRepository.save(solicitud);
 
       return response.status(201).json({ mensaje: "Solicitud creada correctamente.", solicitud: solicitud });
-    } catch {
+    } catch (error) {
+      console.log(error)
       return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
     }
   }

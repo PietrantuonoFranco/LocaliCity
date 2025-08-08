@@ -1,3 +1,4 @@
+import type Solicitud from "src/interfaces/SolicitudInterface";
 import api from "./api";
 
 const entity: string = "usuarios";
@@ -11,3 +12,5 @@ export const createUsuario = ({ ...usuario }) => {
 }
 
 export const deleteUsuario = (id: string) => api.delete(`${entity}/${id}`);
+
+export const getSolicitudesOfUser = (id: number) => api.get<{mensaje: string, solicitudes: Solicitud[]}>(`${entity}/${id}/solicitudes`).then(({ data }) => data);

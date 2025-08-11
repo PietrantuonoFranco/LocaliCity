@@ -1,8 +1,14 @@
 import api from "./api";
+import type Pais from "src/interfaces/PaisInterface";
+
+type RespuestaPaises = {
+  mensaje: string;
+  paises: Pais[];
+};
 
 const entity: string = "paises";
 
-export const getAllPaises = () => api.get(entity).then(({ data }) => data);
+export const getAllPaises = () => api.get<RespuestaPaises>(entity).then(({ data }) => data);
 
 export const getPaisById = (id: number) => api.get(`${entity}/${id}`).then(({ data }) => data);
 

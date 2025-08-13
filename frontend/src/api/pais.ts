@@ -16,4 +16,4 @@ export const createPais = ({ ...pais }) => {
     api.post(entity, pais).then(({ data }) => data);
 }
 
-export const deletePais = (id: string) => api.delete(`${entity}/${id}`);
+export const deletePais = (id: number) => api.delete(`${entity}/${id}`);

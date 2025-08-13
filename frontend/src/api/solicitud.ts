@@ -2,10 +2,16 @@ import type Pais from "src/interfaces/PaisInterface";
 import type Usuario from "../interfaces/UsuarioInterface";
 import api from "./api";
 import type Provincia from "src/interfaces/ProvinciaInterface";
+import type Solicitud from "src/interfaces/SolicitudInterface";
+
+type RespuestaSolicitudes = {
+  mensaje: string;
+  solicitudes: Solicitud[];
+};
 
 const entity: string = "solicitudes";
 
-export const getAllSolicitudes = () => api.get(entity).then(({ data }) => data);
+export const getAllSolicitudes = () => api.get<RespuestaSolicitudes>(entity).then(({ data }) => data);
 
 export const getSolicitudById = (id: number) => api.get(`${entity}/${id}`).then(({ data }) => data);
 

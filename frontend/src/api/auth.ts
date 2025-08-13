@@ -3,6 +3,10 @@ import type Usuario from "../interfaces/UsuarioInterface";
 
 const entity: string = "auth";
 
+interface Logout {
+  message: string
+}
+
 export const login = async (email: string, contrasenia: string) => {
   const response = await api.post(`${entity}/login`, { 
     email, 
@@ -18,7 +22,7 @@ export const login = async (email: string, contrasenia: string) => {
 };
   
 export const logout = async () => {
-  const response = await api.post(`${entity}/logout`, {}, {
+  const response = await api.post<Logout>(`${entity}/logout`, {}, {
     withCredentials: true
   });
 

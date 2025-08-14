@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { deleteLocalidad, getAllLocalidades } from "src/api/localidad";
 
 // Componentes
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 
 // Tipos / Interfaces
 import type Localidad from "src/interfaces/entities/LocalidadInterface";

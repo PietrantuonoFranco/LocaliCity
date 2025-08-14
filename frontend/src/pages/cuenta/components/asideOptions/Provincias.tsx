@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { deleteProvincia, getAllProvincias } from "src/api/provincia";
 
 // Componentes
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 
 // Tipos / Interfaces
 import type Provincia from "src/interfaces/entities/ProvinciaInterface";

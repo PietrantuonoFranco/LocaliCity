@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { deletePais, getAllPaises } from "src/api/pais";
 
 // Componentes
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 
 // Tipos / Interfaces
 import type Pais from "src/interfaces/entities/PaisInterface";

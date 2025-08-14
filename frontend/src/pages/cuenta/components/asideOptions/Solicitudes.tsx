@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { aceptarSolicitud, deleteSolicitud, getAllSolicitudes, updateSolicitud } from "src/api/solicitud";
 
 // Componentes
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 
 // Tipos / Interfaces
 import type Usuario from "src/interfaces/entities/UsuarioInterface";

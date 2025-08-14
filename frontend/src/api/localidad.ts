@@ -1,11 +1,7 @@
-import type Localidad from "src/interfaces/LocalidadInterface";
 import api from "./api";
 
+import type { RespuestaLocalidades } from "src/interfaces/RespuestasInterfaces";
 
-type RespuestaLocalidades = {
-  mensaje: string;
-  localidades: Localidad[];
-};
 
 const entity: string = "localidades";
 

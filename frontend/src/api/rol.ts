@@ -1,10 +1,7 @@
-import type Rol from "src/interfaces/RolInterface";
 import api from "./api";
 
-type RespuestaRoles = {
-  mensaje: string;
-  solicitudes: Rol[];
-};
+import type { RespuestaRoles } from "src/interfaces/RespuestasInterfaces";
+
 
 const entity: string = "roles";
 

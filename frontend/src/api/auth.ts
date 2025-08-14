@@ -1,11 +1,10 @@
 import api from "./api.ts"
-import type Usuario from "../interfaces/UsuarioInterface";
+
+import type Usuario from "../interfaces/entities/UsuarioInterface.ts";
+import type { Respuesta } from "src/interfaces/RespuestasInterfaces.ts";
+
 
 const entity: string = "auth";
-
-interface Logout {
-  message: string
-}
 
 export const login = async (email: string, contrasenia: string) => {
   const response = await api.post(`${entity}/login`, { 
@@ -22,7 +21,7 @@ export const login = async (email: string, contrasenia: string) => {
 };
   
 export const logout = async () => {
-  const response = await api.post<Logout>(`${entity}/logout`, {}, {
+  const response = await api.post<Respuesta>(`${entity}/logout`, {}, {
     withCredentials: true
   });
 

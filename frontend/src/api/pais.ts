@@ -1,10 +1,7 @@
 import api from "./api";
-import type Pais from "src/interfaces/PaisInterface";
 
-type RespuestaPaises = {
-  mensaje: string;
-  paises: Pais[];
-};
+import type { RespuestaPaises } from "src/interfaces/RespuestasInterfaces";
+
 
 const entity: string = "paises";
 

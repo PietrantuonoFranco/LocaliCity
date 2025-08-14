@@ -1,13 +1,10 @@
-import type Pais from "src/interfaces/PaisInterface";
-import type Usuario from "../interfaces/UsuarioInterface";
 import api from "./api";
-import type Provincia from "src/interfaces/ProvinciaInterface";
-import type Solicitud from "src/interfaces/SolicitudInterface";
 
-type RespuestaSolicitudes = {
-  mensaje: string;
-  solicitudes: Solicitud[];
-};
+import type { RespuestaSolicitudes } from "src/interfaces/RespuestasInterfaces";
+import type Pais from "src/interfaces/entities/PaisInterface";
+import type Usuario from "../interfaces/entities/UsuarioInterface";
+import type Provincia from "src/interfaces/entities/ProvinciaInterface";
+
 
 const entity: string = "solicitudes";
 

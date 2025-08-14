@@ -1,13 +1,9 @@
-import type Solicitud from "src/interfaces/SolicitudInterface";
 import api from "./api";
-import type Usuario from "src/interfaces/UsuarioInterface";
+
+import type { RespuestaSolicitudes, RespuestaUsuarios } from "src/interfaces/RespuestasInterfaces";
+
 
 const entity: string = "usuarios";
-
-interface RespuestaUsuarios {
-    mensaje: string,
-    usuarios: Usuario[]
-}
 
 export const getAllUsuarios = () => api.get<RespuestaUsuarios>(entity).then(({ data }) => data);
 
@@ -19,4 +15,4 @@ export const createUsuario = ({ ...usuario }) => {
 
 export const deleteUsuario = (id: number) => api.delete(`${entity}/${id}`);
 
-export const getSolicitudesOfUser = (id: number) => api.get<{mensaje: string, solicitudes: Solicitud[]}>(`${entity}/${id}/solicitudes`).then(({ data }) => data);
+export const getSolicitudesOfUser = (id: number) => api.get<RespuestaSolicitudes>(`${entity}/${id}/solicitudes`).then(({ data }) => data);

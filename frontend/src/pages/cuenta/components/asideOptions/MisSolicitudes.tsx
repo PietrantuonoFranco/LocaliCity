@@ -11,8 +11,8 @@ import { aceptarSolicitud, deleteSolicitud, updateSolicitud } from "src/api/soli
 import SearchBar from "./SearchBar";
 
 // Tipos / Interfaces
-import type Usuario from "src/interfaces/UsuarioInterface";
-import type Solicitud from "src/interfaces/SolicitudInterface";
+import type Usuario from "src/interfaces/entities/UsuarioInterface";
+import type Solicitud from "src/interfaces/entities/SolicitudInterface";
 
 
 type SortField = "pais" | "provincia" | "nombre"

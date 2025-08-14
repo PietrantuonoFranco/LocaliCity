@@ -9,8 +9,8 @@ import { aceptarSolicitud, deleteSolicitud, getAllSolicitudes, updateSolicitud }
 import SearchBar from "./SearchBar";
 
 // Tipos / Interfaces
-import type Usuario from "src/interfaces/UsuarioInterface";
-import type Solicitud from "src/interfaces/SolicitudInterface";
+import type Usuario from "src/interfaces/entities/UsuarioInterface";
+import type Solicitud from "src/interfaces/entities/SolicitudInterface";
 
 
 type SortField = "email" | "pais" | "provincia" | "nombre";

@@ -9,7 +9,7 @@ import { deleteProvincia, getAllProvincias } from "src/api/provincia";
 import SearchBar from "./SearchBar";
 
 // Tipos / Interfaces
-import type Provincia from "src/interfaces/ProvinciaInterface";
+import type Provincia from "src/interfaces/entities/ProvinciaInterface";
 
 
 type SortField = "nombre" | "pais"

@@ -9,7 +9,7 @@ import { deletePais, getAllPaises } from "src/api/pais";
 import SearchBar from "./SearchBar";
 
 // Tipos / Interfaces
-import type Pais from "src/interfaces/PaisInterface";
+import type Pais from "src/interfaces/entities/PaisInterface";
 
 
 type SortField = "nombre"

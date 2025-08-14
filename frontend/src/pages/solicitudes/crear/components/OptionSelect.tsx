@@ -2,11 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-type Option = {
-  name: string;
-  value: string;
-  label: string;
-};
+import type Option from "src/interfaces/OptionInterface";
 
 type OptionSelectProps = {
   options: Option[];

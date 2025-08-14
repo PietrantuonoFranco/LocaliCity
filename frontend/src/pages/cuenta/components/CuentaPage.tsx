@@ -1,19 +1,22 @@
 "use client"
 
+// Functions / hooks
 import { useEffect, useState } from "react";
+import { getCurrentUser, logout } from "src/api/auth";
+
+// Components
 import MiCuenta from "./asideOptions/MiCuenta";
 import MisSolicitudes from "./asideOptions/MisSolicitudes";
-import type Usuario from "src/interfaces/UsuarioInterface";
-import { getCurrentUser, logout } from "src/api/auth";
 import Solicitudes from "./asideOptions/Solicitudes";
 import Usuarios from "./asideOptions/Usuarios";
 import Paises from "./asideOptions/Paises";
 import Provincias from "./asideOptions/Provincias";
 import Localidades from "./asideOptions/Localidades";
 
-interface Logout {
-  message: string
-}
+// Types
+import type { Respuesta } from "src/interfaces/RespuestasInterfaces";
+import type Usuario from "src/interfaces/entities/UsuarioInterface";
+
 
 export default function CuentaPage() {
   const [option,setOption] = useState("mi-cuenta");
@@ -35,9 +38,9 @@ export default function CuentaPage() {
 
   const handleLogout = async () => {
     try {
-      const response: Logout = await logout();
+      const response: Respuesta = await logout();
   
-      if (response.message) {
+      if (response.mensaje) {
         window.location.href = "/";
       }
     } catch(error) {

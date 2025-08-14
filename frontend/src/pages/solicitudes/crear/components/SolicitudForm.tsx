@@ -1,35 +1,20 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import type Pais from "src/interfaces/PaisInterface";
-import type Provincia from "src/interfaces/ProvinciaInterface";
-import OptionSelect from "./OptionSelect";
+// Hooks
+import { useEffect, useState } from "react";
+// Axios functions
 import { getAllPaises } from "src/api/pais";
 import { getAllProvincias } from "src/api/provincia";
-import type Usuario from "src/interfaces/UsuarioInterface";
 import { createSolicitud } from "src/api/solicitud";
 import { getCurrentUser } from "src/api/auth";
-
-type Option = {
-  name: string;
-  value: string;
-  label: string;
-};
-
-type RespuestaPaises = {
-  mensaje: string;
-  paises: Pais[];
-};
-
-type RespuestaProvincias = {
-  mensaje: string;
-  provincias: Provincia[];
-};
-
-type RespuestaUsuario = {
-  mensaje: string;
-  usuario: Usuario;
-};
+// Components
+import OptionSelect from "./OptionSelect";
+// Types
+import type { RespuestaPaises, RespuestaProvincias } from "src/interfaces/RespuestasInterfaces";
+import type Usuario from "src/interfaces/entities/UsuarioInterface";
+import type Pais from "src/interfaces/entities/PaisInterface";
+import type Provincia from "src/interfaces/entities/ProvinciaInterface";
+import type Option from "src/interfaces/OptionInterface";
 
 export default function SolicitudForm() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);

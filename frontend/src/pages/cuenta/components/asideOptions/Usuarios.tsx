@@ -9,7 +9,7 @@ import { deleteUsuario, getAllUsuarios } from "src/api/usuario";
 import SearchBar from "./SearchBar";
 
 // Tipos / Interfaces
-import type Usuario from "src/interfaces/UsuarioInterface";
+import type Usuario from "src/interfaces/entities/UsuarioInterface";
 
 
 type SortField = "email" | "nombre" | "apellido" | "rol";

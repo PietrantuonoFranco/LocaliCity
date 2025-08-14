@@ -10,4 +10,6 @@ router.get("/", SolicitudController_1.SolicitudController.all);
 router.get("/:id", SolicitudController_1.SolicitudController.one);
 router.post("/", SolicitudController_1.SolicitudController.save);
 router.delete("/:id", SolicitudController_1.SolicitudController.remove);
+router.put("/:id", SolicitudController_1.SolicitudController.update);
+router.put("/aceptar/:id", SolicitudController_1.SolicitudController.aceptarSolicitud);
 exports.default = router;

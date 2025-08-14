@@ -8,7 +8,7 @@ const provinciaRepository = AppDataSource.getRepository(Provincia);
 export class ProvinciaController {
   static async all(request: Request, response: Response, next: NextFunction) {
     try {
-      const provincias = await provinciaRepository.find();
+      const provincias = await provinciaRepository.find({relations: ['pais']});
 
       if (provincias.length === 0) {
         return response.status(404).json({ error: "Provincias no encontradas." });

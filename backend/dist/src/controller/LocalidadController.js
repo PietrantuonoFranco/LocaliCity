@@ -17,7 +17,7 @@ class LocalidadController {
     static all(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const localidades = yield localidadRepository.find();
+                const localidades = yield localidadRepository.find({ relations: ['provincia', 'provincia.pais'] });
                 if (localidades.length === 0) {
                     return response.status(404).json({ error: "Localidades no encontradas." });
                 }

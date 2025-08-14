@@ -17,6 +17,10 @@ const Pais_1 = require("./Pais");
 const Provincia_1 = require("./Provincia");
 const Localidad_1 = require("./Localidad");
 let Solicitud = class Solicitud extends typeorm_1.BaseEntity {
+    constructor() {
+        super(...arguments);
+        this.estado = "Pendiente";
+    }
 };
 exports.Solicitud = Solicitud;
 __decorate([
@@ -40,22 +44,26 @@ __decorate([
     __metadata("design:type", String)
 ], Solicitud.prototype, "nombre", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Usuario_1.Usuario, usuario => usuario.solicitudes),
+    (0, typeorm_1.Column)({ type: "varchar", length: 45 }),
+    __metadata("design:type", String)
+], Solicitud.prototype, "estado", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => Usuario_1.Usuario, usuario => usuario.solicitudes, { nullable: false }),
     (0, typeorm_1.JoinColumn)({ name: 'usuario_id' }),
     __metadata("design:type", Usuario_1.Usuario)
 ], Solicitud.prototype, "usuario", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => Pais_1.Pais, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => Pais_1.Pais, { nullable: true }),
     (0, typeorm_1.JoinColumn)({ name: 'pais_id' }),
     __metadata("design:type", Pais_1.Pais)
 ], Solicitud.prototype, "pais", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => Provincia_1.Provincia, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => Provincia_1.Provincia, { nullable: true }),
     (0, typeorm_1.JoinColumn)({ name: 'provincia_id' }),
     __metadata("design:type", Provincia_1.Provincia)
 ], Solicitud.prototype, "provincia", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => Localidad_1.Localidad, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => Localidad_1.Localidad, { nullable: true }),
     (0, typeorm_1.JoinColumn)({ name: 'localidad_id' }),
     __metadata("design:type", Localidad_1.Localidad)
 ], Solicitud.prototype, "localidad", void 0);

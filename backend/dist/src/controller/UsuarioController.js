@@ -12,13 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioController = void 0;
 const data_source_js_1 = require("../data-source.js");
 const Usuario_1 = require("../entity/Usuario");
+const Solicitud_js_1 = require("../entity/Solicitud.js");
 require("dotenv");
+const solicitudRepository = data_source_js_1.AppDataSource.getRepository(Solicitud_js_1.Solicitud);
 const usuarioRepository = data_source_js_1.AppDataSource.getRepository(Usuario_1.Usuario);
 class UsuarioController {
     static all(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const usuarios = yield usuarioRepository.find();
+                const usuarios = yield usuarioRepository.find({ relations: ['rol'] });
                 if (usuarios.length === 0) {
                     return response.status(404).json({ error: "Usuarios no encontrados." });
                 }
@@ -91,6 +93,31 @@ class UsuarioController {
                 return response.status(204).json({ mensaje: "Usuario eliminado correctamente." });
             }
             catch (error) {
+                return response.status(500).json({ mensaje: "Se ha producido un error interno del servidor." });
+            }
+        });
+    }
+    static getSolicitudes(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = parseInt(request.params.id);
+                if (!id) {
+                    return response.status(400).json({ error: "No se ha proporcionado un ID de Usuario." });
+                }
+                const usuario = yield usuarioRepository.findOneBy({ id });
+                if (!usuario)
+                    return response.status(404).json({ error: "Usuario no encontrado." });
+                const solicitudes = yield solicitudRepository.find({
+                    where: { usuario: usuario },
+                    relations: ['usuario', 'pais', 'provincia', 'localidad']
+                });
+                if (solicitudes.length === 0)
+                    return response.status(404).json({ error: "El usuario dado no tiene ninguna solicitud." });
+                solicitudes.map(s => console.log(s.pais));
+                return response.status(200).json({ mensaje: "Solicitudes encontradas.", solicitudes: solicitudes });
+            }
+            catch (error) {
+                console.error(error);
                 return response.status(500).json({ mensaje: "Se ha producido un error interno del servidor." });
             }
         });

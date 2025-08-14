@@ -8,7 +8,7 @@ const localidadRepository = AppDataSource.getRepository(Localidad);
 export class LocalidadController {
   static async all(request: Request, response: Response, next: NextFunction) {
     try {
-      const localidades = await localidadRepository.find();
+      const localidades = await localidadRepository.find({relations: ['provincia', 'provincia.pais']});
 
       if (localidades.length === 0) {
         return response.status(404).json({ error: "Localidades no encontradas." });

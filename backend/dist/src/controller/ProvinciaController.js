@@ -17,7 +17,7 @@ class ProvinciaController {
     static all(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const provincias = yield provinciaRepository.find();
+                const provincias = yield provinciaRepository.find({ relations: ['pais'] });
                 if (provincias.length === 0) {
                     return response.status(404).json({ error: "Provincias no encontradas." });
                 }

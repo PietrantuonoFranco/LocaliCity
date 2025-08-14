@@ -97,16 +97,29 @@ export default function ProfileData () {
             </div>
           </div>
 
-          <div className={`${ !showAccountOptions ? "hidden" : "absolute z-100 top-16 w-64 right-22 bg-white/97 shadow-md rounded-b-lg" }`}>
+          <div className={`${ !showAccountOptions ? "hidden" : "absolute z-100 top-16 w-48 right-30 bg-white/97 shadow-md rounded-b-lg" }`}>
             <nav>
               <ul className="w-full flex flex-col justify-center items-center">
-                <li className="w-full"><a href="/cuenta" className="w-full flex items-center justify-center py-2 hover:bg-gray-100">Cuenta</a></li>
-                <li className="w-full"><a href="/cuenta" className="w-full flex items-center justify-center py-2 hover:bg-gray-100">Solicitudes</a></li>
+                <li className="w-full">
+                  <a href="/cuenta" className="w-full flex items-center justify-center py-2 gap-2 hover:bg-gray-200 duration-300 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24">
+                      <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.5 14.012a10.6 10.6 0 0 0-5.922 1.47c-1.415.842-5.125 2.562-2.865 4.715C3.816 21.248 5.045 22 6.59 22H12m3.5-15.5a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0M18 20.714V22m0-1.286a3.36 3.36 0 0 1-2.774-1.43M18 20.713a3.36 3.36 0 0 0 2.774-1.43M18 14.285c1.157 0 2.176.568 2.774 1.43M18 14.287a3.36 3.36 0 0 0-2.774 1.43M18 14.287V13m4 1.929l-1.226.788M14 20.07l1.226-.788M14 14.93l1.226.788M22 20.07l-1.226-.788m0-3.566a3.12 3.12 0 0 1 0 3.566m-5.548-3.566a3.12 3.12 0 0 0 0 3.566"></path>
+                    </svg>
+                    Mi Cuenta
+                  </a>
+                </li>
+{/*
+                <li className="w-full">
+                  <a href="/cuenta" className="w-full flex items-center justify-center py-2 hover:bg-gray-100">
+                    Solicitudes
+                  </a>
+                </li>
+*/}
               </ul>
             </nav>
 
             <div className="w-full">
-              <button type="button" onClick={handleLogout} className="cursor-pointer w-full py-2 flex justify-center items-center gap-2 bg-dark-blue text-white/95 rounded-b-lg hover:bg-gray-700"  >
+              <button type="button" onClick={handleLogout} className="cursor-pointer w-full py-2 flex justify-center items-center gap-2 bg-dark-blue text-white/95 rounded-b-lg hover:bg-gray-700 duration-300 transition-colors"  >
                 <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24">
                   <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 17.625c-.074 1.852-1.617 3.424-3.684 3.374c-.481-.012-1.076-.18-2.265-.515c-2.861-.807-5.345-2.164-5.941-5.203C3 14.724 3 14.095 3 12.837v-1.674c0-1.257 0-1.886.11-2.445c.596-3.038 3.08-4.395 5.941-5.202c1.19-.335 1.784-.503 2.265-.515c2.067-.05 3.61 1.522 3.684 3.374M21 12H10m11 0c0-.7-1.994-2.008-2.5-2.5M21 12c0 .7-1.994 2.008-2.5 2.5"></path>
                 </svg>

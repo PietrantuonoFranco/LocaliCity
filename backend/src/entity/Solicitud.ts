@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToOne, OneToMany, JoinColumn } from "typeorm";
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
 
 import { Usuario } from "./Usuario";
 import { Pais } from "./Pais";
@@ -24,21 +24,24 @@ export class Solicitud extends BaseEntity {
     @Column({ type: "varchar", length: 45 })
     nombre!: string;
 
+    @Column({ type: "varchar", length: 45 })
+    estado: string = "Pendiente";
+
 
     // Relaciones
-    @ManyToOne(() => Usuario, usuario => usuario.solicitudes)
+    @ManyToOne(() => Usuario, usuario => usuario.solicitudes, { nullable: false })
         @JoinColumn({ name: 'usuario_id' })
         usuario!: Usuario;
 
-    @OneToOne(() => Pais, { nullable: true })
+    @ManyToOne(() => Pais, { nullable: true })
         @JoinColumn({ name: 'pais_id' })
         pais!: Pais;
     
-    @OneToOne(() => Provincia, { nullable: true })
+    @ManyToOne(() => Provincia, { nullable: true })
         @JoinColumn({ name: 'provincia_id' })
         provincia!: Provincia;
     
-    @OneToOne(() => Localidad, { nullable: true })
+    @ManyToOne(() => Localidad, { nullable: true })
         @JoinColumn({ name: 'localidad_id' })
         localidad!: Localidad;
 }

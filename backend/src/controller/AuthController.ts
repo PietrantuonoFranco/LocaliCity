@@ -166,4 +166,12 @@ export class AuthController {
       return response.status(500).json({ mensaje: "Internal server error" });
     }
   }
+
+  static async checkAuth (req: Request, res: Response) {
+    if (!req.cookies.authToken) {
+        return res.status(200).json({ isAuthenticated: false });
+    }
+
+    return res.status(200).json({ isAuthenticated: true });
+};
 }

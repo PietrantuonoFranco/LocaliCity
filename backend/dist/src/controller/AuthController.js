@@ -86,7 +86,7 @@ class AuthController {
             }
             catch (error) {
                 console.log(error);
-                return response.status(500).json({ message: "Internal server error" });
+                return response.status(500).json({ mensaje: "Internal server error" });
             }
         });
     }
@@ -96,16 +96,16 @@ class AuthController {
                 const { email, contrasenia } = request.body;
                 if (!email || !contrasenia) {
                     return response.status(400).json({
-                        message: "Debe ingresar el email y la contraseña."
+                        mensaje: "Debe ingresar el email y la contraseña."
                     });
                 }
                 const usuario = yield usuarioRepository.findOne({ where: { email } });
                 if (!usuario) {
-                    return response.status(404).json({ message: "Usuario no encontrado." });
+                    return response.status(404).json({ mensaje: "Usuario no encontrado." });
                 }
                 const isValid = yield usuario.compareContrasenia(contrasenia);
                 if (!isValid) {
-                    return response.status(401).json({ message: "Credenciales inválidas" });
+                    return response.status(401).json({ mensaje: "Credenciales inválidas" });
                 }
                 const token = jsonwebtoken_1.default.sign({
                     id: usuario.id,
@@ -137,7 +137,7 @@ class AuthController {
             catch (error) {
                 console.error("Login error:", error);
                 return response.status(500).json({
-                    message: "Internal server error",
+                    mensaje: "Internal server error",
                     error: error
                 });
             }
@@ -146,7 +146,7 @@ class AuthController {
     static logout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             res.clearCookie("authToken");
-            return res.status(200).json({ message: "Sesión cerrada exitosamente." });
+            return res.status(200).json({ mensaje: "Sesión cerrada exitosamente." });
         });
     }
     static profile(request, response) {
@@ -157,7 +157,7 @@ class AuthController {
             }
             catch (error) {
                 console.log(error);
-                return response.status(500).json({ message: "Internal server error" });
+                return response.status(500).json({ mensaje: "Internal server error" });
             }
         });
     }

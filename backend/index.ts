@@ -15,6 +15,7 @@ import PaisRoutes from "./src/routes/PaisRoutes";
 import ProvinciaRoutes from "./src/routes/ProvinciaRoutes";
 import LocalidadRoutes from "./src/routes/LocalidadRoutes";
 import AuthRoutes from "./src/routes/AuthRoutes";
+import SearchRoutes from "./src/routes/SearchRoutes";
 
 
 AppDataSource.initialize().then(async () => {
@@ -34,6 +35,7 @@ AppDataSource.initialize().then(async () => {
 
     // Definicion de las rutas
     app.use("/auth", AuthRoutes);
+    app.use("/search", SearchRoutes);
     app.use("/usuarios", UsuarioRoutes);
     app.use("/roles", RolRoutes);
     app.use("/solicitudes", SolicitudRoutes);

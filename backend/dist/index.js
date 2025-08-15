@@ -27,6 +27,7 @@ const PaisRoutes_1 = __importDefault(require("./src/routes/PaisRoutes"));
 const ProvinciaRoutes_1 = __importDefault(require("./src/routes/ProvinciaRoutes"));
 const LocalidadRoutes_1 = __importDefault(require("./src/routes/LocalidadRoutes"));
 const AuthRoutes_1 = __importDefault(require("./src/routes/AuthRoutes"));
+const SearchRoutes_1 = __importDefault(require("./src/routes/SearchRoutes"));
 data_source_1.AppDataSource.initialize().then(() => __awaiter(void 0, void 0, void 0, function* () {
     // Creación de la app con ExpressJS
     const app = (0, express_1.default)();
@@ -41,6 +42,7 @@ data_source_1.AppDataSource.initialize().then(() => __awaiter(void 0, void 0, vo
     app.use(express_1.default.json());
     // Definicion de las rutas
     app.use("/auth", AuthRoutes_1.default);
+    app.use("/search", SearchRoutes_1.default);
     app.use("/usuarios", UsuarioRoutes_1.default);
     app.use("/roles", RolRoutes_1.default);
     app.use("/solicitudes", SolicitudRoutes_1.default);

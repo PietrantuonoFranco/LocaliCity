@@ -38,9 +38,9 @@ export default function CuentaPage() {
 
   const handleLogout = async () => {
     try {
-      const response: Respuesta = await logout();
+      const response = await logout();
   
-      if (response.mensaje) {
+      if (response) {
         window.location.href = "/";
       }
     } catch(error) {
@@ -92,7 +92,7 @@ export default function CuentaPage() {
                 type="button"
                 id="mi-cuenta"
                 onClick={() => setOption("mi-cuenta")}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 border-transparent ${option === "mi-cuenta" ? "bg-white/75 border-gray-200" : ""} duration-300 transformation-all cursor-pointer`}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1  ${option === "mi-cuenta" ? "bg-white/75 border-gray-300" : "border-transparent"} duration-300 transformation-all cursor-pointer`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6.578 15.482c-1.415.842-5.125 2.562-2.865 4.715C4.816 21.248 6.045 22 7.59 22h8.818c1.546 0 2.775-.752 3.878-1.803c2.26-2.153-1.45-3.873-2.865-4.715a10.66 10.66 0 0 0-10.844 0M16.5 6.5a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0" />
@@ -104,7 +104,7 @@ export default function CuentaPage() {
                 type="button"
                 id="mis-solicitudes"
                 onClick={() => setOption("mis-solicitudes")}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 border-transparent ${option === "mis-solicitudes" ? "bg-white/75 border-gray-200" : ""} duration-300 transformation-all cursor-pointer`}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 ${option === "mis-solicitudes" ? "bg-white/75 border-gray-300" : "border-transparent"} duration-300 transformation-all cursor-pointer`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
                   <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
@@ -123,7 +123,7 @@ export default function CuentaPage() {
                     type="button"
                     id="all-users"
                     onClick={() => setOption("all-users")}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 border-transparent ${option === "all-users" ? "bg-white/75 border-gray-200" : ""} duration-300 transformation-all cursor-pointer`}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 ${option === "all-users" ? "bg-white/75 border-gray-300" : "border-transparent"} duration-300 transformation-all cursor-pointer`}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
                       <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.616 20h.49c1.15 0 2.065-.524 2.886-1.256C24.078 16.883 19.174 15 17.5 15m-2-9.931Q15.841 5 16.205 5c1.82 0 3.295 1.343 3.295 3s-1.475 3-3.295 3q-.364 0-.705-.069m-11.019 5.18c-1.179.632-4.27 1.922-2.387 3.536c.92.789 1.944 1.353 3.232 1.353h7.348c1.288 0 2.312-.564 3.232-1.353c1.883-1.614-1.208-2.904-2.387-3.536c-2.765-1.481-6.273-1.481-9.038 0M13 7.5a4 4 0 1 1-8 0a4 4 0 0 1 8 0"></path>
@@ -135,7 +135,7 @@ export default function CuentaPage() {
                     type="button"
                     id="all-solicitudes"
                     onClick={() => setOption("all-solicitudes")}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 border-transparent ${option === "all-solicitudes" ? "bg-white/75 border-gray-200" : ""} duration-300 transformation-all cursor-pointer`}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 ${option === "all-solicitudes" ? "bg-white/75 border-gray-300" : "border-transparent"} duration-300 transformation-all cursor-pointer`}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
                       <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
@@ -150,7 +150,7 @@ export default function CuentaPage() {
                     type="button"
                     id="all-paises"
                     onClick={() => setOption("all-paises")}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 border-transparent ${option === "all-paises" ? "bg-white/75 border-gray-200" : ""} duration-300 transformation-all cursor-pointer`}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 ${option === "all-paises" ? "bg-white/75 border-gray-300" : "border-transparent"} duration-300 transformation-all cursor-pointer`}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
                       <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 22C6.477 22 2 17.523 2 12a9.97 9.97 0 0 1 2.99-7.132M12 22c-.963-.714-.81-1.544-.326-2.375c.743-1.278.743-1.278.743-2.98c0-1.704 1.012-2.502 4.583-1.788c1.605.321 2.774-1.896 4.857-1.164M12 22c4.946 0 9.053-3.59 9.857-8.307m0 0Q22 12.867 22 12c0-4.881-3.498-8.946-8.123-9.824m0 0c.51.94.305 2.06-.774 2.487c-1.76.697-.5 1.98-2 2.773c-1 .528-2.499.396-3.998-1.189c-.79-.834-1.265-1.29-2.115-1.379m8.887-2.692A10 10 0 0 0 12 2a9.97 9.97 0 0 0-7.01 2.868"></path>
@@ -162,7 +162,7 @@ export default function CuentaPage() {
                     type="button"
                     id="all-provincias"
                     onClick={() => setOption("all-provincias")}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 border-transparent ${option === "all-provincias" ? "bg-white/75 border-gray-200" : ""} duration-300 transformation-all cursor-pointer`}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 ${option === "all-provincias" ? "bg-white/75 border-gray-300" : "border-transparent"} duration-300 transformation-all cursor-pointer`}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
                       <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m5.253 4.196l-1.227.712c-.989.573-1.483.86-1.754 1.337C2 6.722 2 7.302 2 8.464v8.164c0 1.526 0 2.29.342 2.714c.228.282.547.472.9.535c.53.095 1.18-.282 2.478-1.035c.882-.511 1.73-1.043 2.785-.898c.48.065.937.293 1.853.748l3.813 1.896c.825.41.833.412 1.75.412H18c1.886 0 2.828 0 3.414-.599c.586-.598.586-1.562.586-3.49v-6.74c0-1.927 0-2.89-.586-3.49c-.586-.598-1.528-.598-3.414-.598h-2.079c-.917 0-.925-.002-1.75-.412L10.84 4.015C9.449 3.323 8.753 2.977 8.012 3S6.6 3.415 5.253 4.196M15 6.5v14m-7-17v14"></path>
@@ -174,7 +174,7 @@ export default function CuentaPage() {
                     type="button"
                     id="all-localidades"
                     onClick={() => setOption("all-localidades")}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 border-transparent ${option === "all-localidades" ? "bg-white/75 border-gray-200" : ""} duration-300 transformation-all cursor-pointer`}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/50 hover:shadow-md border-1 ${option === "all-localidades" ? "bg-white/75 border-gray-300" : "border-transparent"} duration-300 transformation-all cursor-pointer`}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
                       <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 
 // Funciones
 import { deleteLocalidad, getAllLocalidades } from "src/api/localidad";
@@ -50,8 +50,9 @@ export default function Localidades() {
     }
   }
 
-  const getSortedData = () => {
-    if (!sortField || !localidades) return localidades
+  const sortedData = useMemo(() => {
+    if (!localidades) return [];
+    if (!sortField) return localidades;
 
     return [...localidades].sort((a: Localidad, b: Localidad) => {
       let aValue = ""
@@ -81,9 +82,8 @@ export default function Localidades() {
         return bValue.localeCompare(aValue)
       }
     })
-  }
-
-  const sortedData = getSortedData()
+    
+  }, [localidades, sortField, sortDirection]);
 
 
   const handleDelete = async (id: number) => {
@@ -123,7 +123,11 @@ export default function Localidades() {
               </div>
 
               <div className="flex items-center space-x-4">
-                <SearchBar />
+                <SearchBar
+                  type="localidades"
+                  elements={localidades}
+                  setElements={setLocalidades}
+                />
               </div>
             </div>
 

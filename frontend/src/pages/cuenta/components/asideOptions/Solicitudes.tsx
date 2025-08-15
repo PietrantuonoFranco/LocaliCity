@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 // Funciones
 import { aceptarSolicitud, deleteSolicitud, getAllSolicitudes, updateSolicitud } from "src/api/solicitud";
@@ -9,7 +9,6 @@ import { aceptarSolicitud, deleteSolicitud, getAllSolicitudes, updateSolicitud }
 import SearchBar from "../SearchBar";
 
 // Tipos / Interfaces
-import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Solicitud from "src/interfaces/entities/SolicitudInterface";
 
 
@@ -32,7 +31,6 @@ const getEstadoStyle = (estado: string) => {
 }
 
 export default function Solicitudes() {
-  const [solicitudData, setUserData] = useState<Usuario | null>(null);
   const [solicitudes, setSolicitudes] = useState <Solicitud[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sortField, setSortField] = useState<SortField | null>(null);
@@ -45,8 +43,6 @@ export default function Solicitudes() {
   const fetchUsuarioSolicitudes = async () => {
     try {
       const response = await getAllSolicitudes();
-
-      console.log(response);
 
       if (response) {
         setSolicitudes(response.solicitudes);
@@ -67,7 +63,7 @@ export default function Solicitudes() {
     }
   }
 
-  const getSortedData = () => {
+  const sortedData = useMemo(() => {
     if (!sortField || !solicitudes) return solicitudes;
 
     return [...solicitudes].sort((a: Solicitud, b: Solicitud) => {
@@ -99,10 +95,7 @@ export default function Solicitudes() {
         return bValue.localeCompare(aValue);
       }
     });
-  }
-
-  const sortedData = getSortedData()
-
+  }, [solicitudes, sortField, sortDirection])
 
   const handleDelete = async (id: number) => {
   try {
@@ -163,7 +156,11 @@ export default function Solicitudes() {
               </div>
 
               <div className="flex items-center space-x-4">
-                <SearchBar />
+                <SearchBar
+                  type="solicitudes"
+                  elements={solicitudes}
+                  setElements={setSolicitudes}
+                />
               </div>
             </div>
 

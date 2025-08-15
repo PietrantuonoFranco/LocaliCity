@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 // Funciones
 import { deleteProvincia, getAllProvincias } from "src/api/provincia";
@@ -50,7 +50,7 @@ export default function Provincias() {
     }
   }
 
-  const getSortedData = () => {
+  const sortedData = useMemo(() => {
     if (!sortField || !provincias) return provincias
 
     return [...provincias].sort((a: Provincia, b: Provincia) => {
@@ -76,9 +76,8 @@ export default function Provincias() {
         return bValue.localeCompare(aValue)
       }
     })
-  }
+  }, [provincias, sortField, sortDirection])
 
-  const sortedData = getSortedData()
 
 
   const handleDelete = async (id: number) => {
@@ -118,7 +117,11 @@ export default function Provincias() {
               </div>
 
               <div className="flex items-center space-x-4">
-                <SearchBar />
+                <SearchBar
+                  type="provincias"
+                  elements={provincias}
+                  setElements={setProvincias}
+                />
               </div>
             </div>
 

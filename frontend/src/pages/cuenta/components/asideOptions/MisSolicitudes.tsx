@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 // Funciones
 import { getCurrentUser } from "src/api/auth";
@@ -73,37 +73,36 @@ export default function MisSolicitudes() {
     }
   }
 
-  const getSortedData = () => {
-      if (!sortField || !solicitudes) return solicitudes;
-  
-      return [...solicitudes].sort((a: Solicitud, b: Solicitud) => {
-        let aValue = "";
-        let bValue = "";
-  
-        switch (sortField) {
-          case "pais":
-            aValue = a.pais ? a.pais.nombre : "-";
-            bValue = b.pais ? b.pais.nombre : "-";
-            break;
-          case "provincia":
-            aValue = a.provincia ? a.provincia.nombre : "-";
-            bValue = b.provincia ? b.provincia.nombre : "-";
-            break;
-          case "nombre":
-            aValue = a.nombre;
-            bValue = b.nombre;
-            break;
-        }
-  
-        if (sortDirection === "asc") {
-          return aValue.localeCompare(bValue);
-        } else {
-          return bValue.localeCompare(aValue);
-        }
-      });
-    }
 
-  const sortedData = getSortedData()
+  const sortedData = useMemo(() => {
+    if (!sortField || !solicitudes) return solicitudes;
+  
+    return [...solicitudes].sort((a: Solicitud, b: Solicitud) => {
+      let aValue = "";
+      let bValue = "";
+  
+      switch (sortField) {
+        case "pais":
+          aValue = a.pais ? a.pais.nombre : "-";
+          bValue = b.pais ? b.pais.nombre : "-";
+          break;
+        case "provincia":
+          aValue = a.provincia ? a.provincia.nombre : "-";
+          bValue = b.provincia ? b.provincia.nombre : "-";
+          break;
+        case "nombre":
+          aValue = a.nombre;
+          bValue = b.nombre;
+          break;
+      }
+  
+      if (sortDirection === "asc") {
+        return aValue.localeCompare(bValue);
+      } else {
+        return bValue.localeCompare(aValue);
+      }
+    });
+  }, [solicitudes, sortField, sortDirection])
 
 
   const handleDelete = async (id: number) => {
@@ -165,7 +164,11 @@ export default function MisSolicitudes() {
               </div>
 
               <div className="flex items-center space-x-4">
-                <SearchBar />
+                <SearchBar
+                  type="usuario-solicitudes"
+                  elements={solicitudes}
+                  setElements={setSolicitudes}
+                />
               </div>
             </div>
 

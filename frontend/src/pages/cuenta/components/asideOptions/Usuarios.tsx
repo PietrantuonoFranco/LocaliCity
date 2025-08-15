@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 // Funciones
 import { deleteUsuario, getAllUsuarios } from "src/api/usuario";
@@ -51,7 +51,7 @@ export default function Usuarios() {
     }
   }
 
-  const getSortedData = () => {
+  const sortedData = useMemo(() => {
     if (!sortField || !users) return users
 
     return [...users].sort((a: Usuario, b: Usuario) => {
@@ -83,10 +83,7 @@ export default function Usuarios() {
         return bValue.localeCompare(aValue)
       }
     })
-  }
-
-  const sortedData = getSortedData()
-
+  }, [users, sortField, sortDirection])
 
   const handleDelete = async (id: number) => {
     try {
@@ -125,7 +122,11 @@ export default function Usuarios() {
               </div>
 
               <div className="flex items-center space-x-4">
-                <SearchBar />
+                <SearchBar
+                  type="usuarios"
+                  elements={users}
+                  setElements={setUsers}
+                />
               </div>
             </div>
 

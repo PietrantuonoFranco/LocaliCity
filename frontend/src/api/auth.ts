@@ -2,7 +2,7 @@ import api from "./api.ts"
 
 import type Usuario from "../interfaces/entities/UsuarioInterface.ts";
 import type { Respuesta } from "src/interfaces/RespuestasInterfaces.ts";
-import { deleteCookie, getCookie } from "src/utils/authUtils.ts";
+import { deleteCookie } from "src/utils/authUtils.ts";
 
 
 const entity: string = "auth";
@@ -27,25 +27,28 @@ export const logout = async () => {
   });
 
   if (response) {
-    deleteCookie('csrftoken');
+    deleteCookie('authToken');
     return response.data;
   }
 };
 
 export const getCurrentUser = async (): Promise<Usuario | null> => {
-  const tokenCookie = getCookie('csrftoken');
-
-  if (!tokenCookie) {
-    return null; // No hay cookie, evitamos la petición
-  }
-
   try {
-    const response = await api.get<{ usuario: Usuario }>(`${entity}/profile`, {
+    const checkAuth = await api.get<{ isAuthenticated: boolean }>(`${entity}/is-authenticated`, {
       withCredentials: true,
       headers: { 'Content-Type': 'application/json' },
-    });
-    return response.data.usuario;
+    })
     
+    if (checkAuth.data.isAuthenticated) {
+      const response = await api.get<{ usuario: Usuario }>(`${entity}/profile`, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      return response.data.usuario;
+    } else {
+      return null
+    }
   } catch (error) {
     console.error('Error no controlado:', error);
 

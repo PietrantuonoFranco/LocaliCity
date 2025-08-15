@@ -2,6 +2,7 @@ import api from "./api.ts"
 
 import type Usuario from "../interfaces/entities/UsuarioInterface.ts";
 import type { Respuesta } from "src/interfaces/RespuestasInterfaces.ts";
+import { deleteCookie, getCookie } from "src/utils/authUtils.ts";
 
 
 const entity: string = "auth";
@@ -25,22 +26,29 @@ export const logout = async () => {
     withCredentials: true
   });
 
-  return await response.data;
+  if (response) {
+    deleteCookie('csrftoken');
+    return response.data;
+  }
 };
 
 export const getCurrentUser = async (): Promise<Usuario | null> => {
+  const tokenCookie = getCookie('csrftoken');
+
+  if (!tokenCookie) {
+    return null; // No hay cookie, evitamos la petición
+  }
+
   try {
     const response = await api.get<{ usuario: Usuario }>(`${entity}/profile`, {
       withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' },
     });
-
     return response.data.usuario;
-  } catch (error) {
-    console.error('Error al obtener usuario:', error);
     
+  } catch (error) {
+    console.error('Error no controlado:', error);
+
     return null;
   }
 };

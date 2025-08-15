@@ -1,8 +1,7 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
-import {
-  getAllByWord
-} from "src/api/search";
+import { getAllByWord } from "src/api/search";
 
 import type Localidad from "src/interfaces/entities/LocalidadInterface";
 import type Pais from "src/interfaces/entities/PaisInterface";
@@ -24,7 +23,9 @@ export default function MainSearchBar() {
       setProvincias(response.provincias);
       setLocalidades(response.localidades);
     } else {
-      
+      setPaises([]);
+      setProvincias([]);
+      setLocalidades([]);
     }
   };
 

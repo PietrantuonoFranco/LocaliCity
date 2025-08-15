@@ -86,7 +86,7 @@ export class AuthController {
     } catch (error) {
       console.log(error);
 
-      return response.status(500).json({ message: "Internal server error" });
+      return response.status(500).json({ mensaje: "Internal server error" });
     }
   }
 
@@ -96,20 +96,20 @@ export class AuthController {
       
       if (!email || !contrasenia) {
         return response.status(400).json({ 
-          message: "Debe ingresar el email y la contraseña." 
+          mensaje: "Debe ingresar el email y la contraseña." 
         });
       }
 
       const usuario = await usuarioRepository.findOne({ where: { email } });
       
       if (!usuario) {
-        return response.status(404).json({ message: "Usuario no encontrado." });
+        return response.status(404).json({ mensaje: "Usuario no encontrado." });
       }
 
       const isValid = await usuario.compareContrasenia(contrasenia);
 
       if (!isValid) {
-        return response.status(401).json({ message: "Credenciales inválidas" });
+        return response.status(401).json({ mensaje: "Credenciales inválidas" });
       }
 
       const token = jwt.sign({ 
@@ -143,7 +143,7 @@ export class AuthController {
       console.error("Login error:", error);
       
       return response.status(500).json({ 
-        message: "Internal server error",
+        mensaje: "Internal server error",
         error: error
       });
     }
@@ -152,7 +152,7 @@ export class AuthController {
   static async logout(req: Request, res: Response) {
     res.clearCookie("authToken");
     
-    return res.status(200).json({ message: "Sesión cerrada exitosamente." });
+    return res.status(200).json({ mensaje: "Sesión cerrada exitosamente." });
   }
 
   static async profile(request: Request, response: Response) {
@@ -163,7 +163,7 @@ export class AuthController {
     } catch (error) {
       console.log(error);
       
-      return response.status(500).json({ message: "Internal server error" });
+      return response.status(500).json({ mensaje: "Internal server error" });
     }
   }
 }

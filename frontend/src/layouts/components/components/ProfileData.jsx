@@ -36,7 +36,7 @@ export default function ProfileData () {
     try {
       const response = await logout();
 
-      if (response.message) {
+      if (response.mensaje) {
         window.location.href = "/";
       }
     } catch {

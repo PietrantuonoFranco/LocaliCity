@@ -10,6 +10,7 @@ export interface Respuesta {
   mensaje: string;
 };
 
+// _____________ ARRAY _____________
 export interface RespuestaAll extends Respuesta {
   paises: Pais[];
   provincias: Provincia[];
@@ -38,4 +39,30 @@ export interface RespuestaUsuarios extends Respuesta {
 
 export interface RespuestaRoles extends Respuesta {
   roles: Rol[];
+};
+
+
+// _____________ UNICO _____________
+export interface RespuestaProvincia extends Respuesta {
+  provincia: Provincia;
+};
+
+export interface RespuestaLocalidad extends Respuesta {
+  localidad: Localidad;
+};
+
+export interface RespuestaPais extends Respuesta {
+  pais: Pais;
+};
+
+export interface RespuestaSolicitud extends Respuesta {
+  solicitud: Solicitud;
+};
+
+export interface RespuestaUsuario extends Respuesta {
+  usuario: Usuario;
+};
+
+export interface RespuestaRol extends Respuesta {
+  rol: Rol;
 };

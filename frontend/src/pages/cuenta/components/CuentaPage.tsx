@@ -60,7 +60,7 @@ export default function CuentaPage() {
 
       {user && (
         <div className="min-h-full w-full">
-          <aside className="fixed top-16 inset-y-0 left-0 w-64 bg-linear-to-b from-sky-100 via-sky-100 via-sky-100 via-white/85 via-white/70 to-white/65 shadow-lg ">
+          <aside className="fixed top-16 inset-y-0 left-0 w-70 bg-linear-to-b from-sky-100 via-sky-100 via-sky-100 via-white/85 via-white/70 to-white/65 shadow-lg ">
             <div className="p-4  bg-linear-to-b from-sky-400 via-sky-300 to-sky-100 flex flex-col items-center space-y-2 mb-2">
               <div className="w-full flex justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-14 h-14" viewBox="0 0 24 24">
@@ -189,7 +189,7 @@ export default function CuentaPage() {
             </div>
           </aside>
 
-          <main className="max-h-screen w-full pl-74 p-8">
+          <main className="max-h-screen w-full pl-79 p-8">
             <div id="mi-cuenta-container" className="h-full w-full">
               {option === "mi-cuenta" && (
                 <MiCuenta/>

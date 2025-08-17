@@ -242,9 +242,12 @@ export default function Paises() {
                 </button>
 
                 <div className="flex space-x-2">
-                  {Array.from({ length: Math.min(6, quantityPages) }, (_, i) => {
+                  {quantityPages > 5 && index < quantityPages - 2 && (
+                    <span className="px-3 py-1 flex items-end text-lg text-violet-600">...</span>
+                  )}
+                  {Array.from({ length: Math.min(5, quantityPages) }, (_, i) => {
                     let pageNum;
-                    if (quantityPages <= 6) {
+                    if (quantityPages <= 5) {
                       pageNum = i + 1;
                     } else if (index <= 3) {
                       pageNum = i + 1;
@@ -266,7 +269,7 @@ export default function Paises() {
                       </button>
                     );
                   })}
-                  {quantityPages > 6 && index < quantityPages - 2 && (
+                  {quantityPages > 5 && index < quantityPages - 2 && (
                     <span className="px-3 py-1 flex items-end">...</span>
                   )}
                 </div>

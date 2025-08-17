@@ -1,0 +1,10 @@
+---
+import Layout from "src/layouts/Layout.astro";
+import Provincias from "./components/Provincias";
+---
+
+<Layout>
+  <div class="h-full w-full mt-8 md:px-86 flex justify-center items-center">
+    <Provincias client:load/>
+  </div>
+</Layout>

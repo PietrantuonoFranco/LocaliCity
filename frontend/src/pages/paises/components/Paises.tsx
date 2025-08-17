@@ -5,7 +5,7 @@ import { useEffect, useState, useMemo } from "react"
 import { deletePais, getAllPaises } from "src/api/pais";
 import { getCurrentUser } from "src/api/auth";
 
-import CreateModal from "./Modal";
+import CreatePaisModal from "./CreatePaisModal";
 import SearchBar from "src/pages/cuenta/components/SearchBar";
 
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces";
@@ -124,7 +124,7 @@ export default function Paises() {
         <div className="text-center">
           <p className="text-lg">No hay países registrados</p>
           {usuario?.rol.nombre === "Administrador" && (
-            <CreateModal onCountryCreated={handleCountryCreated} />
+            <CreatePaisModal onCountryCreated={handleCountryCreated} />
           )}
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function Paises() {
           <div className="flex items-center space-x-4">
             <h2 className="text-3xl font-bold text-gray-800">Países</h2>
             {usuario?.rol.nombre === "Administrador" && (
-              <CreateModal onCountryCreated={handleCountryCreated} />
+              <CreatePaisModal onCountryCreated={handleCountryCreated} />
             )}
             {usuario?.rol.nombre !== "Administrador" && (
               <a href="/solicitudes/crear" className="secondary-button w-10 h-10 flex items-center justify-center">

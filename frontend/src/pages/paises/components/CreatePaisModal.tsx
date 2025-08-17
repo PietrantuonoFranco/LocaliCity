@@ -5,11 +5,11 @@ import { useState } from "react"
 import { createPais } from "src/api/pais"
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces"
 
-interface CreateCountryModalProps {
+interface CreatePaisModalProps {
   onCountryCreated?: (response: RespuestaPais) => void
 }
 
-export default function CreateModal({ onCountryCreated }: CreateCountryModalProps) {
+export default function CreatePaisesModal({ onCountryCreated }: CreatePaisModalProps) {
   const [open, setOpen] = useState(false)
   const [nombre, setNombre] = useState("")
   const [isLoading, setIsLoading] = useState(false)

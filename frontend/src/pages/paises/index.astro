@@ -1,0 +1,10 @@
+---
+import Layout from "src/layouts/Layout.astro";
+import Paises from "../components/Paises";
+---
+
+<Layout>
+  <div class="h-full w-full mt-8 md:px-86 flex justify-center items-center">
+    <Paises client:load/>
+  </div>
+</Layout>

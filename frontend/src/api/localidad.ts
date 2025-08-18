@@ -1,6 +1,7 @@
+import type Provincia from "src/interfaces/entities/ProvinciaInterface";
 import api from "./api";
 
-import type { RespuestaLocalidades } from "src/interfaces/RespuestasInterfaces";
+import type { RespuestaLocalidad, RespuestaLocalidades } from "src/interfaces/RespuestasInterfaces";
 
 
 const entity: string = "localidades";
@@ -9,8 +10,15 @@ export const getAllLocalidades = () => api.get<RespuestaLocalidades>(entity).the
 
 export const getLocalidadById = (id: number) => api.get(`${entity}/${id}`).then(({ data }) => data);
 
-export const createLocalidad = ({ ...localidad }) => {
-    api.post(entity, localidad).then(({ data }) => data);
+export const createLocalidad = async (nombre: string, provincia: Provincia,): Promise<RespuestaLocalidad | null> => {
+    const response = await api.post<RespuestaLocalidad>(entity, { nombre, provincia }, {
+      withCredentials: true,
+      headers: { 'Content-Type': 'application/json' },
+    }).then(({ data }) => data);
+    
+    if (response) return response;
+    
+    return null;
 }
 
 export const deleteLocalidad = (id: number) => api.delete(`${entity}/${id}`);

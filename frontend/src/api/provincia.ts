@@ -10,15 +10,15 @@ export const getAllProvincias = () => api.get<RespuestaProvincias>(entity).then(
 
 export const getProvinciaById = (id: number) => api.get(`${entity}/${id}`).then(({ data }) => data);
 
-export const createProvincia =  async (nombre: string, pais: Pais): Promise<RespuestaProvincia | null> => {
-    const response = await api.post<RespuestaProvincia>(entity, { nombre, pais }, {
-      withCredentials: true,
-      headers: { 'Content-Type': 'application/json' },
-    }).then(({ data }) => data);
+export const createProvincia = async (nombre: string, pais: Pais): Promise<RespuestaProvincia | null> => {
+  const response = await api.post<RespuestaProvincia>(entity, { nombre, pais }, {
+    withCredentials: true,
+    headers: { 'Content-Type': 'application/json' },
+  }).then(({ data }) => data);
   
-    if (response) return response;
+  if (response) return response;
   
-    return null;
-  }
+  return null;
+}
 
 export const deleteProvincia = (id: number) => api.delete(`${entity}/${id}`);

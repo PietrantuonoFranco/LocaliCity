@@ -144,10 +144,10 @@ export default function Paises() {
                 </svg>
               </a>
             )}
-            {usuario?.rol.nombre === "Administrador" && (
+            {usuario && usuario.rol.nombre === "Administrador" && (
               <CreatePaisModal onCountryCreated={handleCountryCreated} />
             )}
-            {usuario?.rol.nombre !== "Administrador" && (
+            {usuario && usuario.rol.nombre !== "Administrador" && (
               <a href="/solicitudes/crear" className="secondary-button w-10 h-10 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
                   <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>

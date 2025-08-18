@@ -1,0 +1,10 @@
+---
+import Layout from "src/layouts/Layout.astro";
+import Localidades from "./components/Localidades";
+---
+
+<Layout>
+  <div class="h-full w-full mt-8 md:px-86 flex justify-center items-center">
+    <Localidades client:load/>
+  </div>
+</Layout>

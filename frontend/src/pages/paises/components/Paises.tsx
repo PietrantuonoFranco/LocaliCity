@@ -137,6 +137,13 @@ export default function Paises() {
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <h2 className="text-3xl font-bold text-gray-800">Países</h2>
+            {!usuario && (
+              <a href="/iniciar-sesion" className="secondary-button w-10 h-10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
+                  <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>
+                </svg>
+              </a>
+            )}
             {usuario?.rol.nombre === "Administrador" && (
               <CreatePaisModal onCountryCreated={handleCountryCreated} />
             )}

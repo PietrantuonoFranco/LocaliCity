@@ -20,13 +20,19 @@ import type Usuario from "src/interfaces/entities/UsuarioInterface";
 export default function CuentaPage() {
   const [option,setOption] = useState("mi-cuenta");
   const [user,setUser] = useState<Usuario | null>(null);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await getCurrentUser();
 
-        if (response) setUser(response);
+        if (response) {
+          setUser(response);
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -47,12 +53,25 @@ export default function CuentaPage() {
     }
   }
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-100 flex justify-center items-center text-white/75">
+        <svg xmlns="http://www.w3.org/2000/svg" width={100} height={100} viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" strokeDasharray={16} strokeDashoffset={16} strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3c4.97 0 9 4.03 9 9">
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="16;0"></animate>
+            <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform>
+          </path>
+        </svg>
+      </div>
+    )
+  }
+
   return (
     <>
       {!user && (
         <div className="mt-16 flex justify-center items-center">
-          <div className="px-14 py-10 flex justify-center items-center rounded-xl bg-white/50 shadow-lg">
-            <p className="text-2xl">Debes <a href="iniciar-sesion" className="font-semibold text-blue-600 underline">iniciar sesión</a> para ver este contenido</p>
+          <div className="px-10 py-8 flex justify-center items-center rounded-xl bg-white/50 shadow-lg">
+            <p className="text-xl">Debes <a href="iniciar-sesion" className="font-semibold text-blue-600 underline">iniciar sesión</a> para ver este contenido</p>
           </div>
         </div>
       )}

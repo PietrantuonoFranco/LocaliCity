@@ -66,3 +66,9 @@ export interface RespuestaUsuario extends Respuesta {
 export interface RespuestaRol extends Respuesta {
   rol: Rol;
 };
+
+
+// _____________ BOOLEANOS _____________
+export interface RespuestaCheckProvincias extends Respuesta {
+  hasProvincias: boolean;
+};

@@ -174,7 +174,7 @@ export default function CreateLocalidadModal({ onCityCreated }: CreateCityModalP
           <div className="bg-white/95 rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
             <div className="mb-4">
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Crear Nueva Localidad</h2>
-              <p className="text-sm text-gray-600">Elige un país e ingresa el nombre de la localidad que deseas crear.</p>
+              <p className="text-sm text-gray-600">Elige un país, una provincia e ingresa el nombre de la localidad que deseas crear.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-2">

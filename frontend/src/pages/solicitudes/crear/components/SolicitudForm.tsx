@@ -3,8 +3,7 @@
 // Hooks
 import { useEffect, useState } from "react";
 // Axios functions
-import { getAllPaises } from "src/api/pais";
-import { getAllProvincias } from "src/api/provincia";
+import { checkProvinciasByPaisId, getAllPaises, getProvinciasByPaisId } from "src/api/pais";
 import { createSolicitud } from "src/api/solicitud";
 import { getCurrentUser } from "src/api/auth";
 // Components
@@ -60,27 +59,7 @@ export default function SolicitudForm() {
     }
   }
 
-  const fetchProvincias = async () => {
-    try {
-      const response: RespuestaProvincias = await getAllProvincias();
-
-      if (response) {
-        const options = [
-          { name: "default-provincia-option", value: "", label: "Seleccione una provincia" }, 
-          ...response.provincias.map(provincia => ({ 
-            name: `${provincia.nombre.toLowerCase()}-option`, 
-            value: provincia.id.toString(), 
-            label: provincia.nombre 
-          }))
-        ];
-
-        setProvinciasOptions(options);
-        setAllProvincias(response.provincias);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+ 
 
   const fetchUsuario = async () => {
     try {
@@ -91,6 +70,55 @@ export default function SolicitudForm() {
       console.error(error);
     }
   }
+
+  useEffect(() => {
+    const fetchProvinciasByPaisId = async () => {
+      setAllProvincias([]);
+
+      if (pais) {
+        if (await checkPaisHasProvincias (pais.id)) {
+
+          const response = await getProvinciasByPaisId(pais.id);
+
+          if (response.provincias.length > 0) {
+            setAllProvincias(response.provincias);
+            // Actualiza las opciones del select
+            const options = [
+              { name: "default-provincia-option", value: "", label: "Seleccione una provincia" }, 
+              ...response.provincias.map(provincia => ({ 
+                name: `${provincia.nombre.toLowerCase()}-option`, 
+                value: provincia.id.toString(), 
+                label: provincia.nombre 
+              }))
+            ];
+            setProvinciasOptions(options);
+          } else {
+            setDefaultProvincias()
+          }
+        }
+      } else {
+        setDefaultProvincias()
+      }
+    }
+
+    const setDefaultProvincias = () => {
+      setAllProvincias([]);
+        setProvinciasOptions([{ 
+          name: "default-provincia-option", 
+          value: "", 
+          label: "Seleccione un país primero" 
+        }]);
+    }
+  
+    const checkPaisHasProvincias = async (id: number) => {
+      const response = await checkProvinciasByPaisId(id);
+
+      return response ? response.hasProvincias : false
+    }
+
+
+    fetchProvinciasByPaisId();
+  }, [pais])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { target: { name: string; value: string } }
@@ -112,6 +140,7 @@ export default function SolicitudForm() {
         break;
       case 'pais':
         setPais(allPaises.find(p => p.id.toString() === value) || null);
+        setProvincia(null); // <-- Resetear provincia al cambiar país
         break;
       case 'provincia':
         setProvincia(allProvincias.find(p => p.id.toString() === value) || null);
@@ -126,7 +155,14 @@ export default function SolicitudForm() {
       if (usuario) {
         const response = await createSolicitud(tipo, nombre, referencia, mensaje, pais, provincia, usuario);
 
-        if (response) {}
+        if (response) {
+          setNombre("");
+          setTipo("");
+          setReferencia("");
+          setMensaje("");
+          setPais(null);
+          setProvincia(null);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -136,7 +172,6 @@ export default function SolicitudForm() {
   useEffect(() => {
     fetchUsuario();
     fetchPaises();
-    fetchProvincias();
   }, [])
 
 
@@ -191,6 +226,7 @@ export default function SolicitudForm() {
             name="provincia"
             value={provincia?.id.toString() || ""}
             onChange={(value) => handleInputChange({ target: { name: "provincia", value } })}
+            disabled={!pais || allProvincias.length === 0}
           />
         )}
       </div>

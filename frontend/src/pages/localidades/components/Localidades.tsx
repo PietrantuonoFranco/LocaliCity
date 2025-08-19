@@ -126,10 +126,8 @@ export default function Localidades() {
   }
 
   const handleCityCreated = (response: RespuestaLocalidad) => {
-      setLocalidades(prevLocalidades => {
-        if (!prevLocalidades) return [response.localidad];
-        return [...prevLocalidades, response.localidad];
-      });
+      fetchLocalidades();
+
       setIndex(quantityPages); // Ir a la última página donde estará el nuevo elemento
     }
 

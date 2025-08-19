@@ -8,11 +8,10 @@ import { createLocalidad } from "src/api/localidad"
 import OptionSelect from "src/pages/solicitudes/crear/components/OptionSelect"
 
 import type Pais from "src/interfaces/entities/PaisInterface"
-import type { RespuestaPais, RespuestaPaises, RespuestaLocalidad, RespuestaProvincias } from "src/interfaces/RespuestasInterfaces"
+import type { RespuestaPaises, RespuestaLocalidad } from "src/interfaces/RespuestasInterfaces"
 import type Option from "src/interfaces/OptionInterface";
-import { getAllPaises } from "src/api/pais"
+import { checkProvinciasByPaisId, getAllPaises, getProvinciasByPaisId } from "src/api/pais"
 import type Provincia from "src/interfaces/entities/ProvinciaInterface"
-import { getAllProvincias } from "src/api/provincia"
 
 interface CreateCityModalProps {
   onCityCreated?: (response: RespuestaLocalidad) => void
@@ -32,8 +31,11 @@ export default function CreateLocalidadModal({ onCityCreated }: CreateCityModalP
 
   useEffect(() => {
     fetchPaises();
-    fetchProvincias();
   }, [])
+
+  useEffect(() => {
+    fetchProvinciasByPaisId();
+  }, [pais])
 
   const fetchPaises = async () => {
     try {
@@ -57,11 +59,17 @@ export default function CreateLocalidadModal({ onCityCreated }: CreateCityModalP
     }
   }
 
-  const fetchProvincias = async () => {
-      try {
-        const response: RespuestaProvincias = await getAllProvincias();
+  const fetchProvinciasByPaisId = async () => {
+    setAllProvincias([]);
+    setDefaultProvincias()
   
-        if (response) {
+    if (pais) {
+      if (await checkPaisHasProvincias (pais.id)) {
+        const response = await getProvinciasByPaisId(pais.id);
+  
+        if (response.provincias.length > 0) {
+          setAllProvincias(response.provincias);
+          // Actualiza las opciones del select
           const options = [
             { name: "default-provincia-option", value: "", label: "Seleccione una provincia" }, 
             ...response.provincias.map(provincia => ({ 
@@ -70,14 +78,26 @@ export default function CreateLocalidadModal({ onCityCreated }: CreateCityModalP
               label: provincia.nombre 
             }))
           ];
-  
           setProvinciasOptions(options);
-          setAllProvincias(response.provincias);
         }
-      } catch (error) {
-        console.error(error);
       }
     }
+  }
+  
+  const setDefaultProvincias = () => {
+    setAllProvincias([]);
+    setProvinciasOptions([{ 
+      name: "default-provincia-option", 
+      value: "", 
+      label: "Seleccione un país primero" 
+    }]);
+  }
+
+  const checkPaisHasProvincias = async (id: number) => {
+    const response = await checkProvinciasByPaisId(id);
+  
+    return response ? response.hasProvincias : false
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -174,6 +194,7 @@ export default function CreateLocalidadModal({ onCityCreated }: CreateCityModalP
                 name="provincia"
                 value={provincia?.id.toString() || ""}
                 onChange={(value) => handleInputChange({ target: { name: "provincia", value } })}
+                disabled={!pais || allProvincias.length === 0}
               />
 
               <div className="w-full space-y-2 mb-6">

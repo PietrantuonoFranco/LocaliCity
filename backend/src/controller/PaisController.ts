@@ -122,7 +122,7 @@ export class PaisController {
       const pais = await paisRepository.findOneBy({ id });
 
       if (!pais) {
-        return response.status(404).json({ error: "Pais no encontrado." });
+        return response.status(404).json({ error: "País no encontrado." });
       }
 
       pais.nombre = nombre;
@@ -130,7 +130,7 @@ export class PaisController {
       await paisRepository.save(pais);
 
       return response.status(200).json({ 
-        mensaje: "Solicitud actualizada correctamente.",
+        mensaje: "País actualizado correctamente.",
         pais: pais
       });
     } catch (error) {

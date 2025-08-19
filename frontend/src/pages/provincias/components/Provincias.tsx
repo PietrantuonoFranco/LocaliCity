@@ -14,6 +14,7 @@ import SearchBar from "../../cuenta/components/SearchBar";
 import type { RespuestaProvincia } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Provincia from "src/interfaces/entities/ProvinciaInterface";
+import EditProvinciaModal from "./EditProvinciaModal";
 
 
 type SortField = "nombre" | "pais"
@@ -122,12 +123,16 @@ export default function Provincias() {
   }
 
   const handleProvinceCreated = (response: RespuestaProvincia) => {
-      setProvincias(prevProvincias => {
-        if (!prevProvincias) return [response.provincia];
-        return [...prevProvincias, response.provincia];
-      });
-      setIndex(quantityPages); // Ir a la última página donde estará el nuevo elemento
-    }
+    setProvincias(prevProvincias => {
+      if (!prevProvincias) return [response.provincia];
+      return [...prevProvincias, response.provincia];
+    });
+    setIndex(quantityPages); // Ir a la última página donde estará el nuevo elemento
+  }
+
+  const handleProvinceEdited = (response: RespuestaProvincia) => {
+    fetchProvincias();
+  };
 
   if (isLoading) {
     return <div className="p-4 text-center">Cargando perfil...</div>;
@@ -257,14 +262,7 @@ export default function Provincias() {
                           <td className="px-4 py-2 group-hover:rounded-r-2xl">
                             <div className="flex space-x-2 items-center">
                               {/* Boton de editar */}
-                              <a
-                                href={`/provincias/editar/${provincia.id}`} target="blank" rel="noopener noreferrer"
-                                className="h-8 w-8 p-0 secondary-button flex items-center justify-center cursor-pointer"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24">
-                                  <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.172 19.828L19.828 8.172c.546-.546.818-.818.964-1.112a2 2 0 0 0 0-1.776c-.146-.295-.418-.567-.964-1.112c-.545-.546-.817-.818-1.112-.964a2 2 0 0 0-1.776 0c-.294.146-.566.418-1.112.964L4.172 15.828c-.579.578-.868.867-1.02 1.235C3 17.43 3 17.839 3 18.657V21h2.343c.818 0 1.226 0 1.594-.152c.367-.152.656-.442 1.235-1.02M12 21h6M14.5 5.5l4 4"></path>
-                                </svg>
-                              </a>
+                              <EditProvinciaModal id={provincia.id} onProvinceEdited={handleProvinceEdited}/>
 
                               {/* Boton de borrar */}
                               <button

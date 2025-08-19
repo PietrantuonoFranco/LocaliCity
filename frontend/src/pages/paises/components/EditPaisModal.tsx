@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useEffect, useState } from "react"
-import { createPais, getPaisById, updatePais } from "src/api/pais"
+import { getPaisById, updatePais } from "src/api/pais"
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces"
 
 interface EditPaisModalProps {

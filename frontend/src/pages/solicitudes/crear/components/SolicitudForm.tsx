@@ -74,6 +74,7 @@ export default function SolicitudForm() {
   useEffect(() => {
     const fetchProvinciasByPaisId = async () => {
       setAllProvincias([]);
+      setDefaultProvincias()
 
       if (pais) {
         if (await checkPaisHasProvincias (pais.id)) {
@@ -92,12 +93,8 @@ export default function SolicitudForm() {
               }))
             ];
             setProvinciasOptions(options);
-          } else {
-            setDefaultProvincias()
           }
         }
-      } else {
-        setDefaultProvincias()
       }
     }
 
@@ -176,7 +173,7 @@ export default function SolicitudForm() {
 
 
   return (
-    <form id="login-form" className="space-y-4 grid md:grid-cols-2 gap-x-10">
+    <form id="solicitud-form" className="space-y-4 grid md:grid-cols-2 gap-x-10">
       <div className="flex flex-col items-center">
         {allTipos && (
           <OptionSelect 

@@ -10,6 +10,7 @@ type OptionSelectProps = {
   name?: string;
   value?: string;
   onChange?: (value: string) => void;
+  disabled?: boolean;
 };
 
 export default function OptionSelect({
@@ -19,6 +20,7 @@ export default function OptionSelect({
   name = htmlFor,
   value = "",
   onChange,
+  disabled = false
 }: OptionSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState(value);
@@ -28,6 +30,7 @@ export default function OptionSelect({
   }, [value]);
 
   const handleOptionClick = (optionValue: string) => {
+    if (disabled) return;
     setInternalValue(optionValue);
     setIsOpen(false);
     onChange?.(optionValue);
@@ -52,11 +55,13 @@ export default function OptionSelect({
           {/* Botón de selección */}
           <button
             type="button"
-            id="custom-select-button"
+            id={htmlFor}
             aria-haspopup="listbox"
             aria-expanded={isOpen}
-            onClick={() => setIsOpen(!isOpen)}
-            className="input w-full flex items-center justify-between px-4 text-left"
+            onClick={() => !disabled && setIsOpen(!isOpen)}
+            disabled={disabled}
+            className={`input w-full flex items-center justify-between px-4 text-left
+              ${disabled ? "bg-gray-100 text-gray-400 cursor-not-allowed" : ""}`}
           >
             <span
               id="custom-select-selected"
@@ -67,7 +72,7 @@ export default function OptionSelect({
             <svg
               className={`h-5 w-5 transition-transform ${
                 isOpen ? "rotate-180" : ""
-              }`}
+              }  ${disabled ? "text-gray-400" : ""}`}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -126,7 +131,7 @@ export default function OptionSelect({
         </div>
 
         {/* Input oculto para enviar el valor en formularios */}
-        <input type="hidden" id={htmlFor} name={name} value={internalValue} />
+        <input type="hidden" id={htmlFor} name={name} value={internalValue} disabled={disabled}/>
       </div>
     </div>
   );

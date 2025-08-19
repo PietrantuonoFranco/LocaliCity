@@ -81,4 +81,40 @@ export class PaisController {
       return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
     }
   }
+
+  static async update(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+
+      if (!id || id  <= 0) {
+        return response.status(400).json({ error: "No se ha proporcionado un ID de país válido."});
+      }
+
+      const { nombre } = request.body;
+
+      if (!nombre) {
+        return response.status(400).json({ 
+          error: "Debe proporcionar un nombre para actualizar." 
+        });
+      }
+
+      const pais = await paisRepository.findOneBy({ id });
+
+      if (!pais) {
+        return response.status(404).json({ error: "Pais no encontrado." });
+      }
+
+      pais.nombre = nombre;
+
+      await paisRepository.save(pais);
+
+      return response.status(200).json({ 
+        mensaje: "Solicitud actualizada correctamente.",
+        pais: pais
+      });
+    } catch (error) {
+      console.log(error);
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
 }

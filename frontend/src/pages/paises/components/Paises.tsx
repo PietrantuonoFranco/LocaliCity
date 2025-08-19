@@ -122,7 +122,16 @@ export default function Paises() {
   };
 
   if (isLoading) {
-    return <div className="p-4 text-center">Cargando países...</div>;
+    return (
+      <div className="w-full h-100 flex justify-center items-center text-white/75">
+        <svg xmlns="http://www.w3.org/2000/svg" width={100} height={100} viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" strokeDasharray={16} strokeDashoffset={16} strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3c4.97 0 9 4.03 9 9">
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="16;0"></animate>
+            <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform>
+          </path>
+        </svg>
+      </div>
+    )
   }
 
   if (paises === null) {

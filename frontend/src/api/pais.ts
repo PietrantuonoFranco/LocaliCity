@@ -23,7 +23,7 @@ export const createPais = async (nombre: string): Promise<RespuestaPais | null> 
 export const deletePais = (id: number) => api.delete(`${entity}/${id}`);
 
 export const updatePais = async (id: number, nombre: string): Promise<RespuestaPais | null> => {
-  const response = await api.put<RespuestaPais>(entity, { nombre }, {
+  const response = await api.put<RespuestaPais>(`${entity}/${id}`, { nombre }, {
     withCredentials: true,
     headers: { 'Content-Type': 'application/json' },
   }).then(({ data }) => data);

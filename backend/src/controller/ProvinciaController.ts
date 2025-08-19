@@ -29,7 +29,8 @@ export class ProvinciaController {
       }
 
       const provincia = await provinciaRepository.findOne({
-        where: { id }
+        where: { id },
+        relations: ['pais']
       });
 
       if (!provincia) {
@@ -78,6 +79,43 @@ export class ProvinciaController {
 
       return response.status(204).json({ mensaje: "Provincia eliminada correctamente." });
     } catch {
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+
+  static async update(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+  
+      if (!id || id  <= 0) {
+        return response.status(400).json({ error: "No se ha proporcionado un ID de provincia válido."});
+      }
+  
+      const { nombre, pais } = request.body;
+  
+      if (!nombre && !pais) {
+        return response.status(400).json({ 
+          error: "Debe proporcionar un nombre o un país para actualizar." 
+        });
+      }
+  
+      const provincia = await provinciaRepository.findOneBy({ id });
+  
+      if (!provincia) {
+        return response.status(404).json({ error: "Provincia no encontrada." });
+      }
+  
+      if (nombre !== null) provincia.nombre = nombre;
+      if (pais !== null) provincia.pais = pais;
+
+      await provinciaRepository.save(provincia);
+  
+      return response.status(200).json({ 
+        mensaje: "Provincia actualizada correctamente.",
+        pais: pais
+      });
+    } catch (error) {
+      console.log(error);
       return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
     }
   }

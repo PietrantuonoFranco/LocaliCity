@@ -1,9 +1,11 @@
 import { AppDataSource } from "../data-source.js";
 import { NextFunction, Request, Response } from "express";
 import { Pais } from "../entity/Pais";
+import { Provincia } from "../entity/Provincia.js";
 
 
 const paisRepository = AppDataSource.getRepository(Pais);
+const provinciaRepository = AppDataSource.getRepository(Provincia);
 
 export class PaisController {
   static async all(request: Request, response: Response, next: NextFunction) {
@@ -38,6 +40,25 @@ export class PaisController {
 
       return response.status(200).json({ mensaje: "Pais encontrado.", pais: pais });
     } catch {
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+
+  static async provinciasById(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id)
+
+      if (!id) return response.status(400).json({ error: "Debe proporcionar un ID de pais." });
+
+      const provincias = await provinciaRepository.find({
+        where: { pais: {id} }
+      });
+
+      if (provincias.length === 0) return response.status(404).json({ error: "Provincias no encontrados." });
+
+      return response.status(200).json({ mensaje: "Provincias encontradas.", provincias: provincias });
+    } catch (error) {
+      console.log(error)
       return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
     }
   }
@@ -114,6 +135,25 @@ export class PaisController {
       });
     } catch (error) {
       console.log(error);
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+
+  static async checkProvinciasById(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id)
+
+      if (!id) return response.status(400).json({ error: "Debe proporcionar un ID de pais." });
+
+      const provincias = await provinciaRepository.find({
+        where: { pais: {id} }
+      });
+
+      if (provincias.length === 0) return response.status(200).json({ mensaje: "Provincias no encontradas.", hasProvincias: false });
+
+      return response.status(200).json({ mensaje: "Provincias encontradas.", hasProvincias: true });
+    } catch (error) {
+      console.log(error)
       return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
     }
   }

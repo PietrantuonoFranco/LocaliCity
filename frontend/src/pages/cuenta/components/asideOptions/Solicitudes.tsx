@@ -32,6 +32,7 @@ const getEstadoStyle = (estado: string) => {
 
 export default function Solicitudes() {
   const [solicitudes, setSolicitudes] = useState <Solicitud[] | null>(null);
+  const [index, setIndex] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
@@ -61,6 +62,7 @@ export default function Solicitudes() {
       setSortField(field);
       setSortDirection("asc");
     }
+    setIndex(1);
   }
 
   const sortedData = useMemo(() => {
@@ -98,16 +100,27 @@ export default function Solicitudes() {
   }, [solicitudes, sortField, sortDirection])
 
   const handleDelete = async (id: number) => {
-  try {
-    await deleteSolicitud(id);
-    
-    setSolicitudes(prevSolicitudes => 
-      prevSolicitudes ? prevSolicitudes.filter(solicitud => solicitud.id !== id) : null
-    );
-  } catch (error) {
-    console.error("Error al eliminar la solicitud:", error);
+    try {
+      await deleteSolicitud(id);
+      
+      setSolicitudes(prevSolicitudes => 
+        prevSolicitudes ? prevSolicitudes.filter(solicitud => solicitud.id !== id) : null
+      );
+    } catch (error) {
+      console.error("Error al eliminar la solicitud:", error);
+    }
   }
-}
+
+  const quantityPages = useMemo(() => {
+    if (!sortedData || sortedData.length === 0) return 1;
+    return Math.ceil(sortedData.length / 6);
+  }, [sortedData]);
+
+  const paginatedData = useMemo(() => {
+    if (!sortedData) return [];
+    const startIndex = (index - 1) * 6;
+    return sortedData.slice(startIndex, startIndex + 6);
+  }, [sortedData, index]);
 
   const handleCancel = async (id: number) => {
     try {
@@ -268,7 +281,7 @@ export default function Solicitudes() {
                       </tr>
                     </thead>
                     <tbody>
-                      {sortedData?.map((solicitud) => (
+                      {paginatedData?.map((solicitud) => (
                         <tr key={solicitud.id} className="hover:bg-white/35 group">
                           <td className="px-4 py-2 text-blue-600 underline group-hover:rounded-l-2xl">{solicitud.usuario.email}</td>
                           <td className="px-4 py-2 capitalize">{solicitud.tipo}</td>
@@ -332,24 +345,59 @@ export default function Solicitudes() {
                   </table>
                 </div>
 
-                {solicitudes?.length >= 15 && (
-                  <div className="flex justify-center items-center space-x-2">
-                  <a href="#" className="px-3 py-1 border rounded hover:bg-gray-100">
-                    Anterior
-                  </a>
-                  
-                  <div className="flex space-x-1">
-                    <a href="#" className="px-3 py-1 border rounded hover:bg-gray-100">23</a>
-                    <a href="#" className="px-3 py-1 border rounded hover:bg-gray-100">24</a>
-                    <a href="#" className="px-3 py-1 border rounded bg-blue-500 text-white">25</a>
-                    <a href="#" className="px-3 py-1 border rounded hover:bg-gray-100">26</a>
-                    <span className="px-3 py-1">...</span>
+                {quantityPages > 1 && (
+                  <div className="mt-4 pt-4">
+                    <div className="flex justify-center items-center space-x-3"> 
+                      <button 
+                        onClick={() => setIndex(prev => Math.max(prev - 1, 1))} 
+                        disabled={index === 1}
+                        className="secondary-button px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        Anterior
+                      </button>
+
+                      <div className="flex space-x-2">
+                        {quantityPages > 5 && index < quantityPages - 2 && (
+                          <span className="px-3 py-1 flex items-end text-lg text-violet-600">...</span>
+                        )}
+                        {Array.from({ length: Math.min(5, quantityPages) }, (_, i) => {
+                          let pageNum;
+                          if (quantityPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (index <= 3) {
+                            pageNum = i + 1;
+                          } else if (index >= quantityPages - 2) {
+                            pageNum = quantityPages - 4 + i;
+                          } else {
+                            pageNum = index - 2 + i;
+                          }
+
+                          return (
+                            <button 
+                              key={pageNum}
+                              onClick={() => setIndex(pageNum)}
+                              className={`${
+                                index === pageNum ? 'button' : 'secondary-button'
+                              } px-4.5 py-1 cursor-pointer`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+                        {quantityPages > 5 && index < quantityPages - 2 && (
+                          <span className="px-3 py-1 flex items-end">...</span>
+                        )}
+                      </div>
+
+                      <button 
+                        onClick={() => setIndex(prev => Math.min(prev + 1, quantityPages))} 
+                        disabled={index === quantityPages}
+                        className="secondary-button px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        Siguiente
+                      </button>
+                    </div>
                   </div>
-                  
-                  <a href="#" className="px-3 py-1 border rounded hover:bg-gray-100">
-                    Siguiente
-                  </a>
-                </div>
                 )}
               </div>
             )}

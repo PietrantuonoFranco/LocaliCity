@@ -121,7 +121,7 @@ export default function Usuarios() {
   return (
     <>
       {users && (
-        <div className="min-h-110 w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full py-10 px-12">
+        <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full py-10 px-12">
           <div className="h-full flex flex-col">
             <div className="w-full flex items-center justify-between">
               <div className="flex items-center space-x-4">

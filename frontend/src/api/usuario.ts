@@ -1,6 +1,7 @@
 import api from "./api";
 
-import type { RespuestaSolicitudes, RespuestaUsuarios } from "src/interfaces/RespuestasInterfaces";
+import type { RespuestaSolicitudes, RespuestaUsuario, RespuestaUsuarios } from "src/interfaces/RespuestasInterfaces";
+import type Rol from "src/interfaces/entities/RolInterface";
 
 
 const entity: string = "usuarios";
@@ -9,8 +10,10 @@ export const getAllUsuarios = () => api.get<RespuestaUsuarios>(entity).then(({ d
 
 export const getUsuarioById = (id: number) => api.get(`${entity}/${id}`).then(({ data }) => data);
 
-export const createUsuario = ({ ...usuario }) => {
-    api.post(entity, usuario).then(({ data }) => data);
+export const createUsuario = async (email: string, nombre: string, apellido: string, contrasenia: string, rol: Rol): Promise<RespuestaUsuario | null > => {
+    const response = await api.post<RespuestaUsuario>(entity, {email, nombre, apellido, contrasenia, rol}).then(({ data }) => data);
+
+    return response ? response : null;
 }
 
 export const deleteUsuario = (id: number) => api.delete(`${entity}/${id}`);

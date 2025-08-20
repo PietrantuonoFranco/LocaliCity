@@ -127,7 +127,7 @@ export default function Usuarios() {
               <div className="flex items-center space-x-4">
                 <h2 className="text-3xl font-bold text-gray-800">Usuarios</h2>
 
-                <a href="#" target="blank" rel="noopener noreferrer" className="secondary-button w-10 h-10 flex items-center justify-center">
+                <a href="/usuarios/crear" target="blank" rel="noopener noreferrer" className="secondary-button w-10 h-10 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"></path>
                   </svg>

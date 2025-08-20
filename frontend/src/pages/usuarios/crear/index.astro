@@ -1,0 +1,323 @@
+---
+import Layout from "src/layouts/Layout.astro";
+
+const formData = {
+  email: "",
+  nombre: "",
+  apellido: "",
+  contraseña: "",
+};
+
+---
+
+<Layout>
+  <div class="h-full flex items-center justify-center p-4 md:py-4 md:px-46 lg:px-135">
+    <div class="h-full w-full shadow-lg bg-white/50 p-10 rounded-xl">
+      <div class="text-center space-y-2 mb-4">
+        <h2 class="text-3xl font-semibold text-gray-900">Crear usuario</h2>
+        <h4 class="text-gray-600">Completá el formulario para crear un usuario</h4>
+      </div>
+      <div>
+        <form id="editForm" class="space-y-4">
+          <div class="space-y-2">
+            <label for="email" class="text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <div class="pb-[3px] focus-within:gradient-border">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="juanperez@example.com"
+                autocomplete="email"
+                value={formData.email}
+                oninput="handleInputChange"
+                required
+                class="px-4 input"
+              />
+            </div>
+          </div>
+    
+          <div class="space-y-2">
+            <label for="nombre" class="text-sm font-medium text-gray-700">
+              Nombre
+            </label>
+            <div class="pb-[3px] focus-within:gradient-border">
+              <input
+                id="nombre"
+                name="nombre"
+                type="text"
+                placeholder="Juan"
+                value={formData.nombre}
+                oninput="handleInputChange"
+                required
+                class="px-4 input"
+              />
+            </div>
+          </div>
+    
+          <div class="space-y-2">
+            <label for="apellido" class="text-sm font-medium text-gray-700">
+              Apellido
+            </label>
+            <div class="pb-[3px] focus-within:gradient-border">
+              <input
+                id="apellido"
+                name="apellido"
+                type="text"
+                placeholder="Pérez"
+                value={formData.apellido}
+                oninput="handleInputChange"
+                required
+                class="px-4 input"
+              />
+            </div>
+          </div>
+    
+          <div class="space-y-2">
+            <label for="contrasenia" class="text-sm font-medium text-gray-700">
+              Contraseña
+            </label>
+            <div class="relative pb-[3px] focus-within:gradient-border">
+              <input
+                id="contrasenia"
+                name="contrasenia"
+                type="password"
+                placeholder="••••••••••"
+                autocomplete="current-password"
+                required
+                class="px-4 input"
+              />
+              <button
+                id="togglePassword"
+                type="button"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:outline-none"
+                aria-label="Mostrar contraseña"
+              >
+                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+                  <path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="space-y-6 mb-4">
+            <!-- Basic Switch -->
+            <div class="flex items-center space-x-2">
+              <label for="switch1" class="text-sm font-medium text-gray-700">Es administrador?</label>
+              <div class="relative">
+                <input type="checkbox" id="switch1" class="sr-only switch-input">
+                <div class="switch-bg w-12 h-6 bg-gray-300 border-1 border-gray-400 rounded-full shadow-inner cursor-pointer transition-colors duration-300"></div>
+                <div class="switch-toggle absolute top-0.5 left-0.5 w-5 h-5 bg-white border-1 border-gray-400 rounded-full shadow transform transition-transform duration-300 cursor-pointer"></div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="w-full h-[1px] bg-gray-500 my-4"></div>
+                
+          <button
+            type="submit"
+            class="w-full button"
+          >
+            Crear usuario
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { createUsuario } from "src/api/usuario";
+  import { getAllRoles} from "src/api/rol";
+  import type Rol from "src/interfaces/entities/RolInterface";
+
+  declare global {
+    interface Window {
+      handleInputChange: (e: Event) => void;
+    }
+  }
+
+  interface FormData {
+    email: string;
+    nombre: string;
+    apellido: string;
+    contrasenia: string;
+    rol: Rol | null;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Manejo del formulario
+    const form = document.getElementById('editForm');
+    let roles: Rol[] = [];
+    let adminRole: Rol | null = null;
+    let regularRole: Rol | null = null;
+
+    const fetchRoles = async () => {
+      try {
+        const response = await getAllRoles();
+        roles = response.roles;
+        
+        // Buscar los roles por nombre
+        adminRole = roles.find(rol => rol.nombre === "Administrador") || null;
+        regularRole = roles.find(rol => rol.nombre === "Regular") || null;
+        
+        // Establecer el rol por defecto
+        formData.rol = regularRole;
+      } catch (error) {
+        console.error('Error al obtener roles:', error);
+      }
+    }
+
+    // Inicialización del objeto formData
+    let formData: FormData = {
+      email: "",
+      nombre: "",
+      apellido: "",
+      contrasenia: "",
+      rol: null
+    };
+
+    // Función para manejar el envío del formulario
+    async function handleSubmit(e: Event) {
+      e.preventDefault();
+      
+      try {
+        if (!formData.email || !formData.contrasenia || !formData.rol) {
+          alert('Por favor completa todos los campos requeridos');
+          return;
+        }
+        
+        const usuario = await createUsuario(
+          formData.email, 
+          formData.nombre, 
+          formData.apellido, 
+          formData.contrasenia,
+          formData.rol
+        );
+
+        if (usuario) {
+          window.location.href = "/";
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Asignar eventos
+    if (form) {
+      form.addEventListener('submit', handleSubmit);
+    }
+    
+    // Función para manejar cambios en los inputs
+    window.handleInputChange = function (e: Event) {
+      const target = e.target as HTMLInputElement;
+      formData[target.name as keyof Omit<FormData, 'rol'>] = target.value;
+    }
+
+    // Asignar eventos de cambio a todos los inputs
+    document.querySelectorAll('input').forEach(input => {
+      if (input.type !== 'checkbox') {
+        input.addEventListener('input', window.handleInputChange);
+      }
+    });
+
+    // Manejo del toggle de contraseña
+    const togglePassword = () => {
+      const passwordInput = document.getElementById('contrasenia') as HTMLInputElement;
+      const eyeIcon = document.getElementById('eyeIcon') as HTMLAnchorElement;
+      const isPassword = passwordInput.type === 'password';
+      
+      passwordInput.type = isPassword ? 'text' : 'password';
+      
+      // Cambiar el ícono del ojo
+      if (eyeIcon) {
+        eyeIcon.innerHTML = isPassword ? 
+          `<path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0" />
+          <path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6" />` : 
+          `<path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+          <path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18" />`;
+      }
+    };
+
+    document.getElementById('togglePassword')?.addEventListener('click', togglePassword);
+  
+    const switches = document.querySelectorAll('.switch-input');
+      
+    switches.forEach((switchElement, index) => {
+      const switchInput = switchElement as HTMLInputElement; // ← Casting aquí
+      const switchBg = switchInput.nextElementSibling;
+      const switchToggle = switchBg?.nextElementSibling;
+      const statusElement = document.getElementById(`status${index + 1}`);
+          
+      // Handle click events on the switch background and toggle
+      function toggleSwitch() {
+        switchInput.checked = !switchInput.checked;
+        updateSwitchAppearance();
+        updateStatus();
+      }
+          
+      // Update visual appearance based on state
+      function updateSwitchAppearance() {
+        if (switchInput.checked) {
+          // On state - Administrador
+          switchBg?.classList.remove('bg-gray-300');
+          switchBg?.classList.add('bg-violet-500');
+          
+          // Asignar rol de Administrador
+          if (adminRole) {
+            formData.rol = adminRole;
+          }
+                  
+          // Move toggle to right position
+          switchToggle?.classList.add('translate-x-6');
+        } else {
+          // Off state - Regular
+          switchBg?.classList.remove('bg-violet-500');
+          switchBg?.classList.add('bg-gray-300');
+          switchToggle?.classList.remove('translate-x-6');
+          
+          // Asignar rol Regular
+          if (regularRole) {
+            formData.rol = regularRole;
+          }
+        }
+      }
+          
+      // Update status text
+      function updateStatus() {
+        if (statusElement) {
+          statusElement.textContent = switchInput.checked ? 'Administrador' : 'Regular';
+          statusElement.className = switchInput.checked 
+            ? 'font-medium text-violet-600' 
+            : 'font-medium text-gray-500';
+        }
+      }
+          
+      // Add event listeners
+      switchBg?.addEventListener('click', toggleSwitch);
+      switchToggle?.addEventListener('click', toggleSwitch);
+          
+      // Handle keyboard navigation
+      switchInput.addEventListener('keydown', function(e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          toggleSwitch();
+        }
+      });
+          
+      // Make the switch focusable for accessibility
+      switchBg?.addEventListener('click', function() {
+        (switchInput as HTMLInputElement).focus();
+      });
+          
+      // Initialize appearance
+      updateSwitchAppearance();
+      updateStatus();
+    });
+    
+    // Inicializar los roles
+    fetchRoles();
+  });
+</script>

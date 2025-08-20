@@ -112,7 +112,7 @@ export class ProvinciaController {
   
       return response.status(200).json({ 
         mensaje: "Provincia actualizada correctamente.",
-        pais: pais
+        provincia: provincia
       });
     } catch (error) {
       console.log(error);

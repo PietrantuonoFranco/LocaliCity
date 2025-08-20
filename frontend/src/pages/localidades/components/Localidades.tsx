@@ -14,6 +14,7 @@ import SearchBar from "../../cuenta/components/SearchBar";
 import type { RespuestaLocalidad } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Localidad from "src/interfaces/entities/LocalidadInterface";
+import EditLocalidadModal from "./EditLocalidadModal";
 
 
 type SortField = "nombre" | "provincia" | "pais"
@@ -126,23 +127,27 @@ export default function Localidades() {
   }
 
   const handleCityCreated = (response: RespuestaLocalidad) => {
-      fetchLocalidades();
+    fetchLocalidades();
 
-      setIndex(quantityPages); // Ir a la última página donde estará el nuevo elemento
-    }
+    setIndex(quantityPages); // Ir a la última página donde estará el nuevo elemento
+  }
 
-    if (isLoading) {
-      return (
-        <div className="w-full h-100 flex justify-center items-center text-white/75">
-          <svg xmlns="http://www.w3.org/2000/svg" width={100} height={100} viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" strokeDasharray={16} strokeDashoffset={16} strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3c4.97 0 9 4.03 9 9">
-              <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="16;0"></animate>
-              <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform>
-            </path>
-          </svg>
-        </div>
-      )
-    }
+  const handleCityEdited = (response: RespuestaLocalidad) => {
+    fetchLocalidades();
+  }
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-100 flex justify-center items-center text-white/75">
+        <svg xmlns="http://www.w3.org/2000/svg" width={100} height={100} viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" strokeDasharray={16} strokeDashoffset={16} strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3c4.97 0 9 4.03 9 9">
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="16;0"></animate>
+            <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform>
+          </path>
+        </svg>
+      </div>
+    )
+  }
 
   if (!localidades) {
     return <div>No se pudo cargar la información de los usuarios</div>;
@@ -291,14 +296,7 @@ export default function Localidades() {
                           <td className="px-4 py-2 group-hover:rounded-r-2xl">
                             <div className="flex space-x-2 items-center">
                               {/* Boton de editar */}
-                              <a
-                                href={`/localidades/editar/${localidad.id}`} target="blank" rel="noopener noreferrer"
-                                className="h-8 w-8 p-0 secondary-button flex items-center justify-center cursor-pointer"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24">
-                                  <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.172 19.828L19.828 8.172c.546-.546.818-.818.964-1.112a2 2 0 0 0 0-1.776c-.146-.295-.418-.567-.964-1.112c-.545-.546-.817-.818-1.112-.964a2 2 0 0 0-1.776 0c-.294.146-.566.418-1.112.964L4.172 15.828c-.579.578-.868.867-1.02 1.235C3 17.43 3 17.839 3 18.657V21h2.343c.818 0 1.226 0 1.594-.152c.367-.152.656-.442 1.235-1.02M12 21h6M14.5 5.5l4 4"></path>
-                                </svg>
-                              </a>
+                              <EditLocalidadModal id={localidad.id} onCityEdited={handleCityEdited}/>
 
                               {/* Boton de borrar */}
                               <button

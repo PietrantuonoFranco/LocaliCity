@@ -173,5 +173,41 @@ export class AuthController {
     }
 
     return res.status(200).json({ isAuthenticated: true });
-};
+  }
+
+  static async update(request: Request, response: Response) {
+    try {
+      const { usuario, email, nombre, apellido, contrasenia, rol } = request.body;
+  
+      if (!usuario) {
+        return response.status(400).json({ error: "Debe proporcionar el usuario." });
+      }
+
+      if (!email && !nombre && !apellido && !contrasenia && !rol) {
+        return response.status(400).json({ 
+          error: "Debe proporcionar al menos un campo para actualizar." 
+        });
+      }
+  
+      if (email !== null) usuario.email = email;
+      if (nombre !== null) usuario.nombre = nombre;
+      if (apellido !== null) usuario.apellido = apellido;
+
+      if (contrasenia !== null) {
+        usuario.contrasenia = contrasenia;
+        
+        await usuario.hashContrasenia();
+      }
+
+      await usuarioRepository.save(usuario);
+  
+      return response.status(200).json({ 
+        mensaje: "Usuario actualizado correctamente.",
+        usuario: usuario 
+      });
+    } catch (error) {
+      console.error(error)
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
 }

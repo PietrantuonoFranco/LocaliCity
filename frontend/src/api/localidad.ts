@@ -8,7 +8,7 @@ const entity: string = "localidades";
 
 export const getAllLocalidades = () => api.get<RespuestaLocalidades>(entity).then(({ data }) => data);
 
-export const getLocalidadById = (id: number) => api.get(`${entity}/${id}`).then(({ data }) => data);
+export const getLocalidadById = (id: number) => api.get<RespuestaLocalidad>(`${entity}/${id}`).then(({ data }) => data);
 
 export const createLocalidad = async (nombre: string, provincia: Provincia,): Promise<RespuestaLocalidad | null> => {
     const response = await api.post<RespuestaLocalidad>(entity, { nombre, provincia }, {
@@ -22,3 +22,14 @@ export const createLocalidad = async (nombre: string, provincia: Provincia,): Pr
 }
 
 export const deleteLocalidad = (id: number) => api.delete(`${entity}/${id}`);
+
+export const updateLocalidad = async (id: number, nombre: string | null = null, provincia: Provincia | null = null): Promise<RespuestaLocalidad | null> => {
+  const response = await api.put<RespuestaLocalidad>(`${entity}/${id}`, { nombre, provincia }, {
+    withCredentials: true,
+    headers: { 'Content-Type': 'application/json' },
+  }).then(({ data }) => data);
+
+  if (response) return response;
+
+  return null;
+}

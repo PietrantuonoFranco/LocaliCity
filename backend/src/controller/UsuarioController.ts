@@ -104,6 +104,51 @@ export class UsuarioController {
     }
   }
 
+  static async update(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+  
+      if (!id || id  <= 0) {
+        return response.status(400).json({ error: "No se ha proporcionado un ID de usuario válido."});
+      }
+  
+      const { email, nombre, apellido, contrasenia, rol } = request.body;
+  
+      if (!email && !nombre && !apellido && !contrasenia && !rol) {
+        return response.status(400).json({ 
+          error: "Debe proporcionar al menos un campo para actualizar." 
+        });
+      }
+  
+      const usuario = await usuarioRepository.findOneBy({ id });
+      
+      if (!usuario) {
+        return response.status(404).json({ error: "Usuario no encontrado." });
+      }
+  
+      if (email !== null) usuario.email = email;
+      if (nombre !== null) usuario.nombre = nombre;
+      if (apellido !== null) usuario.apellido = apellido;
+      if (rol !== null) usuario.rol = rol;
+
+      if (contrasenia !== null) {
+        usuario.contrasenia = contrasenia;
+        
+        await usuario.hashContrasenia();
+      }
+
+      await usuarioRepository.save(usuario);
+  
+      return response.status(200).json({ 
+        mensaje: "Usuario actualizado correctamente.",
+        usuario: usuario 
+      });
+    } catch (error) {
+      console.error(error)
+      return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+    }
+  }
+
   static async getSolicitudes(request: Request, response: Response, next: NextFunction) {
     try {
       const id = parseInt(request.params.id);

@@ -37,7 +37,7 @@ export const updateSolicitud = async (
   usuario: Usuario | null = null
 ) => {
   
-  const response = await api.put(`${entity}/${id}`, { tipo, nombre, referencia, mensaje, pais, provincia, estado, usuario }, {
+  const response = await api.put<RespuestaSolicitud>(`${entity}/${id}`, { tipo, nombre, referencia, mensaje, pais, provincia, estado, usuario }, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'

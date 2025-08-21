@@ -32,7 +32,8 @@ export class UsuarioController {
       }
 
       const usuario = await usuarioRepository.findOne({
-        where: { id }
+        where: { id },
+        relations: ['rol']
       });
 
       if (!usuario) {

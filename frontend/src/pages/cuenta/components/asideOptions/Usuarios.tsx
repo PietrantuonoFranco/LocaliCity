@@ -253,7 +253,7 @@ export default function Usuarios() {
                           <div className="flex space-x-2 items-center">
                             {/* Boton de editar */}
                             <a
-                              href={`/usuarios/editar/${user.id}`} target="blank" rel="noopener noreferrer"
+                              href={`/usuarios/editar/${user.id}`} rel="noopener noreferrer"
                               className="h-8 w-8 p-0 secondary-button flex items-center justify-center cursor-pointer"
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24">

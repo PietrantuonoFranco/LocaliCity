@@ -1,0 +1,17 @@
+---
+import Layout from "src/layouts/Layout.astro";
+import EditarUsuarioForm from "./components/EditarUsuarioForm";
+
+const { id } = Astro.params;
+
+// Validar que id existe y es un número válido
+const userId = id ? parseInt(id) : null;
+---
+
+<Layout>
+  {userId ? (
+    <EditarUsuarioForm id={userId} client:load/>
+  ) : (
+    <div>Error: ID no válido</div>
+  )}
+</Layout>

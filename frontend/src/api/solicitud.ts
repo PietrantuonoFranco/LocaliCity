@@ -1,6 +1,6 @@
 import api from "./api";
 
-import type { RespuestaSolicitudes } from "src/interfaces/RespuestasInterfaces";
+import type { RespuestaSolicitud, RespuestaSolicitudes } from "src/interfaces/RespuestasInterfaces";
 import type Pais from "src/interfaces/entities/PaisInterface";
 import type Usuario from "../interfaces/entities/UsuarioInterface";
 import type Provincia from "src/interfaces/entities/ProvinciaInterface";
@@ -10,7 +10,7 @@ const entity: string = "solicitudes";
 
 export const getAllSolicitudes = () => api.get<RespuestaSolicitudes>(entity).then(({ data }) => data);
 
-export const getSolicitudById = (id: number) => api.get(`${entity}/${id}`).then(({ data }) => data);
+export const getSolicitudById = (id: number) => api.get<RespuestaSolicitud>(`${entity}/${id}`).then(({ data }) => data);
 
 export const createSolicitud = async (tipo: string, nombre: string, referencia: string, mensaje: string, pais: Pais | null = null, provincia: Provincia | null = null, usuario: Usuario) => {
   const response = await api.post(entity, { tipo, nombre, referencia, mensaje, pais, provincia, usuario }, {

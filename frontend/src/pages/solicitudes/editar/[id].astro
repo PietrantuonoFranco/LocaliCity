@@ -1,0 +1,31 @@
+---
+export const prerender = false;
+
+import Layout from "src/layouts/Layout.astro";
+import EditarSolicitudForm from "./components/EditarSolicitudForm";
+
+const { id } = Astro.params;
+
+// Validar que id existe y es un número válido
+const solicitudId = id ? parseInt(id) : null;
+---
+
+<Layout>
+  <div class="h-full flex items-center justify-center p-4 md:py-4 md:px-46 lg:px-75">
+    <div class="h-full w-full shadow-lg bg-white/50 p-10 lg:px-16 rounded-xl">
+      <div class="text-center space-y-2 mb-4">
+        <h2 class="text-3xl font-semibold text-gray-900">Editar solicitud</h2>
+        <h4 class="text-gray-600">Edita tu solicitud y envianosla para añadir nuevas localizaciones a nuestro servicio</h4>
+      </div>
+    
+        <div>
+        {solicitudId ? (
+          <EditarSolicitudForm id={solicitudId} client:load/>
+        ) : (
+          <div>Error: ID no válido</div>
+        )}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

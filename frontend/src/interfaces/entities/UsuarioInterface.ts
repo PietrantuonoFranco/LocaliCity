@@ -5,5 +5,6 @@ export default interface Usuario {
     email: string,
     nombre: string,
     apellido: string,
+    contrasenia: string,
     rol: Rol,
 }

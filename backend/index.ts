@@ -17,6 +17,9 @@ import LocalidadRoutes from "./src/routes/LocalidadRoutes";
 import AuthRoutes from "./src/routes/AuthRoutes";
 import SearchRoutes from "./src/routes/SearchRoutes";
 
+// Seeds
+import rolSeed from "./src/seed/RolSeed";
+import usuarioSeed from "./src/seed/UsuarioSeed";
 
 AppDataSource.initialize().then(async () => {
     // Creación de la app con ExpressJS
@@ -51,22 +54,8 @@ AppDataSource.initialize().then(async () => {
         throw new Error(error.message);
     });
 
-/*
-    // insert new users for test
-    await AppDataSource.manager.save(
-        AppDataSource.manager.create(User, {
-            firstName: "Timber",
-            lastName: "Saw",
-            age: 27
-        })
-    )
 
-    await AppDataSource.manager.save(
-        AppDataSource.manager.create(User, {
-            firstName: "Phantom",
-            lastName: "Assassin",
-            age: 24
-        })
-    )
-*/
+    // Insertar datos básicos al imiciar la base de datos
+    await rolSeed();
+    await usuarioSeed();
 })

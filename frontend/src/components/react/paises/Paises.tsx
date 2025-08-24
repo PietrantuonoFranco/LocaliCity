@@ -11,7 +11,7 @@ import SearchBar from "src/components/react/SearchBar";
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Pais from "src/interfaces/entities/PaisInterface";
-import EditPaisesModal from "src/pages/paises/components/EditPaisModal";
+import EditPaisesModal from "src/components/react/paises/EditPaisModal";
 
 type SortField = "nombre";
 type SortDirection = "asc" | "desc";

@@ -21,7 +21,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Rol.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 45 }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 45, unique: true }),
     __metadata("design:type", String)
 ], Rol.prototype, "nombre", void 0);
 __decorate([

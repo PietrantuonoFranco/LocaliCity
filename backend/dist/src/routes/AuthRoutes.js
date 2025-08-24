@@ -8,4 +8,6 @@ router.post("/register", AuthController_1.AuthController.register);
 router.post("/login", AuthController_1.AuthController.login);
 router.post("/logout", AuthController_1.AuthController.logout);
 router.get("/profile", AuthMiddleware_1.authMiddleware, AuthController_1.AuthController.profile);
+router.get("/is-authenticated", AuthController_1.AuthController.checkAuth);
+router.put("/", AuthMiddleware_1.authMiddleware, AuthController_1.AuthController.update);
 exports.default = router;

@@ -36,7 +36,8 @@ class ProvinciaController {
                     return response.status(400).json({ error: "No se ha proporcionado un ID de provincia." });
                 }
                 const provincia = yield provinciaRepository.findOne({
-                    where: { id }
+                    where: { id },
+                    relations: ['pais']
                 });
                 if (!provincia) {
                     return response.status(404).json({ error: "provincia no encontrada." });
@@ -79,6 +80,39 @@ class ProvinciaController {
                 return response.status(204).json({ mensaje: "Provincia eliminada correctamente." });
             }
             catch (_a) {
+                return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+            }
+        });
+    }
+    static update(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = parseInt(request.params.id);
+                if (!id || id <= 0) {
+                    return response.status(400).json({ error: "No se ha proporcionado un ID de provincia válido." });
+                }
+                const { nombre, pais } = request.body;
+                if (!nombre && !pais) {
+                    return response.status(400).json({
+                        error: "Debe proporcionar un nombre o un país para actualizar."
+                    });
+                }
+                const provincia = yield provinciaRepository.findOneBy({ id });
+                if (!provincia) {
+                    return response.status(404).json({ error: "Provincia no encontrada." });
+                }
+                if (nombre !== null)
+                    provincia.nombre = nombre;
+                if (pais !== null)
+                    provincia.pais = pais;
+                yield provinciaRepository.save(provincia);
+                return response.status(200).json({
+                    mensaje: "Provincia actualizada correctamente.",
+                    provincia: provincia
+                });
+            }
+            catch (error) {
+                console.log(error);
                 return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
             }
         });

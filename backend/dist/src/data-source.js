@@ -22,10 +22,10 @@ exports.AppDataSource = new typeorm_1.DataSource({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    synchronize: process.env.NODE_ENV !== 'production',
+    synchronize: false,
     logging: true,
     entities: [Rol_1.Rol, Usuario_1.Usuario, Pais_1.Pais, Provincia_1.Provincia, Localidad_1.Localidad, Solicitud_1.Solicitud],
-    migrations: [],
+    migrations: ["dist/src/migrations/**/*.js"],
     subscribers: [],
 });
 exports.AppDataSource.initialize()

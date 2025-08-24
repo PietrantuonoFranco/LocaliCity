@@ -8,7 +8,7 @@ import { getCurrentUser } from "src/api/auth";
 
 // Componentes
 import CreateProvinciaModal from "./CreateProvinciaModal";
-import SearchBar from "../../cuenta/components/SearchBar";
+import SearchBar from "../../../components/react/SearchBar";
 
 // Tipos / Interfaces
 import type { RespuestaProvincia } from "src/interfaces/RespuestasInterfaces";

@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react"
 import { deleteUsuario, getAllUsuarios } from "src/api/usuario";
 
 // Componentes
-import SearchBar from "../SearchBar";
+import SearchBar from "../../../../components/react/SearchBar";
 
 // Tipos / Interfaces
 import type Usuario from "src/interfaces/entities/UsuarioInterface";

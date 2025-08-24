@@ -6,7 +6,7 @@ import { deletePais, getAllPaises } from "src/api/pais";
 import { getCurrentUser } from "src/api/auth";
 
 import CreatePaisModal from "./CreatePaisModal";
-import SearchBar from "src/pages/cuenta/components/SearchBar";
+import SearchBar from "src/components/react/SearchBar";
 
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";

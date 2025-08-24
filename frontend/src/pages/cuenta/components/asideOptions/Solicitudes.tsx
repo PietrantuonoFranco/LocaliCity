@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react"
 import { aceptarSolicitud, deleteSolicitud, getAllSolicitudes, updateSolicitud } from "src/api/solicitud";
 
 // Componentes
-import SearchBar from "../SearchBar";
+import SearchBar from "../../../../components/react/SearchBar";
 
 // Tipos / Interfaces
 import type Solicitud from "src/interfaces/entities/SolicitudInterface";

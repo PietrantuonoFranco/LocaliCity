@@ -11,7 +11,7 @@ import Solicitudes from "../solicitudes/Solicitudes";
 import Usuarios from "../usuarios/Usuarios";
 import Paises from "../paises/Paises";
 import Provincias from "src/pages/provincias/components/Provincias";
-import Localidades from "src/pages/localidades/components/Localidades";
+import Localidades from "../localidades/Localidades";
 
 // Types
 import type Usuario from "src/interfaces/entities/UsuarioInterface";

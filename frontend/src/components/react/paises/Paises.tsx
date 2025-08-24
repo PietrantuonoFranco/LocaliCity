@@ -5,7 +5,7 @@ import { useEffect, useState, useMemo } from "react"
 import { deletePais, getAllPaises } from "src/api/pais";
 import { getCurrentUser } from "src/api/auth";
 
-import CreatePaisModal from "src/pages/paises/components/CreatePaisModal";
+import CreatePaisModal from "src/components/react/paises/CreatePaisModal";
 import SearchBar from "src/components/react/SearchBar";
 
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces";

@@ -7,7 +7,7 @@ import { getCurrentUser, logout } from "src/api/auth";
 // Components
 import MiCuenta from "src/pages/cuenta/components/asideOptions/MiCuenta";
 import MisSolicitudes from "src/pages/cuenta/components/asideOptions/MisSolicitudes";
-import Solicitudes from "src/pages/cuenta/components/asideOptions/Solicitudes";
+import Solicitudes from "../solicitudes/Solicitudes";
 import Usuarios from "src/pages/cuenta/components/asideOptions/Usuarios";
 import Paises from "src/pages/paises/components/Paises";
 import Provincias from "src/pages/provincias/components/Provincias";

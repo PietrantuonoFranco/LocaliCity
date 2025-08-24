@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { getCurrentUser, logout } from "src/api/auth";
 
 // Components
-import MiCuenta from "./asideOptions/MiCuenta";
-import MisSolicitudes from "./asideOptions/MisSolicitudes";
-import Solicitudes from "./asideOptions/Solicitudes";
-import Usuarios from "./asideOptions/Usuarios";
-import Paises from "../../paises/components/Paises";
-import Provincias from "../../provincias/components/Provincias";
-import Localidades from "../../localidades/components/Localidades";
+import MiCuenta from "src/pages/cuenta/components/asideOptions/MiCuenta";
+import MisSolicitudes from "src/pages/cuenta/components/asideOptions/MisSolicitudes";
+import Solicitudes from "src/pages/cuenta/components/asideOptions/Solicitudes";
+import Usuarios from "src/pages/cuenta/components/asideOptions/Usuarios";
+import Paises from "src/pages/paises/components/Paises";
+import Provincias from "src/pages/provincias/components/Provincias";
+import Localidades from "src/pages/localidades/components/Localidades";
 
 // Types
 import type Usuario from "src/interfaces/entities/UsuarioInterface";

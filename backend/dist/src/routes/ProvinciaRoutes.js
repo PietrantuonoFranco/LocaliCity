@@ -10,4 +10,5 @@ router.get("/", ProvinciaController_1.ProvinciaController.all);
 router.get("/:id", ProvinciaController_1.ProvinciaController.one);
 router.post("/", ProvinciaController_1.ProvinciaController.save);
 router.delete("/:id", ProvinciaController_1.ProvinciaController.remove);
+router.put("/:id", ProvinciaController_1.ProvinciaController.update);
 exports.default = router;

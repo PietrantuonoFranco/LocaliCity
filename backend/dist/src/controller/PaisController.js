@@ -12,7 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaisController = void 0;
 const data_source_js_1 = require("../data-source.js");
 const Pais_1 = require("../entity/Pais");
+const Provincia_js_1 = require("../entity/Provincia.js");
 const paisRepository = data_source_js_1.AppDataSource.getRepository(Pais_1.Pais);
+const provinciaRepository = data_source_js_1.AppDataSource.getRepository(Provincia_js_1.Provincia);
 class PaisController {
     static all(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -48,6 +50,25 @@ class PaisController {
             }
         });
     }
+    static provinciasById(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = parseInt(request.params.id);
+                if (!id)
+                    return response.status(400).json({ error: "Debe proporcionar un ID de pais." });
+                const provincias = yield provinciaRepository.find({
+                    where: { pais: { id } }
+                });
+                if (provincias.length === 0)
+                    return response.status(404).json({ error: "Provincias no encontrados." });
+                return response.status(200).json({ mensaje: "Provincias encontradas.", provincias: provincias });
+            }
+            catch (error) {
+                console.log(error);
+                return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+            }
+        });
+    }
     static save(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -79,6 +100,55 @@ class PaisController {
                 return response.status(204).json({ mensaje: "Pais eliminado correctamente." });
             }
             catch (_a) {
+                return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+            }
+        });
+    }
+    static update(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = parseInt(request.params.id);
+                if (!id || id <= 0) {
+                    return response.status(400).json({ error: "No se ha proporcionado un ID de país válido." });
+                }
+                const { nombre } = request.body;
+                if (!nombre) {
+                    return response.status(400).json({
+                        error: "Debe proporcionar un nombre para actualizar."
+                    });
+                }
+                const pais = yield paisRepository.findOneBy({ id });
+                if (!pais) {
+                    return response.status(404).json({ error: "País no encontrado." });
+                }
+                pais.nombre = nombre;
+                yield paisRepository.save(pais);
+                return response.status(200).json({
+                    mensaje: "País actualizado correctamente.",
+                    pais: pais
+                });
+            }
+            catch (error) {
+                console.log(error);
+                return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
+            }
+        });
+    }
+    static checkProvinciasById(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = parseInt(request.params.id);
+                if (!id)
+                    return response.status(400).json({ error: "Debe proporcionar un ID de pais." });
+                const provincias = yield provinciaRepository.find({
+                    where: { pais: { id } }
+                });
+                if (provincias.length === 0)
+                    return response.status(200).json({ mensaje: "Provincias no encontradas.", hasProvincias: false });
+                return response.status(200).json({ mensaje: "Provincias encontradas.", hasProvincias: true });
+            }
+            catch (error) {
+                console.log(error);
                 return response.status(500).json({ error: "Se ha producido un error interno del servidor." });
             }
         });

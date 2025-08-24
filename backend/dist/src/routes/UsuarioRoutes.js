@@ -11,4 +11,5 @@ router.get("/:id/solicitudes", UsuarioController_1.UsuarioController.getSolicitu
 router.get("/:id", UsuarioController_1.UsuarioController.one);
 router.post("/", UsuarioController_1.UsuarioController.save);
 router.delete("/:id", UsuarioController_1.UsuarioController.remove);
+router.put("/:id", UsuarioController_1.UsuarioController.update);
 exports.default = router;

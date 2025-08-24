@@ -28,6 +28,8 @@ const ProvinciaRoutes_1 = __importDefault(require("./src/routes/ProvinciaRoutes"
 const LocalidadRoutes_1 = __importDefault(require("./src/routes/LocalidadRoutes"));
 const AuthRoutes_1 = __importDefault(require("./src/routes/AuthRoutes"));
 const SearchRoutes_1 = __importDefault(require("./src/routes/SearchRoutes"));
+const RolSeed_1 = __importDefault(require("./src/seed/RolSeed"));
+const UsuarioSeed_1 = __importDefault(require("./src/seed/UsuarioSeed"));
 data_source_1.AppDataSource.initialize().then(() => __awaiter(void 0, void 0, void 0, function* () {
     // Creación de la app con ExpressJS
     const app = (0, express_1.default)();
@@ -56,22 +58,7 @@ data_source_1.AppDataSource.initialize().then(() => __awaiter(void 0, void 0, vo
         // Muestra de error
         throw new Error(error.message);
     });
-    /*
-        // insert new users for test
-        await AppDataSource.manager.save(
-            AppDataSource.manager.create(User, {
-                firstName: "Timber",
-                lastName: "Saw",
-                age: 27
-            })
-        )
-    
-        await AppDataSource.manager.save(
-            AppDataSource.manager.create(User, {
-                firstName: "Phantom",
-                lastName: "Assassin",
-                age: 24
-            })
-        )
-    */
+    // Insertar datos básicos al imiciar la base de datos
+    yield (0, RolSeed_1.default)();
+    yield (0, UsuarioSeed_1.default)();
 }));

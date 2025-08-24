@@ -17,7 +17,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && node dist/index.js"
+    "start": "npx tsc && node dist/index.js",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "npm run typeorm -- migration:generate -d src/data-source.ts",
+    "migration:run": "npm run typeorm -- migration:run -d src/data-source.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d src/data-source.ts",
+    "migration:create": "npm run typeorm -- migration:create",
+    "build": "tsc",
+    "migration:run:prod": "npm run typeorm -- migration:run -d dist/src/data-source.js",
+    "migration:revert:prod": "npm run typeorm -- migration:revert -d dist/src/data-source.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +39,7 @@
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.1.0",
-    "typescript": "^5.8.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
   }
 }

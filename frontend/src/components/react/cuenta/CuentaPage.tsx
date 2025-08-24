@@ -10,7 +10,7 @@ import MisSolicitudes from "../solicitudes/MisSolicitudes";
 import Solicitudes from "../solicitudes/Solicitudes";
 import Usuarios from "../usuarios/Usuarios";
 import Paises from "../paises/Paises";
-import Provincias from "src/pages/provincias/components/Provincias";
+import Provincias from "../provincias/Provincias";
 import Localidades from "../localidades/Localidades";
 
 // Types

@@ -7,14 +7,14 @@ import { deleteProvincia, getAllProvincias } from "src/api/provincia";
 import { getCurrentUser } from "src/api/auth";
 
 // Componentes
-import CreateProvinciaModal from "./CreateProvinciaModal";
+import CreateProvinciaModal from "src/pages/provincias/components/CreateProvinciaModal";
 import SearchBar from "../../../components/react/SearchBar";
 
 // Tipos / Interfaces
 import type { RespuestaProvincia } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Provincia from "src/interfaces/entities/ProvinciaInterface";
-import EditProvinciaModal from "./EditProvinciaModal";
+import EditProvinciaModal from "src/pages/provincias/components/EditProvinciaModal";
 
 
 type SortField = "nombre" | "pais"

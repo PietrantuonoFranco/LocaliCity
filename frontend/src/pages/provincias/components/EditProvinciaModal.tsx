@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 
 import { getProvinciaById, updateProvincia } from "src/api/provincia"
 
-import OptionSelect from "../../solicitudes/crear/components/OptionSelect"
+import OptionSelect from "../../../components/react/OptionSelect"
 
 import type Pais from "src/interfaces/entities/PaisInterface"
 import type { RespuestaPaises, RespuestaProvincia } from "src/interfaces/RespuestasInterfaces"

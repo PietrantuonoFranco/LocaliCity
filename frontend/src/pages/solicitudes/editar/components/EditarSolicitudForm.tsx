@@ -7,7 +7,7 @@ import { checkProvinciasByPaisId, getAllPaises, getProvinciasByPaisId } from "sr
 import { createSolicitud, getSolicitudById, updateSolicitud } from "src/api/solicitud";
 import { getCurrentUser } from "src/api/auth";
 // Components
-import OptionSelect from "../../crear/components/OptionSelect";
+import OptionSelect from "../../../../components/react/OptionSelect";
 // Types
 import type { RespuestaPaises } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";

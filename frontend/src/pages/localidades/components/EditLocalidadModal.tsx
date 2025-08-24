@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 
 import { getLocalidadById, updateLocalidad } from "src/api/localidad"
 
-import OptionSelect from "src/pages/solicitudes/crear/components/OptionSelect"
+import OptionSelect from "src/components/react/OptionSelect"
 
 import type Pais from "src/interfaces/entities/PaisInterface"
 import type { RespuestaPaises, RespuestaLocalidad } from "src/interfaces/RespuestasInterfaces"

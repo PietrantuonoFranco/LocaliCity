@@ -5,13 +5,13 @@ import { useEffect, useState, useMemo } from "react"
 import { deletePais, getAllPaises } from "src/api/pais";
 import { getCurrentUser } from "src/api/auth";
 
-import CreatePaisModal from "./CreatePaisModal";
+import CreatePaisModal from "src/pages/paises/components/CreatePaisModal";
 import SearchBar from "src/components/react/SearchBar";
 
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Pais from "src/interfaces/entities/PaisInterface";
-import EditPaisesModal from "./EditPaisModal";
+import EditPaisesModal from "src/pages/paises/components/EditPaisModal";
 
 type SortField = "nombre";
 type SortDirection = "asc" | "desc";

@@ -9,7 +9,7 @@ import MiCuenta from "src/components/react/cuenta/MiCuenta";
 import MisSolicitudes from "../solicitudes/MisSolicitudes";
 import Solicitudes from "../solicitudes/Solicitudes";
 import Usuarios from "../usuarios/Usuarios";
-import Paises from "src/pages/paises/components/Paises";
+import Paises from "../paises/Paises";
 import Provincias from "src/pages/provincias/components/Provincias";
 import Localidades from "src/pages/localidades/components/Localidades";
 

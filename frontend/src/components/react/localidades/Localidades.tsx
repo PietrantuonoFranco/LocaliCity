@@ -7,7 +7,7 @@ import { deleteLocalidad, getAllLocalidades } from "src/api/localidad";
 import { getCurrentUser } from "src/api/auth";
 
 // Componentes
-import CreateLocalidadModal from "src/pages/localidades/components/CreateLocalidadModal";
+import CreateLocalidadModal from "src/components/react/localidades/CreateLocalidadModal";
 import SearchBar from "../../../components/react/SearchBar";
 
 // Tipos / Interfaces

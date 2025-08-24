@@ -10,4 +10,5 @@ router.get("/", LocalidadController_1.LocalidadController.all);
 router.get("/:id", LocalidadController_1.LocalidadController.one);
 router.post("/", LocalidadController_1.LocalidadController.save);
 router.delete("/:id", LocalidadController_1.LocalidadController.remove);
+router.put("/:id", LocalidadController_1.LocalidadController.update);
 exports.default = router;

@@ -8,7 +8,7 @@ import { getCurrentUser, logout } from "src/api/auth";
 import MiCuenta from "src/components/react/cuenta/MiCuenta";
 import MisSolicitudes from "../solicitudes/MisSolicitudes";
 import Solicitudes from "../solicitudes/Solicitudes";
-import Usuarios from "src/pages/cuenta/components/asideOptions/Usuarios";
+import Usuarios from "../usuarios/Usuarios";
 import Paises from "src/pages/paises/components/Paises";
 import Provincias from "src/pages/provincias/components/Provincias";
 import Localidades from "src/pages/localidades/components/Localidades";

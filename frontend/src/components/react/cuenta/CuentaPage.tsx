@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getCurrentUser, logout } from "src/api/auth";
 
 // Components
-import MiCuenta from "src/pages/cuenta/components/asideOptions/MiCuenta";
+import MiCuenta from "src/components/react/cuenta/MiCuenta";
 import MisSolicitudes from "../solicitudes/MisSolicitudes";
 import Solicitudes from "../solicitudes/Solicitudes";
 import Usuarios from "src/pages/cuenta/components/asideOptions/Usuarios";

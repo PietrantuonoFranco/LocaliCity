@@ -14,7 +14,7 @@ import SearchBar from "../../../components/react/SearchBar";
 import type { RespuestaProvincia } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Provincia from "src/interfaces/entities/ProvinciaInterface";
-import EditProvinciaModal from "src/pages/provincias/components/EditProvinciaModal";
+import EditProvinciaModal from "./EditProvinciaModal";
 
 
 type SortField = "nombre" | "pais"

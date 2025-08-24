@@ -4,22 +4,18 @@
 import { useEffect, useState } from "react";
 // Axios functions
 import { checkProvinciasByPaisId, getAllPaises, getProvinciasByPaisId } from "src/api/pais";
-import { createSolicitud, getSolicitudById, updateSolicitud } from "src/api/solicitud";
+import { createSolicitud } from "src/api/solicitud";
 import { getCurrentUser } from "src/api/auth";
 // Components
-import OptionSelect from "../../crear/components/OptionSelect";
+import OptionSelect from "../OptionSelect";
 // Types
-import type { RespuestaPaises } from "src/interfaces/RespuestasInterfaces";
+import type { RespuestaPaises, RespuestaProvincias } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Pais from "src/interfaces/entities/PaisInterface";
 import type Provincia from "src/interfaces/entities/ProvinciaInterface";
 import type Option from "src/interfaces/OptionInterface";
 
-type Props = {
-  id: number
-}
-
-export default function EditSolicitudForm({ id }: Props) {
+export default function SolicitudForm() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [nombre, setNombre] = useState("");
   const [tipo, setTipo] = useState("");
@@ -41,32 +37,9 @@ export default function EditSolicitudForm({ id }: Props) {
     { name: "localidad-option", value: "localidad", label: "Localidad" },
   ]
 
-  const fetchSolicitud = async () => {
-    try {
-      const response = await getSolicitudById(id);
-
-      if (response) {
-        setTipo(response.solicitud.tipo);
-        setNombre(response.solicitud.nombre);
-        setReferencia(response.solicitud.referencia);
-        setMensaje(response.solicitud.mensaje);
-
-        if (response.solicitud.pais) {
-          setPais(response.solicitud.pais);
-        }
-
-        if (response.solicitud.provincia) {
-          setProvincia(response.solicitud.provincia);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const fetchPaises = async () => {
     try {
-      const response= await getAllPaises();
+      const response: RespuestaPaises = await getAllPaises();
 
       if (response) {
         const options = [
@@ -85,6 +58,8 @@ export default function EditSolicitudForm({ id }: Props) {
       console.error(error);
     }
   }
+
+ 
 
   const fetchUsuario = async () => {
     try {
@@ -175,10 +150,15 @@ export default function EditSolicitudForm({ id }: Props) {
   const handleSubmit = async () => {
     try {
       if (usuario) {
-        const response = await updateSolicitud(id, tipo, nombre, referencia, mensaje, pais, provincia);
+        const response = await createSolicitud(tipo, nombre, referencia, mensaje, pais, provincia, usuario);
 
-        if (response?.solicitud) {
-          window.location.href = "/cuenta";
+        if (response) {
+          setNombre("");
+          setTipo("");
+          setReferencia("");
+          setMensaje("");
+          setPais(null);
+          setProvincia(null);
         }
       }
     } catch (error) {
@@ -189,7 +169,6 @@ export default function EditSolicitudForm({ id }: Props) {
   useEffect(() => {
     fetchUsuario();
     fetchPaises();
-    fetchSolicitud();
   }, [])
 
 
@@ -291,7 +270,7 @@ export default function EditSolicitudForm({ id }: Props) {
             className="w-32 button"
             onClick={handleSubmit}
           >
-            Editar
+            Crear
           </button>
         </div>
       </div>

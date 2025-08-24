@@ -7,8 +7,8 @@ import { deleteProvincia, getAllProvincias } from "src/api/provincia";
 import { getCurrentUser } from "src/api/auth";
 
 // Componentes
-import CreateProvinciaModal from "./CreateProvinciaModal";
-import SearchBar from "../../cuenta/components/SearchBar";
+import CreateProvinciaModal from "src/components/react/provincias/CreateProvinciaModal";
+import SearchBar from "../../../components/react/SearchBar";
 
 // Tipos / Interfaces
 import type { RespuestaProvincia } from "src/interfaces/RespuestasInterfaces";

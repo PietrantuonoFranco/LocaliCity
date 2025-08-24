@@ -4,18 +4,22 @@
 import { useEffect, useState } from "react";
 // Axios functions
 import { checkProvinciasByPaisId, getAllPaises, getProvinciasByPaisId } from "src/api/pais";
-import { createSolicitud } from "src/api/solicitud";
+import { createSolicitud, getSolicitudById, updateSolicitud } from "src/api/solicitud";
 import { getCurrentUser } from "src/api/auth";
 // Components
-import OptionSelect from "./OptionSelect";
+import OptionSelect from "../OptionSelect";
 // Types
-import type { RespuestaPaises, RespuestaProvincias } from "src/interfaces/RespuestasInterfaces";
+import type { RespuestaPaises } from "src/interfaces/RespuestasInterfaces";
 import type Usuario from "src/interfaces/entities/UsuarioInterface";
 import type Pais from "src/interfaces/entities/PaisInterface";
 import type Provincia from "src/interfaces/entities/ProvinciaInterface";
 import type Option from "src/interfaces/OptionInterface";
 
-export default function SolicitudForm() {
+type Props = {
+  id: number
+}
+
+export default function EditSolicitudForm({ id }: Props) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [nombre, setNombre] = useState("");
   const [tipo, setTipo] = useState("");
@@ -37,9 +41,32 @@ export default function SolicitudForm() {
     { name: "localidad-option", value: "localidad", label: "Localidad" },
   ]
 
+  const fetchSolicitud = async () => {
+    try {
+      const response = await getSolicitudById(id);
+
+      if (response) {
+        setTipo(response.solicitud.tipo);
+        setNombre(response.solicitud.nombre);
+        setReferencia(response.solicitud.referencia);
+        setMensaje(response.solicitud.mensaje);
+
+        if (response.solicitud.pais) {
+          setPais(response.solicitud.pais);
+        }
+
+        if (response.solicitud.provincia) {
+          setProvincia(response.solicitud.provincia);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const fetchPaises = async () => {
     try {
-      const response: RespuestaPaises = await getAllPaises();
+      const response= await getAllPaises();
 
       if (response) {
         const options = [
@@ -58,8 +85,6 @@ export default function SolicitudForm() {
       console.error(error);
     }
   }
-
- 
 
   const fetchUsuario = async () => {
     try {
@@ -150,15 +175,10 @@ export default function SolicitudForm() {
   const handleSubmit = async () => {
     try {
       if (usuario) {
-        const response = await createSolicitud(tipo, nombre, referencia, mensaje, pais, provincia, usuario);
+        const response = await updateSolicitud(id, tipo, nombre, referencia, mensaje, pais, provincia);
 
-        if (response) {
-          setNombre("");
-          setTipo("");
-          setReferencia("");
-          setMensaje("");
-          setPais(null);
-          setProvincia(null);
+        if (response?.solicitud) {
+          window.location.href = "/cuenta";
         }
       }
     } catch (error) {
@@ -169,6 +189,7 @@ export default function SolicitudForm() {
   useEffect(() => {
     fetchUsuario();
     fetchPaises();
+    fetchSolicitud();
   }, [])
 
 
@@ -270,7 +291,7 @@ export default function SolicitudForm() {
             className="w-32 button"
             onClick={handleSubmit}
           >
-            Crear
+            Editar
           </button>
         </div>
       </div>

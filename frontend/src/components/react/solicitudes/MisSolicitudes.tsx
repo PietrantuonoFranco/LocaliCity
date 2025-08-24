@@ -8,7 +8,7 @@ import { getSolicitudesOfUser } from "src/api/usuario";
 import { aceptarSolicitud, deleteSolicitud, updateSolicitud } from "src/api/solicitud";
 
 // Componentes
-import SearchBar from "../../../../components/react/SearchBar";
+import SearchBar from "../SearchBar";
 
 // Tipos / Interfaces
 import type Usuario from "src/interfaces/entities/UsuarioInterface";

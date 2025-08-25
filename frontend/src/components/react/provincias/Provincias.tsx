@@ -23,7 +23,7 @@ type SortDirection = "asc" | "desc";
 
 
 export default function Provincias() {
-  const [provincias, setProvincias] = useState<Provincia[] | null>(null);
+  const [provincias, setProvincias] = useState<Provincia[]>([]);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [index, setIndex] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +42,7 @@ export default function Provincias() {
       setProvincias(response?.provincias ?? null);
     } catch (error) {
       console.error("Error fetching solicitud data:", error);
-      setProvincias(null);
+      setProvincias([]);
     } finally {
       setIsLoading(false);
     }
@@ -147,17 +147,21 @@ export default function Provincias() {
     )
   }
 
-  if (!provincias) {
-    return <div>No se pudo cargar la información de los usuarios</div>;
-  }
-
-  if (provincias.length === 0) {
+  if (provincias?.length === 0) {
   return (
-    <div className="min-h-110 w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-lg">No hay países registrados</p>
-        {usuario?.rol.nombre === "Administrador" && (
-          <CreateProvinciaModal onProvinceCreated={handleProvinceCreated} />
+    <div className="p-4 border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
+        <div className="text-center flex flex-col items-center space-y-4">
+          <p className="text-lg">No hay provincias registradas</p>
+          {!usuario ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/iniciar-sesion" target="_blank" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : usuario?.rol.nombre !== "Administrador" ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/solicitudes/crear" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : (
+          <CreateProvinciaModal onProvinceCreated={handleProvinceCreated} title={"Crear"}/>
         )}
       </div>
     </div>
@@ -181,7 +185,7 @@ export default function Provincias() {
                 )}
     
                 {usuario && usuario.rol.nombre === "Administrador" && (
-                  <CreateProvinciaModal onProvinceCreated={handleProvinceCreated} />
+                  <CreateProvinciaModal onProvinceCreated={handleProvinceCreated} title={null}/>
                 )}
 
                 {usuario && usuario.rol.nombre !== "Administrador" && (

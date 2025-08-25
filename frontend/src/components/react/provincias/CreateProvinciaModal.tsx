@@ -13,10 +13,11 @@ import type Option from "src/interfaces/OptionInterface";
 import { getAllPaises } from "src/api/pais"
 
 interface CreateProvinceModalProps {
-  onProvinceCreated?: (response: RespuestaProvincia) => void
+  onProvinceCreated?: (response: RespuestaProvincia) => void,
+  title: string | null
 }
 
-export default function CreateProvinciaModal({ onProvinceCreated }: CreateProvinceModalProps) {
+export default function CreateProvinciaModal({ onProvinceCreated, title=null }: CreateProvinceModalProps) {
   const [open, setOpen] = useState(false)
   const [nombre, setNombre] = useState("")
   const [pais, setPais] = useState<Pais | null>(null)
@@ -100,11 +101,15 @@ export default function CreateProvinciaModal({ onProvinceCreated }: CreateProvin
     <>
       <button
         onClick={() => setOpen(true)}
-        className="secondary-button w-10 h-10 flex items-center justify-center cursor-pointer"
+        className={`${title ? "button w-full px-2 py-1 text-md" : "secondary-button w-10 h-10"} flex items-center justify-center cursor-pointer`}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
-          <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>
-        </svg>
+        {title ? (
+          <span>{title}</span>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>
+          </svg>
+        )}
       </button>
 
       {open && (

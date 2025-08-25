@@ -75,7 +75,7 @@ export default function EditPaisesModal({ id, onCountryEdited }: EditPaisModalPr
         >
           <div className="bg-white/95 rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
             <div className="mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Editar País</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Editar país</h2>
               <p className="text-sm text-gray-600">Ingresa el nuevo nombre del país.</p>
             </div>
 

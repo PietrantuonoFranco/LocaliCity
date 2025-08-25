@@ -17,7 +17,7 @@ type SortField = "nombre";
 type SortDirection = "asc" | "desc";
 
 export default function Paises() {
-  const [paises, setPaises] = useState<Pais[] | null>(null);
+  const [paises, setPaises] = useState<Pais[]>([]);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [index, setIndex] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function Paises() {
       setPaises(response?.paises ?? null);
     } catch (error) {
       console.error("Error fetching paises data:", error);
-      setPaises(null);
+      setPaises([]);
     } finally {
       setIsLoading(false);
     }
@@ -134,17 +134,21 @@ export default function Paises() {
     )
   }
 
-  if (paises === null) {
-    return <div>No se pudo cargar la información de los países</div>;
-  }
-
-  if (paises.length === 0) {
+  if (paises?.length === 0) {
     return (
-      <div className="min-h-110 w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-lg">No hay países registrados</p>
-          {usuario?.rol.nombre === "Administrador" && (
-            <CreatePaisModal onCountryCreated={handleCountryCreated} />
+      <div className="p-4 border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
+        <div className="text-center flex flex-col items-center space-y-4">
+          <p className="text-lg">No hay paises registrados</p>
+          {!usuario ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/iniciar-sesion" target="_blank" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : usuario?.rol.nombre !== "Administrador" ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/solicitudes/crear" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : (
+            <CreatePaisModal onCountryCreated={handleCountryCreated} title={"Crear"}/>
           )}
         </div>
       </div>
@@ -152,10 +156,10 @@ export default function Paises() {
   }
 
   return (
-    <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12">
-      <div className="flex flex-grow flex-col">
-        <div className="w-full flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+    <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full p-6 md:py-10 md:px-12">
+      <div className="w-full h-full flex flex-col">
+        <div className="w-full flex flex-col xl:flex-row items-center xl:justify-between space-y-4 xl:space-y-0">
+          <div className="w-full flex items-center justify-between lg:justify-start lg:space-x-4">
             <h2 className="text-3xl font-bold text-gray-800">Países</h2>
             {!usuario && (
               <a href="/iniciar-sesion" className="secondary-button w-10 h-10 flex items-center justify-center">
@@ -165,7 +169,7 @@ export default function Paises() {
               </a>
             )}
             {usuario && usuario.rol.nombre === "Administrador" && (
-              <CreatePaisModal onCountryCreated={handleCountryCreated} />
+              <CreatePaisModal onCountryCreated={handleCountryCreated} title={null}/>
             )}
             {usuario && usuario.rol.nombre !== "Administrador" && (
               <a href="/solicitudes/crear" className="secondary-button w-10 h-10 flex items-center justify-center">
@@ -176,7 +180,7 @@ export default function Paises() {
             )}
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="w-full flex items-center justify-end space-x-4">
             <SearchBar
               type="paises"
               elements={paises}

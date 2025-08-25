@@ -127,8 +127,8 @@ export default function EditProvinciaModal({ id, onProvinceEdited }: EditProvinc
         >
           <div className="bg-white/95 rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
             <div className="mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Editar Nueva Provincia</h2>
-              <p className="text-sm text-gray-600">Elige un país e ingresa el nombre de la provincia que deseas editar.</p>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Editar provincia</h2>
+              <p className="text-sm text-gray-600">Elige otro país o ingresa un nuevo nombre de la provincia que deseas editar.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-2">

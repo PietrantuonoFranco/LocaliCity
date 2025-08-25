@@ -31,7 +31,7 @@ const getEstadoStyle = (estado: string) => {
 }
 
 export default function Solicitudes() {
-  const [solicitudes, setSolicitudes] = useState <Solicitud[] | null>(null);
+  const [solicitudes, setSolicitudes] = useState <Solicitud[]>([]);
   const [index, setIndex] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [sortField, setSortField] = useState<SortField | null>(null);
@@ -104,7 +104,7 @@ export default function Solicitudes() {
       await deleteSolicitud(id);
       
       setSolicitudes(prevSolicitudes => 
-        prevSolicitudes ? prevSolicitudes.filter(solicitud => solicitud.id !== id) : null
+        prevSolicitudes ? prevSolicitudes.filter(solicitud => solicitud.id !== id) : []
       );
     } catch (error) {
       console.error("Error al eliminar la solicitud:", error);
@@ -145,20 +145,39 @@ export default function Solicitudes() {
   }
 
   if (isLoading) {
-    return <div className="p-4 text-center">Cargando perfil...</div>;
+    return (
+      <div className="w-full h-100 flex justify-center items-center text-white/75">
+        <svg xmlns="http://www.w3.org/2000/svg" width={100} height={100} viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" strokeDasharray={16} strokeDashoffset={16} strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3c4.97 0 9 4.03 9 9">
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="16;0"></animate>
+            <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform>
+          </path>
+        </svg>
+      </div>
+    );
   }
 
-  if (!solicitudes) {
-    return <div>No se pudo cargar la información de las solicitudes</div>;
+  if (solicitudes?.length === 0) {
+    return (
+      <div className="p-4 border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
+        <div className="text-center flex flex-col items-center space-y-4">
+          <p className="text-lg">No hay solicitudes registradas</p>
+                
+          <div className="h-full w-full justify-center items-center">
+            <a href="/solicitudes/crear" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <>
       {solicitudes && (
-        <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full py-10 px-12">
-          <div className="h-full flex flex-col">
-            <div className="w-full flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+        <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full p-6 md:py-10 md:px-12">
+          <div className="w-full h-full flex flex-col">
+            <div className="w-full flex flex-col xl:flex-row items-center xl:justify-between space-y-4 xl:space-y-0">
+              <div className="w-full flex items-center justify-between lg:justify-start lg:space-x-4">
                 <h2 className="text-3xl font-bold text-gray-800">Solicitudes</h2>
 
                 <a href="/solicitudes/crear" target="blank" rel="noopener noreferrer" className="secondary-button w-10 h-10 flex items-center justify-center">
@@ -168,7 +187,7 @@ export default function Solicitudes() {
                 </a>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="w-full flex items-center justify-end space-x-4">
                 <SearchBar
                   type="solicitudes"
                   elements={solicitudes}
@@ -182,8 +201,8 @@ export default function Solicitudes() {
             {/* TABLE */}
             
             {solicitudes && (
-              <div className="w-full space-y-4">
-                <div>
+              <div className="flex flex-col flex-grow">
+                <div className="flex-grow overflow-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b-2 border-gray-500/25 py-2">

@@ -103,7 +103,7 @@ export default function EditarUsuarioForm ({ id }: Props) {
   }
 
   return (
-    <div className="h-full flex items-center justify-center p-4 md:py-4 md:px-46 lg:px-135">
+    <div className="h-full flex items-center justify-center p-4 md:py-4 md:px-46 xl:px-86 2xl:px-135">
       <div className="h-full w-full shadow-lg bg-white/50 p-10 rounded-xl">
         <div className="text-center space-y-2 mb-4">
           <h2 className="text-3xl font-semibold text-gray-900">Editar usuario</h2>

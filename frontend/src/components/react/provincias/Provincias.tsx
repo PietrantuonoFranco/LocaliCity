@@ -148,33 +148,33 @@ export default function Provincias() {
   }
 
   if (provincias?.length === 0) {
-  return (
-    <div className="p-4 border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
-        <div className="text-center flex flex-col items-center space-y-4">
-          <p className="text-lg">No hay provincias registradas</p>
-          {!usuario ? (
-            <div className="h-full w-full justify-center items-center">
-              <a href="/iniciar-sesion" target="_blank" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
-            </div>
-          ) : usuario?.rol.nombre !== "Administrador" ? (
-            <div className="h-full w-full justify-center items-center">
-              <a href="/solicitudes/crear" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
-            </div>
-          ) : (
-          <CreateProvinciaModal onProvinceCreated={handleProvinceCreated} title={"Crear"}/>
-        )}
+    return (
+      <div className="p-4 border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
+          <div className="text-center flex flex-col items-center space-y-4">
+            <p className="text-lg">No hay provincias registradas</p>
+            {!usuario ? (
+              <div className="h-full w-full justify-center items-center">
+                <a href="/iniciar-sesion" target="_blank" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+              </div>
+            ) : usuario?.rol.nombre !== "Administrador" ? (
+              <div className="h-full w-full justify-center items-center">
+                <a href="/solicitudes/crear" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+              </div>
+            ) : (
+            <CreateProvinciaModal onProvinceCreated={handleProvinceCreated} title={"Crear"}/>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
   }
 
   return (
     <>
       {provincias && (
-        <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full py-10 px-12">
-          <div className="h-full flex flex-col">
-            <div className="w-full flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+        <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full p-6 md:py-10 md:px-12">
+          <div className="w-full h-full flex flex-col">
+            <div className="w-full flex flex-col xl:flex-row items-center xl:justify-between space-y-4 xl:space-y-0">
+              <div className="w-full flex items-center justify-between lg:justify-start lg:space-x-4">
                 <h2 className="text-3xl font-bold text-gray-800">Provincias</h2>
                 {!usuario && (
                   <a href="/iniciar-sesion" className="secondary-button w-10 h-10 flex items-center justify-center">
@@ -197,7 +197,7 @@ export default function Provincias() {
                 )}
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="w-full flex items-center justify-end space-x-4">
                 <SearchBar
                   type="provincias"
                   elements={provincias}

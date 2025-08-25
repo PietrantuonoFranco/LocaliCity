@@ -44,8 +44,6 @@ export default function EditLocalidadModal({ id, onCityEdited }: EditCityModalPr
       const response = await getLocalidadById(id);
   
       if (response) {
-        console.log(response.localidad)
-
         setPais(response.localidad.provincia.pais);
         setProvincia(response.localidad.provincia);
         setNombre(response.localidad.nombre);
@@ -192,7 +190,7 @@ export default function EditLocalidadModal({ id, onCityEdited }: EditCityModalPr
           <div className="bg-white/95 rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
             <div className="mb-4">
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Editar localidad</h2>
-              <p className="text-sm text-gray-600">Elige un país, una provincia e ingresa el nombre de la localidad que deseas editar.</p>
+              <p className="text-sm text-gray-600">Elige otro país, provincia o ingresa un nuevo nombre para la localidad que deseas editar.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-2">

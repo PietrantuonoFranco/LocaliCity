@@ -81,7 +81,7 @@ export default function MiCuenta() {
   return (
     <>
       {userData && (
-        <div className="h-110 w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full py-10 px-12">
+        <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full py-10 px-12">
           <div className="h-full flex flex-col">
             <div>
               <h2 className="text-3xl font-bold text-gray-800">Información personal</h2>
@@ -89,7 +89,7 @@ export default function MiCuenta() {
 
             <div className="w-full h-[1px] bg-gray-800 my-6"></div>
 
-            <div className="grid grid-cols-2 gap-y-8 gap-x-12">
+            <div className="grid lg:grid-cols-2 gap-y-2 lg:gap-y-8 gap-x-12 mb-8">
               {/* Email Field */}
               <div className="space-y-2">
                 <label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -110,7 +110,7 @@ export default function MiCuenta() {
                       value={formData.email}
                       readOnly={editingField !== 'email'}
                       onChange={(e) => handleInputChange(e, 'email')}
-                      className="pl-10 pr-12 input focus:outline-none"
+                      className="pl-10 pr-2 input focus:outline-none"
                     />
                   </div>
                   <button onClick={() => changeField("email")} className="secondary-button aspect-square w-11 h-11 rounded-md flex items-center justify-center cursor-pointer duration-300 transition-all">
@@ -133,7 +133,7 @@ export default function MiCuenta() {
                     value={formData.nombre}
                     readOnly={editingField !== 'nombre'}
                     onChange={(e) => handleInputChange(e, 'nombre')}
-                    className="pl-3 pr-12 input focus:outline-none"
+                    className="pl-3 pr-2 input focus:outline-none"
                   />
                   
                   <button onClick={() => changeField("nombre")} className="secondary-button aspect-square w-11 h-11 rounded-md flex items-center justify-center cursor-pointer duration-300 transition-all">
@@ -157,7 +157,7 @@ export default function MiCuenta() {
                       value={formData.apellido}
                       readOnly={editingField !== 'apellido'}
                       onChange={(e) => handleInputChange(e, 'apellido')}
-                      className="pl-3 pr-12 input focus:outline-none"
+                      className="pl-3 pr-2 input focus:outline-none"
                     />
                   </div>
                   

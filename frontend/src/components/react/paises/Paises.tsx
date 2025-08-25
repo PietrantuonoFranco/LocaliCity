@@ -156,10 +156,10 @@ export default function Paises() {
   }
 
   return (
-    <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12">
-      <div className="flex flex-grow flex-col">
-        <div className="w-full flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+    <div className="w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl w-full p-6 md:py-10 md:px-12">
+      <div className="w-full h-full flex flex-col">
+        <div className="w-full flex flex-col xl:flex-row items-center xl:justify-between space-y-4 xl:space-y-0">
+          <div className="w-full flex items-center justify-between lg:justify-start lg:space-x-4">
             <h2 className="text-3xl font-bold text-gray-800">Países</h2>
             {!usuario && (
               <a href="/iniciar-sesion" className="secondary-button w-10 h-10 flex items-center justify-center">
@@ -180,7 +180,7 @@ export default function Paises() {
             )}
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="w-full flex items-center justify-end space-x-4">
             <SearchBar
               type="paises"
               elements={paises}

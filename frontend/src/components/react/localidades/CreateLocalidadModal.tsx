@@ -14,10 +14,11 @@ import { checkProvinciasByPaisId, getAllPaises, getProvinciasByPaisId } from "sr
 import type Provincia from "src/interfaces/entities/ProvinciaInterface"
 
 interface CreateCityModalProps {
-  onCityCreated?: (response: RespuestaLocalidad) => void
+  onCityCreated?: (response: RespuestaLocalidad) => void,
+  title: string | null
 }
 
-export default function CreateLocalidadModal({ onCityCreated }: CreateCityModalProps) {
+export default function CreateLocalidadModal({ onCityCreated, title=null }: CreateCityModalProps) {
   const [open, setOpen] = useState(false)
   const [nombre, setNombre] = useState("")
   const [pais, setPais] = useState<Pais | null>(null)
@@ -159,11 +160,15 @@ export default function CreateLocalidadModal({ onCityCreated }: CreateCityModalP
     <>
       <button
         onClick={() => setOpen(true)}
-        className="secondary-button w-10 h-10 flex items-center justify-center cursor-pointer"
+        className={`${title ? "button w-full px-2 py-1 text-md" : "secondary-button w-10 h-10"} flex items-center justify-center cursor-pointer`}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
-          <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>
-        </svg>
+        {title ? (
+          <span>{title}</span>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>
+          </svg>
+        )}
       </button>
 
       {open && (

@@ -23,7 +23,7 @@ type SortDirection = "asc" | "desc";
 
 
 export default function Localidades() {
-  const [localidades, setLocalidades] = useState<Localidad[] | null>(null);
+  const [localidades, setLocalidades] = useState<Localidad[]>([]);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [index, setIndex] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +42,7 @@ export default function Localidades() {
       setLocalidades(response?.localidades ?? null);
     } catch (error) {
       console.error("Error fetching solicitud data:", error);
-      setLocalidades(null);
+      setLocalidades([]);
     } finally {
       setIsLoading(false);
     }
@@ -149,21 +149,25 @@ export default function Localidades() {
     )
   }
 
-  if (!localidades) {
-    return <div>No se pudo cargar la información de los usuarios</div>;
-  }
-
-  if (localidades.length === 0) {
-  return (
-    <div className="min-h-110 w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-lg">No hay países registrados</p>
-        {usuario?.rol.nombre === "Administrador" && (
-          <CreateLocalidadModal onCityCreated={handleCityCreated} />
-        )}
+  if (localidades?.length === 0) {
+    return (
+      <div className="p-4 border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
+        <div className="text-center flex flex-col items-center space-y-4">
+          <p className="text-lg">No hay localidades registradas</p>
+          {!usuario ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/iniciar-sesion" target="_blank" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : usuario?.rol.nombre !== "Administrador" ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/solicitudes/crear" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : (
+            <CreateLocalidadModal onCityCreated={handleCityCreated} title={"Crear"}/>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
   }
 
   return (
@@ -183,7 +187,7 @@ export default function Localidades() {
                 )}
     
                 {usuario && usuario.rol.nombre === "Administrador" && (
-                  <CreateLocalidadModal onCityCreated={handleCityCreated} />
+                  <CreateLocalidadModal onCityCreated={handleCityCreated} title={null}/>
                 )}
 
                 {usuario && usuario.rol.nombre !== "Administrador" && (

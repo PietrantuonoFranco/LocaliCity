@@ -17,7 +17,7 @@ type SortField = "nombre";
 type SortDirection = "asc" | "desc";
 
 export default function Paises() {
-  const [paises, setPaises] = useState<Pais[] | null>(null);
+  const [paises, setPaises] = useState<Pais[]>([]);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [index, setIndex] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function Paises() {
       setPaises(response?.paises ?? null);
     } catch (error) {
       console.error("Error fetching paises data:", error);
-      setPaises(null);
+      setPaises([]);
     } finally {
       setIsLoading(false);
     }
@@ -134,17 +134,21 @@ export default function Paises() {
     )
   }
 
-  if (paises === null) {
-    return <div>No se pudo cargar la información de los países</div>;
-  }
-
-  if (paises.length === 0) {
+  if (paises?.length === 0) {
     return (
-      <div className="min-h-110 w-full border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-lg">No hay países registrados</p>
-          {usuario?.rol.nombre === "Administrador" && (
-            <CreatePaisModal onCountryCreated={handleCountryCreated} />
+      <div className="p-4 border-1 border-gray-200 shadow-md bg-white/50 rounded-2xl py-10 px-12 flex items-center justify-center">
+        <div className="text-center flex flex-col items-center space-y-4">
+          <p className="text-lg">No hay paises registrados</p>
+          {!usuario ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/iniciar-sesion" target="_blank" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : usuario?.rol.nombre !== "Administrador" ? (
+            <div className="h-full w-full justify-center items-center">
+              <a href="/solicitudes/crear" rel="noopener noreferrer" className="button px-2 py-1 rounded-md">Crear</a>
+            </div>
+          ) : (
+            <CreatePaisModal onCountryCreated={handleCountryCreated} title={"Crear"}/>
           )}
         </div>
       </div>
@@ -165,7 +169,7 @@ export default function Paises() {
               </a>
             )}
             {usuario && usuario.rol.nombre === "Administrador" && (
-              <CreatePaisModal onCountryCreated={handleCountryCreated} />
+              <CreatePaisModal onCountryCreated={handleCountryCreated} title={null}/>
             )}
             {usuario && usuario.rol.nombre !== "Administrador" && (
               <a href="/solicitudes/crear" className="secondary-button w-10 h-10 flex items-center justify-center">

@@ -6,10 +6,11 @@ import { createPais } from "src/api/pais"
 import type { RespuestaPais } from "src/interfaces/RespuestasInterfaces"
 
 interface CreatePaisModalProps {
-  onCountryCreated?: (response: RespuestaPais) => void
+  onCountryCreated?: (response: RespuestaPais) => void,
+  title: string | null
 }
 
-export default function CreatePaisesModal({ onCountryCreated }: CreatePaisModalProps) {
+export default function CreatePaisesModal({ onCountryCreated, title=null }: CreatePaisModalProps) {
   const [open, setOpen] = useState(false)
   const [nombre, setNombre] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -49,12 +50,16 @@ export default function CreatePaisesModal({ onCountryCreated }: CreatePaisModalP
     <>
       <button
         onClick={() => setOpen(true)}
-        className="secondary-button w-10 h-10 flex items-center justify-center cursor-pointer"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
-          <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>
-        </svg>
-      </button>
+        className={`${title ? "button w-full px-2 py-1 text-md" : "secondary-button w-10 h-10"} flex items-center justify-center cursor-pointer`}
+        >
+          {title ? (
+            <span>{title}</span>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m-8-8h16"/>
+            </svg>
+          )}
+        </button>
 
       {open && (
         <div
@@ -63,13 +68,13 @@ export default function CreatePaisesModal({ onCountryCreated }: CreatePaisModalP
         >
           <div className="bg-white/95 rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
             <div className="mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Crear Nuevo País</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Crear país</h2>
               <p className="text-sm text-gray-600">Ingresa el nombre del país que deseas crear.</p>
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="w-full space-y-2 mb-6">
-                <label htmlFor="nombre" className="text-sm font-medium text-gray-700">
+              <div className="w-full space-y-2 mb-6 flex flex-col">
+                <label htmlFor="nombre" className="text-sm text-left font-medium text-gray-700">
                   Nombre
                 </label>
                 <div className="pb-[3px] focus-within:gradient-border">

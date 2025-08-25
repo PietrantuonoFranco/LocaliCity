@@ -173,12 +173,12 @@ export default function CreateLocalidadModal({ onCityCreated, title=null }: Crea
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          className="text-left fixed inset-0 z-50 flex items-center justify-center bg-black/50"
           onClick={handleBackdropClick}
         >
           <div className="bg-white/95 rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
             <div className="mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Crear Nueva Localidad</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Crear nueva localidad</h2>
               <p className="text-sm text-gray-600">Elige un país, una provincia e ingresa el nombre de la localidad que deseas crear.</p>
             </div>
 

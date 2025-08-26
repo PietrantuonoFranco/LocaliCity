@@ -61,13 +61,21 @@ jobs:
 
     - name: Push images with multiple tags
       run: |
+        echo "Showing config..."
+
+        docker compose config
+
         SERVICES=$(docker compose config --services)
-        
+
         for service in $SERVICES; do
           # Obtener el nombre base de la imagen
-          IMAGE_NAME=$(docker compose config | awk -v svc="$service" '
+          IMAGE_NAME=$(docker compose config | awk -v svc="api" '
             $0 ~ "^  "svc":" {in_service=1}
-            in_service && /^\s*image:/ {print $2; exit}
+            in_service && /^\s*image:/ {
+              split($2, a, ":");
+              print a[1];
+              exit
+            }
           ')
 
           if [ -z "$IMAGE_NAME" ]; then

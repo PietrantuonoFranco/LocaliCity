@@ -1,0 +1,4 @@
+# Incluir los compose files de frontend y backend
+include:
+  - frontend/compose.yaml
+  - backend/compose.yaml

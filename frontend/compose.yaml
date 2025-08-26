@@ -1,0 +1,9 @@
+services:
+  astro:
+    image: astro:${TAG_ASTRO_VERSION:-latest}
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4321:4321

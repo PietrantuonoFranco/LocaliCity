@@ -48,7 +48,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build Docker images
-      run: docker-compose build
+      run: docker compose up --build
 
     - name: Push images with multiple tags
       run: |

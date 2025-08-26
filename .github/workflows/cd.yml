@@ -68,7 +68,7 @@ jobs:
           IMAGE_NAME=$(docker compose config | grep -A1 "services:$service" | grep image: | awk '{print $2}' | tr -d '"')
           
           if [ -z "$IMAGE_NAME" ]; then
-            IMAGE_NAME="$DOCKERHUB_USERNAME/${service}"
+            IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
           fi
           
           echo "Processing service: $service"

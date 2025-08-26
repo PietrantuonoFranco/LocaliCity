@@ -118,3 +118,5 @@ jobs:
           ${{ steps.tag_info.outputs.SERVICES }}
           
           Tags: ${{ steps.tag_info.outputs.TAG_NAME }}, latest${{ steps.tag_info.outputs.VERSION != steps.tag_info.outputs.TAG_NAME && format(', {0}, {1}', steps.tag_info.outputs.VERSION, steps.tag_info.outputs.MINOR) || '' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

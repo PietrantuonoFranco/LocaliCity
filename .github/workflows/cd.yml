@@ -6,6 +6,9 @@ on:
       - 'v*.*.*'
       - 'release-*'
 
+permissions:
+  contents: write 
+
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 

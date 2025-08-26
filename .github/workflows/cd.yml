@@ -52,11 +52,11 @@ jobs:
 
     - name: Push images with multiple tags
       run: |
-        SERVICES=$(docker-compose config --services)
+        SERVICES=$(docker compose config --services)
         
         for service in $SERVICES; do
           # Obtener el nombre base de la imagen
-          IMAGE_NAME=$(docker-compose config | grep -A1 "services:$service" | grep image: | awk '{print $2}' | tr -d '"')
+          IMAGE_NAME=$(docker compose config | grep -A1 "services:$service" | grep image: | awk '{print $2}' | tr -d '"')
           
           if [ -z "$IMAGE_NAME" ]; then
             IMAGE_NAME="$DOCKERHUB_USERNAME/${service}"

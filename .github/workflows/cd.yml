@@ -74,10 +74,10 @@ jobs:
             }
           ')
 
-          NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/tp-adr/$IMAGE_NAME"
+          NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME"
 
           if [ -z "$NEW_IMAGE_NAME" ]; then
-            NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/tp-adr/${service}"
+            NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
           fi
           
           echo "Processing service: $service"

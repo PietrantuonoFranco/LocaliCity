@@ -65,8 +65,11 @@ jobs:
         
         for service in $SERVICES; do
           # Obtener el nombre base de la imagen
-          IMAGE_NAME=$(docker compose config | grep -A1 "services:$service" | grep image: | awk '{print $2}' | tr -d '"')
-          
+          IMAGE_NAME=$(docker compose config | awk -v svc="$service" '
+            $0 ~ "^  "svc":" {in_service=1}
+            in_service && /^\s*image:/ {print $2; exit}
+          ')
+
           if [ -z "$IMAGE_NAME" ]; then
             IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
           fi

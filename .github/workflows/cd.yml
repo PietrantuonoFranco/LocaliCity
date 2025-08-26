@@ -89,8 +89,8 @@ jobs:
           
           # Para versiones semánticas, agregar tags adicionales
           if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
-            docker tag "${service}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
-            docker tag "${service}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
+            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
+            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
           fi
           
           # Push de todos los tags

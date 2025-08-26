@@ -1,5 +1,3 @@
-version: '3.8'
-
 # Incluir los compose files de frontend y backend
 include:
   - frontend/compose.yaml

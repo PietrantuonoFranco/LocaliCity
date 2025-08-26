@@ -6,6 +6,9 @@ on:
       - 'v*.*.*'
       - 'release-*'
 
+permissions:
+  contents: write 
+
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
@@ -46,45 +49,63 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Create .env file
+      run: |
+        echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+        echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+        echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+        echo "SALT_ROUNDS=${{ secrets.SALT_ROUNDS }}" >> .env
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+        echo "CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}" >> .env
 
     - name: Build Docker images
       run: docker compose build
 
     - name: Push images with multiple tags
       run: |
-        SERVICES=$(docker-compose config --services)
-        
+        SERVICES=$(docker compose config --services)
+
         for service in $SERVICES; do
           # Obtener el nombre base de la imagen
-          IMAGE_NAME=$(docker-compose config | grep -A1 "services:$service" | grep image: | awk '{print $2}' | tr -d '"')
-          
-          if [ -z "$IMAGE_NAME" ]; then
-            IMAGE_NAME="$DOCKERHUB_USERNAME/${service}"
+          IMAGE_NAME=$(docker compose config | awk -v svc="$service" '
+            $0 ~ "^  "svc":" {in_service=1}
+            in_service && /^\s*image:/ {
+              split($2, a, ":");
+              print a[1];
+              exit
+            }
+          ')
+
+          NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME"
+
+          if [ -z "$NEW_IMAGE_NAME" ]; then
+            NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
           fi
           
           echo "Processing service: $service"
-          echo "Image name: $IMAGE_NAME"
+          echo "Image name: $NEW_IMAGE_NAME"
           
           # Taggear con múltiples tags
-          docker tag "${service}" "${IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
-          docker tag "${service}" "${IMAGE_NAME}:latest"
+          docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
+          docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:latest"
           
           # Para versiones semánticas, agregar tags adicionales
           if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
-            docker tag "${service}" "${IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
-            docker tag "${service}" "${IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
+            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
+            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
           fi
           
           # Push de todos los tags
-          docker push "${IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
-          docker push "${IMAGE_NAME}:latest"
+          docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
+          docker push "${NEW_IMAGE_NAME}:latest"
           
           if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
-            docker push "${IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
-            docker push "${IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
+            docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
+            docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
           fi
           
-          echo "Successfully pushed ${service} with multiple tags"
+          echo "Successfully pushed ${IMAGE_NAME} with multiple tags"
         done
 
     - name: Create GitHub Release
@@ -100,3 +121,5 @@ jobs:
           ${{ steps.tag_info.outputs.SERVICES }}
           
           Tags: ${{ steps.tag_info.outputs.TAG_NAME }}, latest${{ steps.tag_info.outputs.VERSION != steps.tag_info.outputs.TAG_NAME && format(', {0}, {1}', steps.tag_info.outputs.VERSION, steps.tag_info.outputs.MINOR) || '' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -28,6 +28,7 @@ const ProvinciaRoutes_1 = __importDefault(require("./src/routes/ProvinciaRoutes"
 const LocalidadRoutes_1 = __importDefault(require("./src/routes/LocalidadRoutes"));
 const AuthRoutes_1 = __importDefault(require("./src/routes/AuthRoutes"));
 const SearchRoutes_1 = __importDefault(require("./src/routes/SearchRoutes"));
+// Seeds
 const RolSeed_1 = __importDefault(require("./src/seed/RolSeed"));
 const UsuarioSeed_1 = __importDefault(require("./src/seed/UsuarioSeed"));
 data_source_1.AppDataSource.initialize().then(() => __awaiter(void 0, void 0, void 0, function* () {

@@ -61,15 +61,11 @@ jobs:
 
     - name: Push images with multiple tags
       run: |
-        echo "Showing config..."
-
-        docker compose config
-
         SERVICES=$(docker compose config --services)
 
         for service in $SERVICES; do
           # Obtener el nombre base de la imagen
-          IMAGE_NAME=$(docker compose config | awk -v svc="api" '
+          IMAGE_NAME=$(docker compose config | awk -v svc="$service" '
             $0 ~ "^  "svc":" {in_service=1}
             in_service && /^\s*image:/ {
               split($2, a, ":");
@@ -78,30 +74,32 @@ jobs:
             }
           ')
 
-          if [ -z "$IMAGE_NAME" ]; then
-            IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
+          NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME"
+
+          if [ -z "$NEW_IMAGE_NAME" ]; then
+            NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
           fi
           
           echo "Processing service: $service"
-          echo "Image name: $IMAGE_NAME"
+          echo "Image name: $NEW_IMAGE_NAME"
           
           # Taggear con múltiples tags
-          docker tag "${service}" "${IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
-          docker tag "${service}" "${IMAGE_NAME}:latest"
+          docker tag "${service}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
+          docker tag "${service}" "${NEW_IMAGE_NAME}:latest"
           
           # Para versiones semánticas, agregar tags adicionales
           if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
-            docker tag "${service}" "${IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
-            docker tag "${service}" "${IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
+            docker tag "${service}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
+            docker tag "${service}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
           fi
           
           # Push de todos los tags
-          docker push "${IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
-          docker push "${IMAGE_NAME}:latest"
+          docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
+          docker push "${NEW_IMAGE_NAME}:latest"
           
           if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
-            docker push "${IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
-            docker push "${IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
+            docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
+            docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
           fi
           
           echo "Successfully pushed ${service} with multiple tags"

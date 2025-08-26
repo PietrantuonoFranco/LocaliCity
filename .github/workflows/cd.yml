@@ -84,8 +84,8 @@ jobs:
           echo "Image name: $NEW_IMAGE_NAME"
           
           # Taggear con múltiples tags
-          docker tag "${service}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
-          docker tag "${service}" "${NEW_IMAGE_NAME}:latest"
+          docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
+          docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:latest"
           
           # Para versiones semánticas, agregar tags adicionales
           if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
@@ -102,7 +102,7 @@ jobs:
             docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
           fi
           
-          echo "Successfully pushed ${service} with multiple tags"
+          echo "Successfully pushed ${IMAGE_NAME} with multiple tags"
         done
 
     - name: Create GitHub Release

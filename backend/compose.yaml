@@ -2,7 +2,6 @@ services:
 
   db:
     image: postgres:${TAG_DB_VERSION:-latest}
-    build: ./db/
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     environment:
@@ -17,21 +16,23 @@ services:
     image: express:${TAG_EXPRESS_VERSION:-latest}
     build: .
     volumes:
-      - ./:/server 
+      - ./:/server
     ports:
       - "${EXPRESS_PORT:-3000}:3000"
     command: sh -c "npm run migration:run:prod && npm start"
     environment:
       DB_HOST: db
       DB_PORT: 5432
-      DB_USERNAME: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
       SALT_ROUNDS: ${SALT_ROUNDS}
       JWT_SECRET: ${JWT_SECRET}
       CORS_ORIGIN: ${CORS_ORIGIN}
+      NODE_ENV: ${NODE_ENV}
     depends_on:
       - db
     restart: unless-stopped
+
 volumes:
   postgres_data:

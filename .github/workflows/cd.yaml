@@ -77,35 +77,37 @@ jobs:
             }
           ')
 
-          NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME"
+          if [ "$IMAGE_NAME" != "postgres" ]; then
+            NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME"
 
-          if [ -z "$NEW_IMAGE_NAME" ]; then
-            NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
+            if [ -z "$NEW_IMAGE_NAME" ]; then
+              NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${service}"
+            fi
+          
+            echo "Processing service: $service"
+            echo "Image name: $NEW_IMAGE_NAME"
+          
+            # Taggear con múltiples tags
+            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
+            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:latest"
+          
+            # Para versiones semánticas, agregar tags adicionales
+            if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
+              docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
+              docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
+            fi
+            
+            # Push de todos los tags
+            docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
+            docker push "${NEW_IMAGE_NAME}:latest"
+            
+            if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
+              docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
+              docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
+            fi
+            
+            echo "Successfully pushed ${IMAGE_NAME} with multiple tags"
           fi
-          
-          echo "Processing service: $service"
-          echo "Image name: $NEW_IMAGE_NAME"
-          
-          # Taggear con múltiples tags
-          docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
-          docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:latest"
-          
-          # Para versiones semánticas, agregar tags adicionales
-          if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
-            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
-            docker tag "${IMAGE_NAME}" "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
-          fi
-          
-          # Push de todos los tags
-          docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.TAG_NAME }}"
-          docker push "${NEW_IMAGE_NAME}:latest"
-          
-          if [[ '${{ steps.tag_info.outputs.VERSION }}' != '${{ steps.tag_info.outputs.TAG_NAME }}' ]]; then
-            docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.VERSION }}"
-            docker push "${NEW_IMAGE_NAME}:${{ steps.tag_info.outputs.MINOR }}"
-          fi
-          
-          echo "Successfully pushed ${IMAGE_NAME} with multiple tags"
         done
 
     - name: Create GitHub Release

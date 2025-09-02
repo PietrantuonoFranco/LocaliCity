@@ -60,7 +60,7 @@ jobs:
         echo "CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}" >> .env
 
     - name: Build Docker images
-      run: docker compose build
+      run: docker compose -f compose.build.yaml build
 
     - name: Push images with multiple tags
       run: |

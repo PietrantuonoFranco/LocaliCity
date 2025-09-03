@@ -3,7 +3,11 @@ services:
     image: astro:${TAG_ASTRO_VERSION:-latest}
     build:
       context: .
+      args:
+        PUBLIC_API_URL: ${PUBLIC_API_URL}
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV}
+      PUBLIC_API_URL: ${PUBLIC_API_URL}
     ports:
-      - 4321:4321
+      - "${ASTRO_PORT:-4321}:4321"
+    restart: unless-stopped

@@ -1,6 +1,5 @@
 include:
-  - backend/compose.yaml
-  - frontend/compose.yaml
+  - compose.build.yaml
 
 services:
   nginx:

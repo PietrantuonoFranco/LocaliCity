@@ -1,3 +1,4 @@
+```md
 frontend/
 ├── src/                                # Código fuente principal del frontend
 │   ├── api/                            # Módulos para centralizar las peticiones HTTP al backend
@@ -52,3 +53,4 @@ frontend/
 ├── README.md                           # Guía de uso del proyecto (ejecución en local mediante `npm`, información extra, etc)
 ├── Tree.md                             # Este archivo
 └── tsconfig.json                       # Configuración del compilador de TypeScript para este proyecto
+```

@@ -5,7 +5,7 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"  # Puerto expuesto al host
+      - "${NGINX_PORT:-80}:80"  # Puerto expuesto al host
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:

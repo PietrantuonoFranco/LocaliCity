@@ -49,6 +49,9 @@ FROM base AS final
 # Use production node environment by default.
 ENV NODE_ENV=production
 
+# Install curl to enable health checks.
+RUN apk add --no-cache curl
+
 # Run the application as a non-root user.
 USER node
 

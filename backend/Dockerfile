@@ -46,6 +46,9 @@ FROM base AS final
 # Use production node environment by default.
 ENV NODE_ENV=production
 
+# Install curl to enable health checks.
+RUN apk add --no-cache curl
+
 # Copy package.json so that package manager commands can be used.
 COPY package.json .
 

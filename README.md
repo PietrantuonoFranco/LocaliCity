@@ -31,11 +31,6 @@ CORS_ORIGIN=http://tu-dominio.com
 #__________Nginx__________
 NGINX_PORT=80
 
-
-#__________Axios___________
-PUBLIC_API_URL=http://tu-dominio.com/api
-
-
 #______JsonWebToken_______
 JWT_SECRET=tu-jwt-secreto
 
@@ -55,53 +50,15 @@ POSTGRES_PORT=5432
 SALT_ROUNDS=5
 ```
 
-Posteriormente pasamos a la ejecución, la cual podemos realizar de dos maneras:
+Posteriormente procederemos a la ejecución, la cual realizaremos mediante Docker.
 
-### a. Docker
+### Ejecución mediante Docker
 1. Para correr nuestra aplicación mediante este método, debemos tener previamente instalado **`Docker`** en nuestro dispositivo, por lo que en caso de no tenerlo, dirigite al siguiente enlace y seguí los pasos para instalarlo: https://docs.docker.com/get-started/get-docker/
 
 2. Una vez tengamos Docker instalado, ejecutamos el siguiente comando para levantar los 3 servicios (frontend, backend y la base de datos):
 
 		docker compose up --build
 
-	Esto creará un contenedor llamado **`localicity`** con 3 contenedores dentro llamados **`astro-1`**, **`api-1`** y **`db-1`**.
+	Esto creará un contenedor llamado **`localicity`** con 4 contenedores dentro llamados **`db-1`**, **`api-1`**, **`astro-1`** y **`nginx-1`**.
 
-3. Para poder abrir la aplicación, esperamos a que haya finalizado el proceso de iniciación y nos dirigimos a la siguiente URL en nuestro navegador: http://localhost:4321
-
-### b. Manual
-
-1. Si no queremos utilizar **`Docker`**, podemos ejecutar localmente la aplicación, aunque necesitaremos tener instalado con anteriormente:
-   - **`PostgresSQL`**
-   - **`NodeJS`**
-
-En caso de no tenerlos intalados, los podemos instalar siguiendo su documentación de instalación oficial:
-   - **`PostgresSQL`**: https://www.postgresql.org/download/
-   - **`NodeJS`**: https://nodejs.org/en/download
-2. Una vez instalados, copiá el siguiente script en la raíz del proyecto:
-
-```bash
-#!/bin/bash
-
-# Ejecutar la aplicación del backend
-cd backend
-npm run start
-
-echo "API levantada con éxito"
-
-# Ejecutar la aplicación del frontend
-cd ../frontend
-npm run dev
-
-
-echo "Frontend levantado con éxito"
-```
-
-> **📝 Nota:** Recordá que tal vez necesites asignar permisos de ejecución para dicho script, por lo que deberás asignarselos mediante el siguiente comando:
-> ```bash
->chmod +x <nombre-de-tu-script>.sh
->```
-
-3. Ejecutamos el script mediante el siguiente comando:
-```bash
-./<nombre-de-tu-script>.sh
-```
+3. Para poder abrir la aplicación, esperamos a que haya finalizado el proceso de iniciación y nos dirigimos a la siguiente URL en nuestro navegador: http://localhost:80

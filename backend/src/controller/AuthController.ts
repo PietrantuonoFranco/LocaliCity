@@ -71,8 +71,8 @@ export class AuthController {
         .status(201)
         .cookie("authToken", token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
+          secure: false,
+          sameSite: "lax",
           maxAge: 3600000,
         })
         .json({ 
@@ -127,8 +127,8 @@ export class AuthController {
         .status(200)
         .cookie("authToken", token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "none",
+          secure: false,
+          sameSite: "lax",
           maxAge: 3600000,
         })
         .json({ 

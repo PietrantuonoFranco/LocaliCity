@@ -1,3 +1,4 @@
+```md
 backend
 ├── dist/               # Código compilado de TypeScript a JavaScript listo para producción
 ├── src/                # Código fuente principal del proyecto
@@ -20,3 +21,4 @@ backend
 ├── package.json        # Metadata del proyecto y listado de dependencias/scripts
 ├── README.Docker.md    # Guía de uso del proyecto con Docker (build de la imagen, ejecución con Compose, variables necesarias)
 └── Tree.md             # Este archivo
+```

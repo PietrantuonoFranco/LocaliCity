@@ -1,5 +1,5 @@
+```md
 frontend/
-├── .astro/                             # Archivos temporales y de compilación generados por Astro (no se editan manualmente)
 ├── src/                                # Código fuente principal del frontend
 │   ├── api/                            # Módulos para centralizar las peticiones HTTP al backend
 │   │   ├── api.ts                      # Configuración de Axios (baseURL, interceptores, headers)
@@ -40,7 +40,9 @@ frontend/
 │   │   └── index.astro                 # Página de inicio de la aplicación
 │   └── styles/                         # Directorio para guardar archivos de estilos CSS
 │       └── global.css                  # Estilos globales de la aplicación (TailwindCSS y reglas personalizadas)
+├── .astro/                             # Archivos temporales y de compilación generados por Astro (no se editan manualmente)
 ├── .dockerignore                       # Archivos y carpetas a excluir en el build de Docker
+├── .env                                # Variables de entorno (puertos, claves secretas)
 ├── .gitignore                          # Archivos y carpetas a ignorar en Git
 ├── astro.config.mjs                    # Configuración principal de Astro (integraciones, adaptadores, paths)
 ├── compose.yaml                        # Configuración de Docker Compose (ej: levantar frontend)
@@ -51,3 +53,4 @@ frontend/
 ├── README.md                           # Guía de uso del proyecto (ejecución en local mediante `npm`, información extra, etc)
 ├── Tree.md                             # Este archivo
 └── tsconfig.json                       # Configuración del compilador de TypeScript para este proyecto
+```

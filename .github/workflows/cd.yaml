@@ -77,7 +77,9 @@ jobs:
             }
           ')
 
-          if [ "$IMAGE_NAME" != "postgres" ]; then
+          excluded_images=("postgres" "nginx")
+
+          if [[ ! " ${excluded_images[@]} " =~ " ${IMAGE_NAME} " ]]; then
             NEW_IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME"
 
             if [ -z "$NEW_IMAGE_NAME" ]; then

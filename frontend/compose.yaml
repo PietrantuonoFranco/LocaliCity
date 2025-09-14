@@ -4,6 +4,7 @@ services:
     build:
       context: .
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV}
     ports:
-      - 4321:4321
+      - "${ASTRO_PORT:-4321}:4321"
+    restart: unless-stopped

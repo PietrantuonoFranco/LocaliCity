@@ -36,6 +36,11 @@ AppDataSource.initialize().then(async () => {
     app.use(cookieParser());
     app.use(express.json());
 
+    // Ruta de salud del servidor
+    app.get('/health', (req, res) => {
+        res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
+    });
+
     // Definicion de las rutas
     app.use("/auth", AuthRoutes);
     app.use("/search", SearchRoutes);

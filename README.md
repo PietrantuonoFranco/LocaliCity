@@ -20,8 +20,20 @@ NODE_ENV=production
 EXPRESS_PORT=3000
 
 
+#________Astro________
+ASTRO_PORT=4321
+
+
 #__________CORS___________
 CORS_ORIGIN=http://tu-dominio.com
+
+
+#__________Nginx__________
+NGINX_PORT=80
+
+
+#__________Axios___________
+PUBLIC_API_URL=http://tu-dominio.com/api
 
 
 #______JsonWebToken_______
